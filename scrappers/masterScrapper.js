@@ -21,7 +21,7 @@ async function masterArticleScrapper(url) {
     const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
     let infoObj = {};
     infoObj.url = url;
-    const resultUrl = infoObj.url 
+    const resultUrl = infoObj.url
     try {
         if (domain === 'bbc') {
             const article = await axios.get(url)
@@ -129,9 +129,17 @@ async function masterArticleScrapper(url) {
             {
                 url: resultUrl, // Buffer or String
                 features: {
-                    entities: {
-                        "emotion": true,
+                    "metadata": {
+                    },
+                    "keywords": {
                         "sentiment": true,
+                        "emotion": true
+                    },
+                    "emotion": {
+                        document: true
+                    },
+                    "sentiment": {
+                        document: true
                     }
                 }
             },
