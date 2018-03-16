@@ -10,7 +10,6 @@ const App = () => {
     <div>
       <Navbar />
       <Routes />
-      <RadarChart />
     </div>
   )
 }

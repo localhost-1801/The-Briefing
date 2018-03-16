@@ -2,62 +2,6 @@ import React, { Component } from 'react';
 import {VictoryChart, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel} from 'victory';
 import ReactDOM from 'react-dom'
 
- let tones = {"tones": [
-  {
-    "score": 0.545415,
-    "tone_id": "anger",
-    "tone_name": "Anger"
-  },
-  {
-    "score": 0.491538,
-    "tone_id": "disgust",
-    "tone_name": "Disgust"
-  },
-  {
-    "score": 0.581808,
-    "tone_id": "fear",
-    "tone_name": "Fear"
-  },
-  {
-    "score": 0.140619,
-    "tone_id": "joy",
-    "tone_name": "Joy"
-  },
-  {
-    "score": 0.607815,
-    "tone_id": "sadness",
-    "tone_name": "Sadness"
-  }
-]}
-
-let tones2 = {"tones": [
-          {
-            "score": 0.469454,
-            "tone_id": "openness_big5",
-            "tone_name": "Openness"
-          },
-          {
-            "score": 0.916085,
-            "tone_id": "conscientiousness_big5",
-            "tone_name": "Conscientiousness"
-          },
-          {
-            "score": 0.778731,
-            "tone_id": "extraversion_big5",
-            "tone_name": "Extraversion"
-          },
-          {
-            "score": 0.587288,
-            "tone_id": "agreeableness_big5",
-            "tone_name": "Agreeableness"
-          },
-          {
-            "score": 0.878792,
-            "tone_id": "emotional_range_big5",
-            "tone_name": "Emotional Range"
-          }
-        ]}
-
 //replace these with tone data, radar chart will swap in between the two
 const characterData = [
   { anger: 1, intelligence: 250, luck: 1, stealth: 40, charisma: 50 },
@@ -74,8 +18,8 @@ export default class RadarChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: this.processData(tones),
-      maxima: this.getMaxima(tones),
+      data: this.processData(characterData),
+      maxima: this.getMaxima(characterData),
       bool: true
     };
   }
@@ -83,32 +27,27 @@ export default class RadarChart extends Component {
     setInterval(()=> {
       this.setState({
         bool: !this.state.bool,
-        data: this.processData(this.state.bool ? tones2 : tones),
-        maxima: this.getMaxima(this.state.bool ? tones2 : tones)
+        data: this.processData(this.state.bool ? characterData2 : characterData),
+        maxima: this.getMaxima(this.state.bool ? characterData2 : characterData)
       })
     }, 2000)
   }
 
-  parseData(data){
-    console.log('data',data)
-    let dataArr = []
-    data.forEach( group => {
-      console.log(group)
-      let parsedData = {}
-      group.forEach(dataObj => {
-        let descriptor = dataObj.tone_name;
-        parsedData[descriptor] = (Math.floor(dataObj.score * 100))
-      })
-      console.log('parsed data',parsedData)
-      dataArr.push(parsedData);
-    })
-    console.log('dataArr',dataArr);
-    return dataArr;
-  }
+//   parseData(data){
+//     data.forEach( group => {
+//       console.log(group)
+//       let parsedData = {}
+//       group.forEach(dataObj => {
+//         let descriptor = dataObj.tone_name;
+//         parsedData[descriptor] = (Math.floor(dataObj.score * 100))
+//       })
+//       console.log('parsed data',parsedData)
+//       return [parsedData]
+//   })
+// }
 
   //returns 100 for each data values maximum on the axis
   getMaxima(data) {
-    data = this.parseData(data.tones);
     const groupedData = Object.keys(data[0]).reduce((memo, key) => {
       memo[key] = data.map((d) => d[key]);
       return memo;
@@ -122,7 +61,6 @@ export default class RadarChart extends Component {
   //change data[tones] if not passsing an object tones with an array
   //make data array also modified, expects object with 'score' and 'tone_name'
   processData(data) {
-    console.log(data);
     // data = this.parseData(data.tones);
     const maxByGroup = this.getMaxima(data);
     const makeDataArray = (d) => {
@@ -130,7 +68,7 @@ export default class RadarChart extends Component {
         return { x: key, y: d[key] / maxByGroup[key] };
       });
     };
-    return data.tones.map((datum) => makeDataArray(datum));
+    return data.map((datum) => makeDataArray(datum));
   }
 
   render() {
