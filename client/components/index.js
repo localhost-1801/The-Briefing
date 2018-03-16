@@ -6,5 +6,4 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {default as OverallSentimentAnalysis} from './overallSentimentAnalysis'
-export {default as Test} from './test'
 export {Login, Signup} from './auth-form'
