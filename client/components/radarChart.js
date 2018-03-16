@@ -32,17 +32,34 @@ export default class RadarChart extends Component {
       })
     }, 2000)
   }
+
+//   parseData(data){
+//     data.forEach( group => {
+//       console.log(group)
+//       let parsedData = {}
+//       group.forEach(dataObj => {
+//         let descriptor = dataObj.tone_name;
+//         parsedData[descriptor] = (Math.floor(dataObj.score * 100))
+//       })
+//       console.log('parsed data',parsedData)
+//       return [parsedData]
+//   })
+// }
+
+  //returns 100 for each data values maximum on the axis
   getMaxima(data) {
     const groupedData = Object.keys(data[0]).reduce((memo, key) => {
       memo[key] = data.map((d) => d[key]);
       return memo;
     }, {});
     return Object.keys(groupedData).reduce((memo, key) => {
-      memo[key] = Math.max(...groupedData[key]);
+      memo[key] = 100;
       return memo;
     }, {});
   }
 
+  //change data[tones] if not passsing an object tones with an array
+  //make data array also modified, expects object with 'score' and 'tone_name'
   processData(data) {
     const maxByGroup = this.getMaxima(data);
     const makeDataArray = (d) => {

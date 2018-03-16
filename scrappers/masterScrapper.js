@@ -58,13 +58,13 @@ const data = {
 // const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
 const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
-
 async function masterArticleScrapper(url) {
     let resultString = '';
     const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
     let infoObj = {};
     infoObj.url = url;
     const resultUrl = infoObj.url
+    const resultObject = {}
     try {
         if (domain === 'bbc') {
             const article = await axios.get(url)
@@ -140,12 +140,22 @@ async function masterArticleScrapper(url) {
 
     finally {
         // var toneAnalyzer = new ToneAnalyzerV3(process.env.TONE);
+<<<<<<< HEAD
         // var toneAnalyzer = new ToneAnalyzerV3({
         //     username: process.env.TONE_USERNAME,
         //     password: process.env.TONE_PW,
         //     version: '2016-05-19',
         //     url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
         // });
+=======
+        var toneAnalyzer = new ToneAnalyzerV3({
+            "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
+            "username": process.env.TONE_USERNAME,
+            "password": process.env.TONE_PW,
+            version: '2016-05-19',
+            url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+        });
+>>>>>>> master
         var nlu = new NaturalLanguageUnderstandingV1({
             username: process.env.NLU_USERNAME,
             password: process.env.NLU_PW,
@@ -163,6 +173,15 @@ async function masterArticleScrapper(url) {
                 if (err) {
                     console.log(err);
                 } else {
+//                     resultObject.tone = tone
+                    // JSON.stringify(tone, null, 2);
+//                     // console.log('TONE', resultObject.tone )
+//                 }
+//             }
+//         );
+
+        //----------------------------------------------------------------
+
                     // console.log(JSON.stringify(tone, null, 2));
                     console.log('tone done')
                     return tone;
@@ -200,6 +219,10 @@ async function masterArticleScrapper(url) {
                 if (err) {
                     console.log('error:', err);
                 } else {
+
+//                     resultObject.nlu = response
+                    // JSON.stringify(response, null, 2);
+                    // console.log('NLU', resultObject.nlu )
                     // console.log(JSON.stringify(response, null, 2));
                     console.log('nlu done')
                     db.collection('articles').doc(infoObj.headline).update({ emotion: response }).then(() => {
@@ -208,10 +231,11 @@ async function masterArticleScrapper(url) {
                         db.collection('articles').doc(infoObj.headline).set({ emotion: response })
                     })
                 }
+//                 console.log('RESULT OBJECt', resultObject.nlu)
+//                 console.log('RESULT OBJECT TONE DFGDFGDG',resultObject.tone)
+//                 return resultObject
             }
         );
-
-  
         db.collection('articles').doc(infoObj.headline).update({ info: infoObj }).then(() => {
             console.log('created')
         }).catch(err => {
@@ -221,5 +245,4 @@ async function masterArticleScrapper(url) {
 
 }
 
-masterArticleScrapper(url)
 module.exports = masterArticleScrapper
