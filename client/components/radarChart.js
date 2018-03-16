@@ -61,7 +61,6 @@ export default class RadarChart extends Component {
   //change data[tones] if not passsing an object tones with an array
   //make data array also modified, expects object with 'score' and 'tone_name'
   processData(data) {
-    // data = this.parseData(data.tones);
     const maxByGroup = this.getMaxima(data);
     const makeDataArray = (d) => {
       return Object.keys(d).map((key) => {
