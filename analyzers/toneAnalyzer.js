@@ -6,6 +6,7 @@ var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 const url = 'http://www.bbc.com/news/world-us-canada-43402077'
 //const url = 'http://www.foxnews.com/world/2018/03/14/23-russian-diplomats-to-be-expelled-from-britain-amid-probe-into-ex-spys-poisoning.html';
 
+masterArticleScrapper(url)
 
 //const object = await masterArticleScrapper(url);
 const test = async () => {
@@ -26,6 +27,7 @@ var toneAnalyzer = new ToneAnalyzerV3({
     version: '2017-09-21',
     sentences: false
 });
+
 
 // toneAnalyzer.tone(
 
