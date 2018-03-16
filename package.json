@@ -11,7 +11,6 @@
     "build-client-watch": "webpack -w",
     "deploy": "script/deploy",
     "lint": "eslint ./ --ignore-path .gitignore",
-    "prepush": "npm run lint && npm test",
     "postinstall": "touch secrets.js",
     "seed": "node script/seed.js",
     "start": "node server",
@@ -24,10 +23,12 @@
   "dependencies": {
     "axios": "^0.15.3",
     "body-parser": "^1.16.1",
+    "cheerio": "^1.0.0-rc.2",
     "compression": "^1.7.1",
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "firebase-admin": "^5.11.0",
     "history": "^4.6.3",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
@@ -35,6 +36,7 @@
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.5.8",
+    "puppeteer": "^1.1.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.2",
@@ -42,9 +44,14 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2",
+    "semantic-ui-react": "^0.78.3",
     "sequelize": "^4.3.1",
     "socket.io": "^2.0.3",
-    "victory": "^0.25.6"
+    "victory": "^0.25.6",
+    "watson-developer-cloud": "^3.1.1"
+
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
@@ -62,7 +69,6 @@
     "eslint": "^4.10.0",
     "eslint-config-fullstack": "^3.0.0",
     "eslint-plugin-react": "^7.4.0",
-    "husky": "^0.14.3",
     "mocha": "^3.3.0",
     "nodemon": "^1.12.1",
     "react-test-renderer": "^16.0.0",
