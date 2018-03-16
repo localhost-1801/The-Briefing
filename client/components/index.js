@@ -9,4 +9,5 @@ export { Login, Signup } from './auth-form'
 export { default as ArticleAnalyzer } from './articleAnalyzer'
 export {default as OverallSentimentAnalysis} from './overallSentimentAnalysis'
 export {default as RadarChart} from './radarChart'
+export {default as KeywordBox} from './keywordBox'
 
