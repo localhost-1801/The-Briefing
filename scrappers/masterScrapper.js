@@ -5,16 +5,43 @@ var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var fs = require('fs');
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 const secrets = require('../secrets')
+// const Firestore = require('@google-cloud/firestore');
 
-const url = 'http://www.bbc.com/news/world-us-canada-43402077';
-//const url = 'https://codeburst.io/an-introduction-to-web-scraping-with-node-js-1045b55c63f7';
+// const firestore = new Firestore({
+//     projectId: process.env.FIRESTORE_PROJECT_ID,
+//     keyFilename: '../googleKey.json'
+// });
+// const articlesRef = firestore.collection('articles');
+// const document = firestore.doc('/articles')
+// document.set({
+//     title: 'hello',
+//     body: 'world'
+// }).then(() => { console.log('successful')})
+// articlesRef.get().then(docs => {
+//     console.log(docs)
+// })
+const admin = require('firebase-admin')
+const serviceAccount = require('../googleKey.json')
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+})
+const db = admin.firestore();
+
+const data = {
+    title: 'hello'
+}
+//  db.collection('articles').doc('Thing').set(data).then(()=> {
+//      console.log('created')
+//  })
+
+// const url = 'http://www.bbc.com/news/world-us-canada-43402077';
+// const url = 'https://codeburst.io/an-introduction-to-web-scraping-with-node-js-1045b55c63f7';
 //const url = 'https://www.cnn.com/2018/03/14/us/students-who-did-not-walkout-trnd/index.html';
 //const url = 'http://www.chicagotribune.com/news/local/breaking/ct-met-school-walkouts-gun-reform-20180313-story.html';
 //const url = 'http://www.foxnews.com/world/2018/03/14/23-russian-diplomats-to-be-expelled-from-britain-amid-probe-into-ex-spys-poisoning.html';
-//const url = 'https://www.nytimes.com/2018/03/14/world/europe/uk-russia-spy-punitive-measures.html';
-//const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
-//const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
-
+// const url = 'https://www.nytimes.com/2018/03/14/world/europe/uk-russia-spy-punitive-measures.html';
+// const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
+const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
 async function masterArticleScrapper(url) {
     let resultString = '';
@@ -22,6 +49,7 @@ async function masterArticleScrapper(url) {
     let infoObj = {};
     infoObj.url = url;
     const resultUrl = infoObj.url
+    const resultObject = {}
     try {
         if (domain === 'bbc') {
             const article = await axios.get(url)
@@ -96,9 +124,22 @@ async function masterArticleScrapper(url) {
     }
 
     finally {
-        var toneAnalyzer = new ToneAnalyzerV3(process.env.TONE);
-        toneAnalyzer.tone(
+        // var toneAnalyzer = new ToneAnalyzerV3(process.env.TONE);
+        var toneAnalyzer = new ToneAnalyzerV3({
+            "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
+            "username": process.env.TONE_USERNAME,
+            "password": process.env.TONE_PW,
+            version: '2016-05-19',
+            url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+        });
+        var nlu = new NaturalLanguageUnderstandingV1({
+            username: process.env.NLU_USERNAME,
+            password: process.env.NLU_PW,
+            version: '2017-02-27',
+            url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
+        });
 
+        toneAnalyzer.tone(
             {
                 tone_input: resultString,
                 content_type: 'text/plain',
@@ -108,13 +149,29 @@ async function masterArticleScrapper(url) {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(JSON.stringify(tone, null, 2));
-                }
-            }
-        );
+//                     resultObject.tone = tone
+                    // JSON.stringify(tone, null, 2);
+//                     // console.log('TONE', resultObject.tone )
+//                 }
+//             }
+//         );
 
         //----------------------------------------------------------------
-        var nlu = new NaturalLanguageUnderstandingV1(process.env.NLU)
+
+                    // console.log(JSON.stringify(tone, null, 2));
+                    console.log('tone done')
+
+                    db.collection('articles').doc(infoObj.headline).update({ tone: tone }).then((err) => {
+                        console.log('created tone')
+
+                    }).catch(err => {
+                        console.log('can we label it', infoObj.headline)
+                        db.collection('articles').doc(infoObj.headline).set({ tone })
+                    })
+                }
+            }
+        )
+        //---------------------------------------------------------------   
         nlu.analyze(
             {
                 url: resultUrl, // Buffer or String
@@ -138,12 +195,30 @@ async function masterArticleScrapper(url) {
                 if (err) {
                     console.log('error:', err);
                 } else {
-                    console.log(JSON.stringify(response, null, 2));
+
+//                     resultObject.nlu = response
+                    // JSON.stringify(response, null, 2);
+                    // console.log('NLU', resultObject.nlu )
+                    // console.log(JSON.stringify(response, null, 2));
+                    console.log('nlu done')
+                    db.collection('articles').doc(infoObj.headline).update({ emotion: response }).then(() => {
+                        console.log('created emotion')
+                    }).catch(err => {
+                        db.collection('articles').doc(infoObj.headline).set({ emotion: response })
+                    })
                 }
+//                 console.log('RESULT OBJECt', resultObject.nlu)
+//                 console.log('RESULT OBJECT TONE DFGDFGDG',resultObject.tone)
+//                 return resultObject
             }
         );
-
+        db.collection('articles').doc(infoObj.headline).update({ info: infoObj }).then(() => {
+            console.log('created')
+        }).catch(err => {
+            db.collection('articles').doc(infoObj.headline).set({ info: infoObj })
+        })
     }
+
 }
-masterArticleScrapper(url)
+
 module.exports = masterArticleScrapper

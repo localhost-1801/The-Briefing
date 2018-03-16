@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button, Checkbox, Form } from 'semantic-ui-react'
-const masterArticleScrapper = require('../../scrappers/masterScrapper.js');
+import { fetchArticleData } from '../store/singleArticle'
 
-export class ArticleAnalyzer extends Component {
+class ArticleAnalyzer extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -13,19 +13,20 @@ export class ArticleAnalyzer extends Component {
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
 
-    onChangeHandler = (e) => {
+    onChangeHandler (e) {
         e.preventDefault();
-        this.setState({ articleUrl: event.target.value })
+        this.setState({ articleUrl: e.target.value })
     }
 
-    onSubmitHandler = (e) => {
+    onSubmitHandler(e) {
         e.preventDefault();
-        masterArticleScrapper(this.state.articleUrl);
+        this.props.fetchArticleData(this.state.articleUrl);
     }
-
     render() {
+        console.log(this.props)
+        console.log(this.state.articleUrl)
         return (
-            <Form onSubmit={this.onSubmitHandler}>
+            <Form>
                 <Form.Field>
                     <label>Analyze Your News Article!</label>
                     <input
@@ -34,11 +35,15 @@ export class ArticleAnalyzer extends Component {
                         value={this.state.articleUrl}
                     />
                 </Form.Field>
-                <Button type='submit' onSubmit={this.onSubmitHandler}>Submit</Button>
+                <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
             </Form>
         )
     }
 }
 
 const mapState = null;
+const mapDispatch = { fetchArticleData }
+
+export default connect(mapState, mapDispatch)(ArticleAnalyzer)
+
 
