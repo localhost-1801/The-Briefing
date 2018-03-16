@@ -98,8 +98,8 @@ async function masterArticleScrapper(url) {
     finally {
         var toneAnalyzer = new ToneAnalyzerV3({
             "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-            "username": "c4532afd-b6f2-4d58-a4bd-a4d67f9683ac   ",
-            "password": "pNCqrCNSQf5b",
+            "username": process.env.TONE_USERNAME,
+            "password": process.env.TONE_PW,
             version: '2016-05-19',
         });
         toneAnalyzer.tone(
@@ -121,8 +121,8 @@ async function masterArticleScrapper(url) {
         //----------------------------------------------------------------
         var nlu = new NaturalLanguageUnderstandingV1({
             "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-            "username": "ef5ae2fb-26a6-4641-9b52-5c2c4820e8c8",
-            "password": "VlHiaSLMcPj4",
+            "username": process.env.NLU_USERNAME,
+            "password": process.env.NLU_PW,
             version: '2017-02-27',
         })
         nlu.analyze(
@@ -133,7 +133,8 @@ async function masterArticleScrapper(url) {
                     },
                     "keywords": {
                         "sentiment": true,
-                        "emotion": true
+                        "emotion": true,
+                        limit: 10
                     },
                     "emotion": {
                         document: true
