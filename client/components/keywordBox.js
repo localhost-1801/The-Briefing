@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class RadarChart extends Component {
+export default class KeywordBox extends Component {
   constructor(){
     super()
     this.state ={
