@@ -5,6 +5,25 @@ var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var fs = require('fs');
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 const secrets = require('../secrets')
+const Promise = require('bluebird')
+const db = require('../server/db/firestore')
+
+
+
+var toneAnalyzer = new ToneAnalyzerV3({
+    username: process.env.TONE_USERNAME,
+    password: process.env.TONE_PW,
+    version: '2016-05-19',
+    url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+});
+var nlu = new NaturalLanguageUnderstandingV1({
+    username: process.env.NLU_USERNAME,
+    password: process.env.NLU_PW,
+    version: '2017-02-27',
+    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
+});
+toneAnalyzer.tone = Promise.promisify(toneAnalyzer.tone)
+
 // const Firestore = require('@google-cloud/firestore');
 
 // const firestore = new Firestore({
@@ -20,12 +39,7 @@ const secrets = require('../secrets')
 // articlesRef.get().then(docs => {
 //     console.log(docs)
 // })
-const admin = require('firebase-admin')
-const serviceAccount = require('../googleKey.json')
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-})
-const db = admin.firestore();
+
 
 const data = {
     title: 'hello'
@@ -125,13 +139,12 @@ async function masterArticleScrapper(url) {
 
     finally {
         // var toneAnalyzer = new ToneAnalyzerV3(process.env.TONE);
-        var toneAnalyzer = new ToneAnalyzerV3({
-            "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-            "username": process.env.TONE_USERNAME,
-            "password": process.env.TONE_PW,
-            version: '2016-05-19',
-            url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
-        });
+        // var toneAnalyzer = new ToneAnalyzerV3({
+        //     username: process.env.TONE_USERNAME,
+        //     password: process.env.TONE_PW,
+        //     version: '2016-05-19',
+        //     url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+        // });
         var nlu = new NaturalLanguageUnderstandingV1({
             username: process.env.NLU_USERNAME,
             password: process.env.NLU_PW,
@@ -160,7 +173,7 @@ async function masterArticleScrapper(url) {
 
                     // console.log(JSON.stringify(tone, null, 2));
                     console.log('tone done')
-
+                    return tone;
                     db.collection('articles').doc(infoObj.headline).update({ tone: tone }).then((err) => {
                         console.log('created tone')
 
@@ -170,7 +183,7 @@ async function masterArticleScrapper(url) {
                     })
                 }
             }
-        )
+        ).then(stuff => { console.log(stuff)}).catch(err => {console.log(err)})
         //---------------------------------------------------------------   
         nlu.analyze(
             {

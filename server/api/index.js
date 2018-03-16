@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-router.use('/users', require('./users'))
+// router.use('/users', require('./users'))
 router.use('/url', require('./articleAnalyzer'))
 
 router.use((req, res, next) => {
