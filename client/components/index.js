@@ -10,4 +10,4 @@ export { default as ArticleAnalyzer } from './articleAnalyzer'
 export {default as OverallSentimentAnalysis} from './overallSentimentAnalysis'
 export {default as RadarChart} from './radarChart'
 export {default as KeywordBox} from './keywordBox'
-
+export {default as LandingPage} from './landingPage'
