@@ -5,8 +5,8 @@
 
 // var nlu = new NaturalLanguageUnderstandingV1({
 //     "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-//     "username": "ef5ae2fb-26a6-4641-9b52-5c2c4820e8c8",
-//     "password": "VlHiaSLMcPj4"
+//     "username": process.env.NLU_UNDERSTANDING,
+//     "password": process.env.NLU_PW
 // });
 
 // nlu.analyze(
