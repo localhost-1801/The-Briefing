@@ -4,9 +4,10 @@ const axios = require('axios');
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var fs = require('fs');
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+require('../secrets.js')
 
 
-const url = 'http://www.bbc.com/news/world-us-canada-43402077';
+//const url = 'http://www.bbc.com/news/world-us-canada-43402077';
 //const url = 'https://codeburst.io/an-introduction-to-web-scraping-with-node-js-1045b55c63f7';
 //const url = 'https://www.cnn.com/2018/03/14/us/students-who-did-not-walkout-trnd/index.html';
 //const url = 'http://www.chicagotribune.com/news/local/breaking/ct-met-school-walkouts-gun-reform-20180313-story.html';
@@ -15,13 +16,13 @@ const url = 'http://www.bbc.com/news/world-us-canada-43402077';
 //const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
 //const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
-
 async function masterArticleScrapper(url) {
     let resultString = '';
     const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
     let infoObj = {};
     infoObj.url = url;
     const resultUrl = infoObj.url
+    const resultObject = {}
     try {
         if (domain === 'bbc') {
             const article = await axios.get(url)
@@ -98,8 +99,8 @@ async function masterArticleScrapper(url) {
     finally {
         var toneAnalyzer = new ToneAnalyzerV3({
             "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-            "username": "c4532afd-b6f2-4d58-a4bd-a4d67f9683ac   ",
-            "password": "pNCqrCNSQf5b",
+            "username": process.env.TONE_USERNAME,
+            "password": process.env.TONE_PW,
             version: '2016-05-19',
         });
         toneAnalyzer.tone(
@@ -113,7 +114,9 @@ async function masterArticleScrapper(url) {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(JSON.stringify(tone, null, 2));
+                    resultObject.tone = tone
+                    // JSON.stringify(tone, null, 2);
+                    // console.log('TONE', resultObject.tone )
                 }
             }
         );
@@ -121,8 +124,8 @@ async function masterArticleScrapper(url) {
         //----------------------------------------------------------------
         var nlu = new NaturalLanguageUnderstandingV1({
             "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-            "username": "ef5ae2fb-26a6-4641-9b52-5c2c4820e8c8",
-            "password": "VlHiaSLMcPj4",
+            "username": process.env.NLU_USERNAME,
+            "password": process.env.NLU_PW,
             version: '2017-02-27',
         })
         nlu.analyze(
@@ -147,12 +150,16 @@ async function masterArticleScrapper(url) {
                 if (err) {
                     console.log('error:', err);
                 } else {
-                    console.log(JSON.stringify(response, null, 2));
+                    resultObject.nlu = response
+                    // JSON.stringify(response, null, 2);
+                    // console.log('NLU', resultObject.nlu )
                 }
+                console.log('RESULT OBJECt', resultObject.nlu)
+                console.log('RESULT OBJECT TONE DFGDFGDG',resultObject.tone)
+                return resultObject
             }
         );
-
     }
 }
-masterArticleScrapper(url)
+//masterArticleScrapper(url)
 module.exports = masterArticleScrapper
