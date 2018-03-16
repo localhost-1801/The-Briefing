@@ -21,8 +21,8 @@ console.log(testresults)
 
 var toneAnalyzer = new ToneAnalyzerV3({
     "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-    "username": "c4532afd-b6f2-4d58-a4bd-a4d67f9683ac   ",
-    "password": "pNCqrCNSQf5b",
+    "username": process.env.TONE_USERNAME,
+    "password": process.env.TONE_PW,
     version: '2017-09-21',
     sentences: false
 });

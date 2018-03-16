@@ -4,7 +4,7 @@ const axios = require('axios');
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 var fs = require('fs');
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-
+const secrets = require('../secrets')
 
 const url = 'http://www.bbc.com/news/world-us-canada-43402077';
 //const url = 'https://codeburst.io/an-introduction-to-web-scraping-with-node-js-1045b55c63f7';
@@ -96,12 +96,7 @@ async function masterArticleScrapper(url) {
     }
 
     finally {
-        var toneAnalyzer = new ToneAnalyzerV3({
-            "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
-            "username": process.env.TONE_USERNAME,
-            "password": process.env.TONE_PW,
-            version: '2016-05-19',
-        });
+        var toneAnalyzer = new ToneAnalyzerV3(process.env.TONE);
         toneAnalyzer.tone(
 
             {
@@ -119,12 +114,7 @@ async function masterArticleScrapper(url) {
         );
 
         //----------------------------------------------------------------
-        var nlu = new NaturalLanguageUnderstandingV1({
-            "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-            "username": process.env.NLU_USERNAME,
-            "password": process.env.NLU_PW,
-            version: '2017-02-27',
-        })
+        var nlu = new NaturalLanguageUnderstandingV1(process.env.NLU)
         nlu.analyze(
             {
                 url: resultUrl, // Buffer or String
