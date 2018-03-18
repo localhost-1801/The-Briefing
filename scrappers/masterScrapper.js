@@ -151,7 +151,7 @@ async function masterArticleScrapper(url, parentUrl) {
             version: '2017-02-27',
             url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
         });
-        let obj = {}
+        let data = {}
         toneAnalyzer.tone(
             {
                 tone_input: resultString,
@@ -162,77 +162,81 @@ async function masterArticleScrapper(url, parentUrl) {
                 if (err) {
                     console.log(err);
                 } else {
-//                     resultObject.tone = tone
-                    // JSON.stringify(tone, null, 2);
-//                     // console.log('TONE', resultObject.tone )
-//                 }
-//             }
-//         );
+                    nlu.analyze(
+                        {
+                            url: resultUrl, // Buffer or String
+                            features: {
+                                "metadata": {
+                                },
+                                "keywords": {
+                                    "sentiment": true,
+                                    "emotion": true,
+                                    limit: 10
+                                },
+                                "emotion": {
+                                    document: true
+                                },
+                                "sentiment": {
+                                    document: true
+                                }
+                            }
+                        },
+                        function (err, response) {
+                            if (err) {
+                                console.log('error:', err);
+                            } else {
 
-        //----------------------------------------------------------------
+                                //                     resultObject.nlu = response
+                                // JSON.stringify(response, null, 2);
+                                // console.log('NLU', resultObject.nlu )
+                                // console.log(JSON.stringify(response, null, 2));
+                                if(parentUrl){
+                                    infoObj.parent = parentUrl;
+                                }
+                                data = { tone: tone, emotion: response, info: infoObj }
+                                db.collection('articles').doc(infoObj.headline).update(data).then(() => {
+                                    console.log('updated')
+
+                                }).catch(err => {
+                                    console.log('', infoObj.headline)
+                                    db.collection('articles').doc(infoObj.headline).set(data)
+                                })
+                                // db.collection('articles').doc(infoObj.headline).update({ emotion: response }).then(() => {
+                                //     console.log('created emotion')
+                                // }).catch(err => {
+                                //     db.collection('articles').doc(infoObj.headline).set({ emotion: response })
+                                // })
+
+                                // if (parentUrl) {
+                                //     infoObj.parent = parentUrl
+                                // }
+                                // db.collection('articles').doc(infoObj.headline).update({ info: infoObj }).then(() => {
+                                //     console.log('created')
+                                // }).catch(err => {
+                                //     db.collection('articles').doc(infoObj.headline).set({ info: infoObj })
+                                // })
+                            }
+                            //                 console.log('RESULT OBJECt', resultObject.nlu)
+                            //                 console.log('RESULT OBJECT TONE DFGDFGDG',resultObject.tone)
+                            //                 return resultObject
+                        }
+                    );
+                    //                     resultObject.tone = tone
+                    // JSON.stringify(tone, null, 2);
+                    //                     // console.log('TONE', resultObject.tone )
+                    //                 }
+                    //             }
+                    //         );
+
+                    //----------------------------------------------------------------
 
                     // console.log(JSON.stringify(tone, null, 2));
-                    console.log('tone done')
-                    db.collection('articles').doc(infoObj.headline).update({ tone: tone }).then((err) => {
-                        console.log('created tone')
 
-                    }).catch(err => {
-                        console.log('can we label it', infoObj.headline)
-                        obj.tone = tone
-                        db.collection('articles').doc(infoObj.headline).set({ tone })
-                    })
                 }
             }
         )
         //---------------------------------------------------------------   
-        nlu.analyze(
-            {
-                url: resultUrl, // Buffer or String
-                features: {
-                    "metadata": {
-                    },
-                    "keywords": {
-                        "sentiment": true,
-                        "emotion": true,
-                        limit: 10
-                    },
-                    "emotion": {
-                        document: true
-                    },
-                    "sentiment": {
-                        document: true
-                    }
-                }
-            },
-            function (err, response) {
-                if (err) {
-                    console.log('error:', err);
-                } else {
 
-//                     resultObject.nlu = response
-                    // JSON.stringify(response, null, 2);
-                    // console.log('NLU', resultObject.nlu )
-                    // console.log(JSON.stringify(response, null, 2));
-                    console.log('nlu done')
-                    db.collection('articles').doc(infoObj.headline).update({ emotion: response }).then(() => {
-                        console.log('created emotion')
-                    }).catch(err => {
-                        db.collection('articles').doc(infoObj.headline).set({ emotion: response })
-                    })
-                }
-//                 console.log('RESULT OBJECt', resultObject.nlu)
-//                 console.log('RESULT OBJECT TONE DFGDFGDG',resultObject.tone)
-//                 return resultObject
-            }
-        );
-        if(parentUrl){
-            infoObj.parent = parentUrl
-        }
-        db.collection('articles').doc(infoObj.headline).update({ info: infoObj }).then(() => {
-            console.log('created')
-        }).catch(err => {
-            db.collection('articles').doc(infoObj.headline).set({ info: infoObj })
-        })
     }
 
 }

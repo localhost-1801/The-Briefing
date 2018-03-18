@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { KeywordBox, RadarChart } from '../components';
 import {connect} from 'react-redux'
 import {fetchArticleData, makeArticle} from '../store/singleArticle'
+import {makeRelatedArticles} from '../store/relatedArticles'
 
 
 class LandingPage extends Component {
@@ -9,9 +10,17 @@ class LandingPage extends Component {
     super()
   }
   componentDidMount(){
+    let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
     this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
+    // .then(res => {
+    //     let keywords = res.emotion.keywords.map(obj => {
+    //       return obj.text
+    //     })
+    //     // this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
+    // })
   }
   render(){
+
     return (
       <div>
         <KeywordBox />
@@ -23,11 +32,12 @@ class LandingPage extends Component {
 
 const mapState = ({singleArticle}) => ({singleArticle})
 
-const mapDispatch = ({makeArticle})
+const mapDispatch = ({makeArticle, makeRelatedArticles})
 // const mapDispatch = (dispatch) => {
 //   return {
-//     fetchAndCreate(url){
-//       dispatch(fetchArticleData(url))
+//     makeAndRelate(url){
+//       dispatch(makeArticle(url))
+//       // console.log('this is props',this.props.singleArticle)
 //     }
 //   }
 // }
