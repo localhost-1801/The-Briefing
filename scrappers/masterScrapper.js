@@ -57,7 +57,7 @@ const data = {
 // const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
 const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
-async function masterArticleScrapper(url) {
+async function masterArticleScrapper(url, parentUrl) {
     let resultString = '';
     const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
     let infoObj = {};
@@ -225,6 +225,9 @@ async function masterArticleScrapper(url) {
 //                 return resultObject
             }
         );
+        if(parentUrl){
+            infoObj.parent = parentUrl
+        }
         db.collection('articles').doc(infoObj.headline).update({ info: infoObj }).then(() => {
             console.log('created')
         }).catch(err => {

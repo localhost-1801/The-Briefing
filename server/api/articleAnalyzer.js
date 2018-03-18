@@ -1,8 +1,27 @@
 const router = require('express').Router()
 const masterArticleScrapper = require('../../scrappers/masterScrapper.js');
 const db = require('../db/firestore')
+const NewsAPI = require('newsapi')
+const newsapi = new NewsAPI(process.env.NEWS_KEY)
 
-
+// 
+router.post('/related', (req, res, next) => {
+    const keywords = req.body.keywords
+    const parentUrl = req.body.url
+    newsapi.v2.everything({
+        sources: 'bbc-news,the-new-york-times',
+        q: keywords.join(' '),
+        language: 'en',
+        page: 2
+        // country: 'us'
+      }).then(response => {
+          //masterArticle
+        response.articles.forEach(article => {
+            masterArticleScrapper(article.url, parentUrl)
+        })
+        console.log(response.articles.length);
+      });
+})
 router.post('/url/*', (req, res, next) => {
     //console.log('WE ARE IN API', req.params[0])
     masterArticleScrapper(req.params[0])
