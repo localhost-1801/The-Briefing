@@ -151,7 +151,7 @@ async function masterArticleScrapper(url) {
             version: '2017-02-27',
             url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
         });
-
+        let obj = {}
         toneAnalyzer.tone(
             {
                 tone_input: resultString,
@@ -173,17 +173,17 @@ async function masterArticleScrapper(url) {
 
                     // console.log(JSON.stringify(tone, null, 2));
                     console.log('tone done')
-                    return tone;
                     db.collection('articles').doc(infoObj.headline).update({ tone: tone }).then((err) => {
                         console.log('created tone')
 
                     }).catch(err => {
                         console.log('can we label it', infoObj.headline)
+                        obj.tone = tone
                         db.collection('articles').doc(infoObj.headline).set({ tone })
                     })
                 }
             }
-        ).then(stuff => { console.log(stuff)}).catch(err => {console.log(err)})
+        )
         //---------------------------------------------------------------   
         nlu.analyze(
             {
@@ -233,5 +233,5 @@ async function masterArticleScrapper(url) {
     }
 
 }
-
+// masterArticleScrapper(url)
 module.exports = masterArticleScrapper
