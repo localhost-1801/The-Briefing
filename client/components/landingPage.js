@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, ArticleAnalyzer } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
@@ -9,6 +9,7 @@ class LandingPage extends Component {
     super()
   }
   componentDidMount() {
+<<<<<<< HEAD
     let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
     this.props.makeArticle('https://www.nytimes.com/2018/03/14/world/europe/uk-russia-spy-punitive-measures.html')
     .then(res => {
@@ -17,10 +18,23 @@ class LandingPage extends Component {
         })
         this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
     })
+=======
+    // let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
+    // this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
+    // .then(res => {
+    //     let keywords = res.emotion.keywords.map(obj => {
+    //       return obj.text
+    //     })
+    //     this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
+    // })
+>>>>>>> master
   }
   render(){
     return (
       <div>
+        <MapIndex />
+        <BarChart />
+        <OverallSentimentAnalysis />
         <KeywordBox />
         <ArticleAnalyzer />
         <RadarChart />
