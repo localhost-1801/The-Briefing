@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, ArticleAnalyzer } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
@@ -18,10 +18,12 @@ class LandingPage extends Component {
     //     this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
     // })
   }
-  render() {
-
+  render(){
     return (
       <div>
+        <MapIndex />
+        <BarChart />
+        <OverallSentimentAnalysis />
         <KeywordBox />
         <ArticleAnalyzer />
         <RadarChart />
@@ -30,7 +32,7 @@ class LandingPage extends Component {
   }
 }
 
-const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapState = ({singleArticle, relatedArticles}) => ({singleArticle, relatedArticles})
 
 const mapDispatch = ({ makeArticle, makeRelatedArticles })
 // const mapDispatch = (dispatch) => {

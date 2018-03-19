@@ -3,74 +3,110 @@ const masterArticleScrapper = require('../../scrappers/masterScrapper.js');
 const db = require('../db/firestore')
 const NewsAPI = require('newsapi')
 const newsapi = new NewsAPI(process.env.NEWS_KEY)
+var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+const secrets = require('../../secrets')
+const NLP = require('../services/watson/nlp');
+const nlp = new NLP
+
+const Promise = require('bluebird')
+// var toneAnalyzer = new ToneAnalyzerV3({
+//     username: process.env.TONE_USERNAME,
+//     password: process.env.TONE_PW,
+//     version: '2016-05-19',
+//     url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
+// });
+// toneAnalyzer.toneAsync = Promise.promisify(toneAnalyzer.tone)
+
+// var nlu = new NaturalLanguageUnderstandingV1({
+//     username: process.env.NLU_USERNAME,
+//     password: process.env.NLU_PW,
+//     version: '2017-02-27',
+//     url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
+// });
+// nlu.analyzeAsync = Promise.promisify(nlu.analyze)
 
 // 
-router.post('/related', (req, res, next) => {
+router.get('/related/url/*', (req, res, next) => {
+    const query = db.collection('articles').where('info.parent', '==', req.params[0])
+    const related = [];
+    query.get().then(docu => {
+        docu.forEach(d => {
+            related.push(d.data())
+            // return d.data()
+        })
+        res.send(related)
+    })
+
+})
+
+router.post('/related', async (req, res, next) => {
     const keywords = req.body.keywords
     const parentUrl = req.body.url
-    console.log('in api');
-    newsapi.v2.everything({
-        sources: 'the-new-york-times',
-        q: keywords.slice(0,3).join(' '),
+    const newsResults = await newsapi.v2.everything({
+        sources: 'the-new-york-times,bbc-news,cnn,the-wall-street-journal',
+        q: keywords.slice(0, 3).join(' '),
         language: 'en',
         // country: 'us'
-      }).then(response => {
-          console.log('where are we?', response)
-          //masterArticle
-        const articlesArray = [];
-        response.articles.forEach(article => {
-            masterArticleScrapper(article.url, parentUrl)
-            .then(nothing => {
-                console.log('in masterarticle .then')
-                const articles = db.collection('articles').where('info.url', '==', article.url)
-                const observer = articles.onSnapshot(docSnap => {
-                    docSnap.forEach(docu => {
-                        articlesArray.push(docu.data())
-                    })
-                    console.log('all the articles', articlesArray.length);
-                    
-                })
-            })
-            .catch(next)        
+    })
+    const promiseArray = newsResults.articles.map(async (article) => {
+        
+        const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
+        const nlpResults = await nlp.analyze(scrapeObj.text.slice(0, 500));
+        nlpResults.info = scrapeObj
+        
+        //Add document to Firestore
+        const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
+        if (documentSnap.data() === undefined) {
+            const documentCreate = await db.collection('articles').doc(scrapeObj.headline).set(nlpResults)
+        } else {
+            const documentUpdate = await db.collection('articles').doc(scrapeObj.headline).update(nlpResults)
+        }
+        return nlpResults
+    })
+    Promise.all(promiseArray)
+        .then(results => {
+            // console.log(results)
+            res.send(results)
         })
-        res.send(articlesArray)
-      });
+    // res.send(articleArray)
 })
-router.post('/url/*', (req, res, next) => {
-    //console.log('WE ARE IN API', req.params[0])
-    const articles = db.collection('articles').where('info.url', '==', req.params[0])
-    let send = true;
-    
-    masterArticleScrapper(req.params[0])
-        .then(nothing => {
-            const observer = articles.onSnapshot(docSnap => {
-                docSnap.forEach(docu => {
-                    if (send) {
-                        console.log('how many times we getting hit boy', send)
-                        res.send(docu.data());
-                        send = !send
-                        //it is because we are in the observer snapshot function
-                    }
-                })
-            })
-        })
-        .catch(next)
+router.post('/url/*', async (req, res, next) => {
+    const scrapeObj = await masterArticleScrapper(req.params[0]);
+    const nlpResults = await nlp.analyze(scrapeObj.text);
+    nlpResults.info = scrapeObj
+
+    //Add document to Firestore
+    const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
+    if (documentSnap.data() === undefined) {
+        const documentCreate = await db.collection('articles').doc(scrapeObj.headline).set(nlpResults)
+    } else {
+        const documentUpdate = await db.collection('articles').doc(scrapeObj.headline).update(nlpResults)
+    }
+    res.send(nlpResults)
 })
 router.get('/url/*', (req, res, next) => {
     console.log('hello')
     let articleRef = db.collection('articles').where('info.url', '==', req.params[0])
     articleRef.get().then(docu => {
         docu.forEach(d => {
-            // console.log(d.data())
-            // console.log(d.data().emotion.keywords)
             const data = d.data()
             res.send(data)
-            // const keywords = data.emotion.keywords.map(obj => {
-            //     return obj.text
-            // })
-            // console.log(keywords)
         })
     })
 
 })
 module.exports = router;
+
+
+
+    // if (parentUrl) {
+    //     infoObj.parent = parentUrl;
+    // }
+    // data = { tone: tone, emotion: response, info: infoObj }
+    // db.collection('articles').doc(infoObj.headline).update(data).then(() => {
+    //     console.log('updated')
+
+    // }).catch(err => {
+    //     console.log('', infoObj.headline)
+    //     db.collection('articles').doc(infoObj.headline).set(data)

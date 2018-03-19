@@ -75,7 +75,7 @@ class RadarChart extends Component {
   }
 
   render() {
-    if(this.props.singleArticle === undefined){
+    if (this.props.singleArticle === undefined){
       return <div />
     }
     return (
