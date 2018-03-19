@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import statesDefaults from './states-defaults';
 import collection from './states-data';
+import { Header } from 'semantic-ui-react'
 
 // https://caspg.github.io/simple-data-table-map/
 //https://github.com/caspg/simple-data-table-map/blob/master/app/components/DataMap.jsx
@@ -19,11 +20,20 @@ export default class MapIndex extends React.Component {
   }
 
   linearPalleteScale(value){
-    if (value < 100) return "#dee3f6"
-    else if (value >= 100 && value < 111) return '#9aafcd'
-    else if (value >= 111 & value < 122) return '#5778a2'
-    else if (value >= 122 & value < 133) return '#325c8b'
-    else if (value >= 133) return "#06386e"
+    const dataValues = this.state.regionData.map(function(data) { return data.value });
+    const minVal = Math.min(...dataValues);
+    const maxVal = Math.max(...dataValues);
+    const fraction = (maxVal - minVal) / 4;
+    const first = minVal + fraction;
+    const second = first + fraction;
+    const third = second + fraction;
+    const fourth = third + fraction;
+
+    if (value < first) return "#dee3f6"
+    else if (value >= first && value < second) return '#9aafcd'
+    else if (value >= second & value < third) return '#5778a2'
+    else if (value >= third & value < fourth) return '#325c8b'
+    else if (value >= fourth) return "#06386e"
   }
 
   redducedData(){
@@ -64,7 +74,8 @@ export default class MapIndex extends React.Component {
 
   render(){
     return (
-      <div id="datamap-container" />
+      <div id="datamap-container" className="chartBackground" />
     );
   }
 }
+

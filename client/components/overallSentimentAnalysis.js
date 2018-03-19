@@ -24,8 +24,8 @@ export default class OverallSentimentAnalysis extends Component {
 
   render() {
     return (
-      <div>
-      <svg viewBox="0 0 400 400" width="10%" height="10%">
+      <div className="chartBackground">
+      <svg viewBox="0 0 400 400" width="100%" height="100%">
           <VictoryPie // can update the height and width on the line above
             standalone={false}
             animate={{ duration: 1000 }}

@@ -38,16 +38,14 @@ export default class BarChart extends Component {
 
   render(){
     return(
-      <div>
-      <h3>Comparative Emotional Analysis</h3>
-      <svg viewBox={`0 0 500 500`}
-        style={{ width: "50%", height: "50%" }}
+      <div className="chartBackground">
+        <svg viewBox="0 0 500 500" width="100%" height="100%">
       >
         <VictoryStack horizontal
           standalone={false}
           /* setting a symmetric domain makes it much easier to center the axis  */
           domain={{ x: [-60, 60] }}
-          padding={{ top: 10, bottom: 80, left: 20, right: 20 }}
+          padding={{ top: 20, bottom: 30, left: 20, right: 20 }}
           height={500}
           width={500}
           style={{ data: { width: 20 }, labels: { fontSize: 11 } }}
@@ -67,7 +65,7 @@ export default class BarChart extends Component {
         <VictoryAxis dependentAxis
         height={500}
         width={500}
-        padding={{ top: 10, bottom: 80, left: 20, right: 20 }}
+        padding={{ top: 30, bottom: 30, left: 20, right: 20 }}
         style={{
           axis: { stroke: "transparent" },
           ticks: { stroke: "transparent" },
@@ -87,3 +85,4 @@ export default class BarChart extends Component {
     );
   }
 }
+

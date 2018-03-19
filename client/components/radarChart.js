@@ -79,6 +79,7 @@ class RadarChart extends Component {
     }
     console.log('toooone',this.props.singleArticle.tone)
     return (
+      <div className="chartBackground">
       <VictoryChart polar
         theme={VictoryTheme.material}
         domain={{ y: [ 0, 1 ] }}
@@ -121,6 +122,7 @@ class RadarChart extends Component {
         />
 
       </VictoryChart>
+      </div>
     );
   }
 }
