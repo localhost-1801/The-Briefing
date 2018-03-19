@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import {VictoryChart, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel} from 'victory';
 import ReactDOM from 'react-dom'
+import {connect} from 'react-redux'
+
 
 //replace these with tone data, radar chart will swap in between the two
 const characterData = [
-  { anger: 1, intelligence: 250, luck: 1, stealth: 40, charisma: 50 },
-  { anger: 2, intelligence: 300, luck: 2, stealth: 80, charisma: 90 },
-  { anger: 5, intelligence: 225, luck: 3, stealth: 60, charisma: 120 }
+  { anger: 10, intelligence: 60, luck: 30, stealth: 40, charisma: 50 },
+  { anger: 20, intelligence: 30, luck: 80, stealth: 80, charisma: 90 },
+  { anger: 50, intelligence: 50, luck: 90, stealth: 60, charisma: 10 }
 ];
-const characterData2 = [
-  { sloth: 3, supertest: 120, luck: 2, stealth: 80, charisma: 60 },
-  { sloth: 1, supertest: 450, luck: 4, stealth: 60, charisma: 30 },
-  { sloth: 2, supertest: 320, luck: 1, stealth: 50, charisma: 20 }
+let characterData2 = [
+  { anger: 10, intelligence: 60, luck: 30, stealth: 40, charisma: 50 },
+  { anger: 20, intelligence: 30, luck: 80, stealth: 80, charisma: 90 },
+  { anger: 50, intelligence: 50, luck: 90, stealth: 60, charisma: 10 }
 ];
 
-export default class RadarChart extends Component {
+class RadarChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +33,7 @@ export default class RadarChart extends Component {
         maxima: this.getMaxima(this.state.bool ? characterData2 : characterData)
       })
     }, 2000)
+    console.log('hello',this.props.singleArticle.tone)
   }
 
 //   parseData(data){
@@ -71,7 +74,10 @@ export default class RadarChart extends Component {
   }
 
   render() {
-
+    if(this.props.singleArticle === undefined){
+      return <div />
+    }
+    console.log('toooone',this.props.singleArticle.tone)
     return (
       <VictoryChart polar
         theme={VictoryTheme.material}
@@ -118,3 +124,7 @@ export default class RadarChart extends Component {
     );
   }
 }
+const mapState = ({singleArticle}) => ({singleArticle})
+const mapDispatch = null;
+
+export default connect(mapState, mapDispatch)(RadarChart)

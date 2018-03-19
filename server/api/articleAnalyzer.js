@@ -17,30 +17,40 @@ router.post('/related', (req, res, next) => {
       }).then(response => {
           console.log('where are we?', response)
           //masterArticle
-        const articles = [];
+        const articlesArray = [];
         response.articles.forEach(article => {
-            masterArticleScrapper(req.params[0])
+            masterArticleScrapper(article.url, parentUrl)
             .then(nothing => {
                 console.log('in masterarticle .then')
+                const articles = db.collection('articles').where('info.url', '==', article.url)
                 const observer = articles.onSnapshot(docSnap => {
                     docSnap.forEach(docu => {
-                        articles.push(docu.data())
+                        articlesArray.push(docu.data())
                     })
-                    console.log('all the articles', articles);
-                    res.send(articles)
+                    console.log('all the articles', articlesArray.length);
+                    
                 })
             })
-            .catch(next)        })
+            .catch(next)        
+        })
+        res.send(articlesArray)
       });
 })
 router.post('/url/*', (req, res, next) => {
     //console.log('WE ARE IN API', req.params[0])
     const articles = db.collection('articles').where('info.url', '==', req.params[0])
+    let send = true;
+    
     masterArticleScrapper(req.params[0])
         .then(nothing => {
             const observer = articles.onSnapshot(docSnap => {
                 docSnap.forEach(docu => {
-                    res.send(docu.data());
+                    if (send) {
+                        console.log('how many times we getting hit boy', send)
+                        res.send(docu.data());
+                        send = !send
+                        //it is because we are in the observer snapshot function
+                    }
                 })
             })
         })
