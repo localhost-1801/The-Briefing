@@ -1,18 +1,50 @@
 import React, { Component } from 'react';
 import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex } from '../components';
+import { connect } from 'react-redux'
+import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { makeRelatedArticles } from '../store/relatedArticles'
 
-export default class LandingPage extends Component {
-  constructor(){
+class LandingPage extends Component {
+  constructor() {
     super()
   }
-  render(){
+  componentDidMount() {
+    let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
+    this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
+    .then(res => {
+        let keywords = res.emotion.keywords.map(obj => {
+          return obj.text
+        })
+        this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
+    })
+  }
+  render() {
+
     return (
       <div>
         <MapIndex />
         <BarChart />
         <KeywordBox />
         <OverallSentimentAnalysis />
+        <ArticleAnalyzer />
+        <RadarChart />
       </div>
     )
   }
 }
+
+const mapState = ({ singleArticle }) => ({ singleArticle })
+
+const mapDispatch = ({ makeArticle, makeRelatedArticles })
+// const mapDispatch = (dispatch) => {
+//   return {
+//     makeAndRelate(url){
+//       dispatch(makeArticle(url))
+//       // console.log('this is props',this.props.singleArticle)
+//     }
+//   }
+// }
+
+
+
+export default connect(mapState, mapDispatch)(LandingPage)
