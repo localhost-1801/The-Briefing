@@ -12,12 +12,12 @@ class LandingPage extends Component {
   componentDidMount(){
     let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
     this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
-    // .then(res => {
-    //     let keywords = res.emotion.keywords.map(obj => {
-    //       return obj.text
-    //     })
-    //     // this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
-    // })
+    .then(res => {
+        let keywords = res.emotion.keywords.map(obj => {
+          return obj.text
+        })
+        this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
+    })
   }
   render(){
 

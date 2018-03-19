@@ -58,6 +58,7 @@ const data = {
 const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
 async function masterArticleScrapper(url, parentUrl) {
+    console.log('------!_!_!_!__!_!_!_!!_!_!_!_!_-----', url);
     let resultString = '';
     const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
     let infoObj = {};
