@@ -19,7 +19,7 @@ class LandingPage extends Component {
     //     this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
     // })
   }
-  render() {
+  render(){
     return (
       <div className="landingPageBackground">
     <Grid divided='vertically'>
@@ -54,20 +54,7 @@ class LandingPage extends Component {
   }
 }
 
-
-// return (
-//   <div>
-//     <MapIndex />
-//     <BarChart />
-//     <OverallSentimentAnalysis />
-//     <KeywordBox />
-//     <ArticleAnalyzer />
-//     <RadarChart />
-//   </div>
-// )
-
-
-const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapState = ({singleArticle, relatedArticles}) => ({singleArticle, relatedArticles})
 
 const mapDispatch = ({ makeArticle, makeRelatedArticles })
 // const mapDispatch = (dispatch) => {

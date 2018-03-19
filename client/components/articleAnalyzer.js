@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import history from '../history';
 
 class ArticleAnalyzer extends Component {
     constructor(props) {
@@ -13,18 +14,18 @@ class ArticleAnalyzer extends Component {
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
 
-    onChangeHandler (e) {
+
+
+    onChangeHandler(e) {
         e.preventDefault();
         this.setState({ articleUrl: e.target.value })
     }
 
     onSubmitHandler(e) {
         e.preventDefault();
-        this.props.makeArticle(this.state.articleUrl);
+        this.props.singleArticleAnalysis(this.state.articleUrl);
     }
     render() {
-        console.log(this.props)
-        console.log(this.state.articleUrl)
         return (
             <Form>
                 <Form.Field>
@@ -41,8 +42,13 @@ class ArticleAnalyzer extends Component {
     }
 }
 
-const mapState = null;
-const mapDispatch = { makeArticle }
+const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapDispatch = (dispatch, ownProps) => ({
+    singleArticleAnalysis(articleUrl) {
+        dispatch(makeArticle(articleUrl))
+        history.push('/singleArticleData')
+    }
+})
 
 export default connect(mapState, mapDispatch)(ArticleAnalyzer)
 
