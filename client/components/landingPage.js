@@ -22,6 +22,9 @@ class LandingPage extends Component {
 
     return (
       <div>
+        <MapIndex />
+        <BarChart />
+        <OverallSentimentAnalysis />
         <KeywordBox />
         <ArticleAnalyzer />
         <RadarChart />
