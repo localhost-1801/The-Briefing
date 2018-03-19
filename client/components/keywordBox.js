@@ -38,6 +38,7 @@ export default class KeywordBox extends Component {
 
   render(){
     return(
+      <div>
       <div className="chartBackground" >
         {this.state.emotionKeyWords.map(emotionAndWord => {
           return(<div key={emotionAndWord.word}>{emotionAndWord.word + ' | ' + emotionAndWord.emotion}</div>)
@@ -67,7 +68,7 @@ export default class KeywordBox extends Component {
         </Table.Body>
       </Table>
     </div>
-
+</div>
     )
   }
 }
