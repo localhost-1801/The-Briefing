@@ -33,6 +33,7 @@ export default class MapIndex extends React.Component {
     }, {});
     return Object.assign({}, statesDefaults, newData);
   }
+
   renderMap(){
     return new Datamap({
       element: ReactDOM.findDOMNode(this),
