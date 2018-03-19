@@ -1,10 +1,46 @@
-// //from https://codeburst.io/an-introduction-to-web-scraping-with-node-js-1045b55c63f7
-// const cheerio = require('cheerio');
-// const axios = require('axios');
+//from https://codeburst.io/an-introduction-to-web-scraping-with-node-js-1045b55c63f7
+const cheerio = require('cheerio');
+const axios = require('axios');
+const request = require('request')
+const masterArticleScrapper = require('../scrappers/masterScrapper.js')
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI(process.env.NEWSAPI );
 
-// const url = 'https://www.nytimes.com/';
+function frontPageScrapper() {
+    //JUST FOR THE SAKE OF DATA MANAGEMENT, I decided to just add NYT to newsAPI instead of using its own API, strictly for new york times, 
+    // request.get({
+    //     url: "https://api.nytimes.com/svc/topstories/v2/home.json",
+    //     qs: {
+    //         'api-key': "73edcfd2d82641dd9b7828788280eab2"
+    //     },
+    // }, function (err, response, body) {
+    //     body = JSON.parse(body);
+    //     body.results.forEach(article => console.log(article.url))
+    // })
+
+    newsapi.v2.topHeadlines({
+        sources: 'bbc-news,the-new-york-times,cnn,fox-news,the-wall-street-journal',
+        pageSize: 100
+    }).then(response => {
+        response.articles.forEach(article => {
+            masterArticleScrapper(article.url)
+        })
+    });
+}
+
+
+
+
+//const url = 'https://www.nytimes.com/';
+// const url = 'https://www.cnn.com/';
+// const url = 'http://www.chicagotribune.com/'
+// const url = 'http://www.foxnews.com/'
+// const url = 'http://www.bbc.com/'
+// const url = 'https://www.wsj.com/'
+
 // let urlArr = [];
-
+// function frontPageScrapper(url, urlArr = []) {
+// const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
 
 // axios.get(url)
 //     .then(result => {
@@ -23,22 +59,9 @@
 //         axios.get(obj.url)
 //             .then(result => {
 //                 let $$ = cheerio.load(result.data)
-//                 console.log($$('.story-body .story-body-text').text().length)
+//                 //console.log($$('.story-body .story-body-text').text().length)
 
 //             })
 //     }))
-
-// // urlArr.forEach(obj => {
-// //     axios.get(obj.url)
-// //         .then(result => console.log( 'test', result))
-// // })
-
-// // rp(options)
-// //   .then(($) => {
-// //     console.log($('.story-heading').text());
-// //   })
-// //   .catch((err) => {
-// //     console.log(err);
-// //   });
-
-// // console.log($('.story-heading').text())
+// }
+//frontPageScrapper(url, urlArr);
