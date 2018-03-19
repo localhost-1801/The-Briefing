@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button, Checkbox, Form } from 'semantic-ui-react'
-import { fetchArticleData } from '../store/singleArticle'
+import { fetchArticleData, makeArticle } from '../store/singleArticle'
 
 class ArticleAnalyzer extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class ArticleAnalyzer extends Component {
 
     onSubmitHandler(e) {
         e.preventDefault();
-        this.props.fetchArticleData(this.state.articleUrl);
+        this.props.makeArticle(this.state.articleUrl);
     }
     render() {
         console.log(this.props)
@@ -42,7 +42,7 @@ class ArticleAnalyzer extends Component {
 }
 
 const mapState = null;
-const mapDispatch = { fetchArticleData }
+const mapDispatch = { makeArticle }
 
 export default connect(mapState, mapDispatch)(ArticleAnalyzer)
 
