@@ -26,14 +26,13 @@ class RadarChart extends Component {
     };
   }
   componentDidMount() {
-    setInterval(()=> {
-      this.setState({
-        bool: !this.state.bool,
-        data: this.processData(this.state.bool ? characterData2 : characterData),
-        maxima: this.getMaxima(this.state.bool ? characterData2 : characterData)
-      })
-    }, 2000)
-    console.log('hello',this.props.singleArticle.tone)
+    // setInterval(()=> {
+    //   this.setState({
+    //     bool: !this.state.bool,
+    //     data: this.processData(this.state.bool ? characterData2 : characterData),
+    //     maxima: this.getMaxima(this.state.bool ? characterData2 : characterData)
+    //   })
+    // }, 2000)
   }
 
 //   parseData(data){
@@ -65,11 +64,13 @@ class RadarChart extends Component {
   //make data array also modified, expects object with 'score' and 'tone_name'
   processData(data) {
     const maxByGroup = this.getMaxima(data);
+    // console.log(maxByGroup)
     const makeDataArray = (d) => {
       return Object.keys(d).map((key) => {
         return { x: key, y: d[key] / maxByGroup[key] };
       });
     };
+    //console.log(data.map((datum) => makeDataArray(datum)))
     return data.map((datum) => makeDataArray(datum));
   }
 
@@ -77,7 +78,6 @@ class RadarChart extends Component {
     if (this.props.singleArticle === undefined){
       return <div />
     }
-    // console.log('toooone',this.props.singleArticle.tone)
     return (
       <VictoryChart polar
         theme={VictoryTheme.material}
