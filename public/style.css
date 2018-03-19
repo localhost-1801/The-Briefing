@@ -19,3 +19,9 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+#datamap-container {
+  position: relative;
+  margin: 0 auto;
+  height: 110vh
+}
