@@ -39,7 +39,7 @@ export default class KeywordBox extends Component {
     return(
       <div>
         {this.state.emotionKeyWords.map(emotionAndWord => {
-          return(<div key={emotionAndWord.word}>{emotionAndWord.word + ' | ' + emotionAndWord.emotion}</div>)
+          return(<div>{emotionAndWord.word + ' | ' + emotionAndWord.emotion}</div>)
         })}
       </div>
     )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex } from '../components';
+import { KeywordBox, RadarChart, ArticleAnalyzer } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
@@ -22,10 +22,7 @@ class LandingPage extends Component {
 
     return (
       <div>
-        <MapIndex />
-        <BarChart />
         <KeywordBox />
-        <OverallSentimentAnalysis />
         <ArticleAnalyzer />
         <RadarChart />
       </div>
