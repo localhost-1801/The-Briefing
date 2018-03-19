@@ -20,7 +20,6 @@ class LandingPage extends Component {
     })
   }
   render(){
-
     return (
       <div>
         <KeywordBox />
@@ -30,7 +29,7 @@ class LandingPage extends Component {
   }
 }
 
-const mapState = ({singleArticle}) => ({singleArticle})
+const mapState = ({singleArticle, relatedArticles}) => ({singleArticle, relatedArticles})
 
 const mapDispatch = ({makeArticle, makeRelatedArticles})
 // const mapDispatch = (dispatch) => {

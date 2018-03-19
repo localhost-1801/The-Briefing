@@ -5,17 +5,32 @@ const NewsAPI = require('newsapi')
 const newsapi = new NewsAPI(process.env.NEWS_KEY)
 
 // 
+router.get('/related/url/*', (req, res, next) => {
+    const query = db.collection('articles').where('info.parent', '==', req.params[0])
+    const related = [];
+    query.get().then(docu => {
+        docu.forEach(d => {
+            console.log('beep')
+            related.push(d.data())
+            // return d.data()
+        })
+        res.send(related)
+    })
+    
+})
+
 router.post('/related', (req, res, next) => {
+    let counter = 0;
     const keywords = req.body.keywords
     const parentUrl = req.body.url
     console.log('in api');
     newsapi.v2.everything({
-        sources: 'the-new-york-times',
+        sources: 'the-new-york-times,bbc-news,cnn,the-wall-street-journal',
         q: keywords.slice(0,3).join(' '),
         language: 'en',
         // country: 'us'
       }).then(response => {
-          console.log('where are we?', response)
+          console.log('where are we?')
           //masterArticle
         const articlesArray = [];
         response.articles.forEach(article => {
@@ -25,16 +40,26 @@ router.post('/related', (req, res, next) => {
                 const articles = db.collection('articles').where('info.url', '==', article.url)
                 const observer = articles.onSnapshot(docSnap => {
                     docSnap.forEach(docu => {
-                        articlesArray.push(docu.data())
-                    })
-                    console.log('all the articles', articlesArray.length);
-                    
+                        //Note that this is continually pushing things into an array on memory and could potentially cause problems
+                        if (articlesArray.length < response.articles.length){
+                            articlesArray.push(docu.data())
+                        }
+                    }) 
+                    if (articlesArray.length === response.articles.length && counter < 1){
+                        console.log(articlesArray, response.articles)
+                        ++counter
+                        res.send(articlesArray)
+                    }
                 })
+  
             })
-            .catch(next)        
+       
+            // .catch(next)        
         })
-        res.send(articlesArray)
-      });
+     
+        
+      })
+
 })
 router.post('/url/*', (req, res, next) => {
     //console.log('WE ARE IN API', req.params[0])

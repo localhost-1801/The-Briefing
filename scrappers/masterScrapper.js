@@ -67,6 +67,7 @@ async function masterArticleScrapper(url, parentUrl) {
     const resultObject = {}
     try {
         if (domain === 'bbc') {
+            infoObj.source = 'bbc'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=story-body__h1]').text().trim();
@@ -74,6 +75,7 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.text = await $('.story-body__inner').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
         } else if (domain === 'foxnews') {
+            infoObj.source = 'fox'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('.headline').text().trim();
@@ -81,6 +83,7 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.text = await $('.article-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
         } else if (domain === 'wsj') {
+            infoObj.source = 'wsj'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=wsj-article-headline]').text().trim();
@@ -88,6 +91,7 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.text = await $('.wsj-snippet-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
         } else if (domain === 'cnn') {
+            infoObj.source = 'cnn'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=pg-headline]').text().trim();
@@ -95,6 +99,7 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.text = await $('.l-container').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
         } else if (domain === 'chicagotribune') {
+            infoObj.source = 'chicagotribune'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=pg-headline]').text().trim();
@@ -102,6 +107,7 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.text = await $('.trb_ar_bd').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
         } else if (domain === 'nytimes') {
+            infoObj.source = 'nytimes'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('#headline').text().trim();

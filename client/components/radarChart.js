@@ -74,10 +74,10 @@ class RadarChart extends Component {
   }
 
   render() {
-    if(this.props.singleArticle === undefined){
+    if (this.props.singleArticle === undefined){
       return <div />
     }
-    console.log('toooone',this.props.singleArticle.tone)
+    // console.log('toooone',this.props.singleArticle.tone)
     return (
       <VictoryChart polar
         theme={VictoryTheme.material}
