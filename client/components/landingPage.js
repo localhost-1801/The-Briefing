@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
