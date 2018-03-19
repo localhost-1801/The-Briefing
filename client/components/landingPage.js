@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart } from '../components';
-import {connect} from 'react-redux'
-import {fetchArticleData, makeArticle} from '../store/singleArticle'
-import {makeRelatedArticles} from '../store/relatedArticles'
-
+import { KeywordBox, RadarChart, ArticleAnalyzer } from '../components';
+import { connect } from 'react-redux'
+import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { makeRelatedArticles } from '../store/relatedArticles'
 
 class LandingPage extends Component {
-  constructor(){
+  constructor() {
     super()
   }
-  componentDidMount(){
+  componentDidMount() {
     let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
     this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
     .then(res => {
@@ -19,20 +18,21 @@ class LandingPage extends Component {
         this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
     })
   }
-  render(){
+  render() {
 
     return (
       <div>
         <KeywordBox />
+        <ArticleAnalyzer />
         <RadarChart />
       </div>
     )
   }
 }
 
-const mapState = ({singleArticle}) => ({singleArticle})
+const mapState = ({ singleArticle }) => ({ singleArticle })
 
-const mapDispatch = ({makeArticle, makeRelatedArticles})
+const mapDispatch = ({ makeArticle, makeRelatedArticles })
 // const mapDispatch = (dispatch) => {
 //   return {
 //     makeAndRelate(url){

@@ -16,15 +16,15 @@ export const makeArticle = (url) => dispatch => {
 
     return axios.post(`/api/article/url/${url}`)
         .then(response => {
-           console.log(response.data)
-           dispatch(createArticle(response.data))
-           return response.data
+            console.log(response.data)
+            dispatch(createArticle(response.data))
+            return response.data
         })
         .catch(err => console.log(err))
 }
 
 export const fetchArticleData = (url) => dispatch => {
-    axios.get(`/api/article/url/${url}`)
+    return axios.get(`/api/article/url/${url}`)
         .then(JSONData => {
             return dispatch(getArticleData(JSONData.data))
         })
