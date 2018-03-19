@@ -10,7 +10,7 @@ const characterData = [
   { anger: 20, intelligence: 30, luck: 80, stealth: 80, charisma: 90 },
   { anger: 50, intelligence: 50, luck: 90, stealth: 60, charisma: 10 }
 ];
-let characterData2 = [
+const characterData2 = [
   { anger: 10, intelligence: 60, luck: 30, stealth: 40, charisma: 50 },
   { anger: 20, intelligence: 30, luck: 80, stealth: 80, charisma: 90 },
   { anger: 50, intelligence: 50, luck: 90, stealth: 60, charisma: 10 }
@@ -26,6 +26,8 @@ class RadarChart extends Component {
     };
   }
   componentDidMount() {
+    // let dataObjSingle = this.parseData(this.props.singleArticle.tone);
+    // let dataObjMultiple = this.parseMultipleData(this.props.relatedArticles)
     setInterval(()=> {
       this.setState({
         bool: !this.state.bool,
@@ -33,8 +35,12 @@ class RadarChart extends Component {
         maxima: this.getMaxima(this.state.bool ? characterData2 : characterData)
       })
     }, 2000)
-    console.log('hello',this.props.singleArticle.tone)
   }
+
+  // parseDataMultiple(data){
+  //   let resultObj = {};
+  // 
+  // }
 
 //   parseData(data){
 //     data.forEach( group => {
@@ -78,6 +84,7 @@ class RadarChart extends Component {
       return <div />
     }
     console.log('toooone',this.props.singleArticle.tone)
+    console.log('multiple', this.props.relatedArticles)
     return (
       <VictoryChart polar
         theme={VictoryTheme.material}
@@ -124,7 +131,7 @@ class RadarChart extends Component {
     );
   }
 }
-const mapState = ({singleArticle}) => ({singleArticle})
+const mapState = ({singleArticle, relatedArticles}) => ({singleArticle, relatedArticles})
 const mapDispatch = null;
 
 export default connect(mapState, mapDispatch)(RadarChart)

@@ -4,12 +4,12 @@ const axios = require('axios');
 const request = require('request')
 const masterArticleScrapper = require('../scrappers/masterScrapper.js')
 const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI('8ed3e31a2c464f9d9f2c397583491510');
+const newsapi = new NewsAPI(process.env.NEWS_KEY);
 
 function frontPageScrapper() {
     //JUST FOR THE SAKE OF DATA MANAGEMENT, I decided to just add NYT to newsAPI,
     //instead of using its own API
-    //strictly for new york times, 
+    //strictly for new york times,
     // request.get({
     //     url: "https://api.nytimes.com/svc/topstories/v2/home.json",
     //     qs: {
