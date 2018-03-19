@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex } from '../components';
 
 export default class LandingPage extends Component {
   constructor(){
@@ -8,8 +8,10 @@ export default class LandingPage extends Component {
   render(){
     return (
       <div>
+        <MapIndex />
+        <BarChart />
         <KeywordBox />
-        <RadarChart />
+        <OverallSentimentAnalysis />
       </div>
     )
   }
