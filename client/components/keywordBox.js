@@ -38,6 +38,11 @@ export default class KeywordBox extends Component {
 
   render(){
     return(
+      <div className="chartBackground" >
+        {this.state.emotionKeyWords.map(emotionAndWord => {
+          return(<div key={emotionAndWord.word}>{emotionAndWord.word + ' | ' + emotionAndWord.emotion}</div>)
+        })}
+      </div>
       <div id='keywordTable'>
         <Table basic='very' celled unstackable>
           <Table.Header>
@@ -62,6 +67,7 @@ export default class KeywordBox extends Component {
         </Table.Body>
       </Table>
     </div>
+
     )
   }
 }
