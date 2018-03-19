@@ -9,6 +9,16 @@ class LandingPage extends Component {
     super()
   }
   componentDidMount() {
+<<<<<<< HEAD
+    let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
+    this.props.makeArticle('https://www.nytimes.com/2018/03/14/world/europe/uk-russia-spy-punitive-measures.html')
+    .then(res => {
+        let keywords = res.nlu.keywords.map(obj => {
+          return obj.text
+        })
+        this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
+    })
+=======
     // let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
     // this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
     // .then(res => {
@@ -17,9 +27,9 @@ class LandingPage extends Component {
     //     })
     //     this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
     // })
+>>>>>>> master
   }
-  render() {
-
+  render(){
     return (
       <div>
         <MapIndex />
@@ -33,7 +43,7 @@ class LandingPage extends Component {
   }
 }
 
-const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapState = ({singleArticle, relatedArticles}) => ({singleArticle, relatedArticles})
 
 const mapDispatch = ({ makeArticle, makeRelatedArticles })
 // const mapDispatch = (dispatch) => {
