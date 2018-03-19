@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
-export default class KeywordBox extends Component {
+class KeywordBox extends Component {
   constructor(){
     super()
     this.state ={
@@ -9,12 +10,14 @@ export default class KeywordBox extends Component {
   }
 
   componentWillMount(){
+    console.log('single',this.props.singleArticle)
     this.setState({
-      emotionKeyWords: this.parseData(this.props.singleArticle)
+      emotionKeyWords: this.parseData(this.props.singleArticle.nlu)
     })
   }
 
   parseData(data){
+    console.log('data', data)
     let resultArr = []
     for(var i =0; i < 5; i++){
       // console.log(data.keywords[i].emotion);
@@ -45,3 +48,9 @@ export default class KeywordBox extends Component {
     )
   }
 }
+
+const mapState = ({singleArticle}) => ({singleArticle})
+const mapDispatch = null;
+
+export default connect(mapState, mapDispatch)(KeywordBox)
+

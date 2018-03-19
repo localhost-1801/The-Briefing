@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import history from '../history';
+import { NavLink } from 'react-router-dom'
 
 class ArticleAnalyzer extends Component {
     constructor(props) {
@@ -36,7 +37,9 @@ class ArticleAnalyzer extends Component {
                         value={this.state.articleUrl}
                     />
                 </Form.Field>
+                <NavLink to='/singleArticleData'>
                 <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
+                </NavLink>
             </Form>
         )
     }
