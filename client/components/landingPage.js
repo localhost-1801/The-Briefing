@@ -27,25 +27,83 @@ class LandingPage extends Component {
 
     <Grid.Row centered columns={1} className="spacing">
       <Grid.Column>
-      <MapIndex/>
+<br/>
+    <MapIndex />
+
       </Grid.Column>
     </Grid.Row>
 
     <Grid.Row centered columns={3} className="spacing">
       <Grid.Column>
-        <RadarChart/>
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><RadarChart/></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
       </Grid.Column>
       <Grid.Column>
-        <OverallSentimentAnalysis />
+
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><OverallSentimentAnalysis /></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+
+
       </Grid.Column>
       <Grid.Column>
-        <BarChart/>
+
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><BarChart/></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+
+
       </Grid.Column>
     </Grid.Row>
 
     <Grid.Row centered columns={1} className="spacing">
     <Grid.Column>
-    <KeywordBox />
+
+    <Table size='small'>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>KEYWORDS AND EMOTION</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell><KeywordBox /></Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+
     </Grid.Column>
   </Grid.Row>
 </Grid>
@@ -53,6 +111,7 @@ class LandingPage extends Component {
     )
   }
 }
+
 
 const mapState = ({singleArticle, relatedArticles}) => ({singleArticle, relatedArticles})
 

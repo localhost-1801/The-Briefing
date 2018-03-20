@@ -36,7 +36,7 @@ class Navbar extends Component {
       <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
         <Menu.Item fitted position='right'>
         <Form>
-                <Form.Field>
+                <Form.Field className="searchBar">
                     <input
                         placeholder='Search via Article URL'
                         onChange={this.onChangeHandler}
@@ -44,7 +44,8 @@ class Navbar extends Component {
                     />
                 </Form.Field>
                 <NavLink to='/singleArticleData'>
-                <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
+                <div>
+                <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button></div>
                 </NavLink>
             </Form>
 

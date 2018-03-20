@@ -21,20 +21,27 @@ form div {
 }
 
 #datamap-container {
-  position: relative;
-  margin: 0 auto;
-  padding: 0;
-  height: 100vh
+  width: 100%;
+  /* height: 100%; */
+  /* display: block; */
+  /* position: relative; */
+  /* margin: auto; */
+  /* padding: 0; */
+  /* height: 100%; */
+  /* padding-top: 20px; */
+
 }
 
 .logo {
   font-family: 'Abril Fatface', cursive;
   color: white;
   font-size: 2rem;
+  padding-bottom: 25px !important;
+  padding-top:5px !important;
 }
 
-.searchButton {
-  margin-top: 500px
+.searchBar {
+  padding-bottom: 10px !important;
 }
 
 .landingPageBackground {
@@ -46,7 +53,9 @@ form div {
 }
 
 .spacing {
-  padding: 0 !important
+  padding-top: 0 !important;
+  padding-left: 50px !important;
+  padding-right: 50px !important
 }
 
 .headerBackground {
@@ -55,4 +64,9 @@ form div {
   font-size: 1rem !important;
   padding: 0;
   margin: 0
+}
+
+
+.datamap {
+  height: 65vh;
 }
