@@ -3,7 +3,7 @@ import { VictoryBar, VictoryStack, VictoryAxis, VictoryLabel } from 'victory';
 
 // https://formidable.com/open-source/victory/gallery/stacked-bars-central-axis/
 
-export default class BarChart extends Component {
+class BarChart extends Component {
     constructor() {
       super();
       this.state = {
@@ -37,6 +37,7 @@ export default class BarChart extends Component {
     }
 
   render(){
+    console.log(this.props)
     return(
       <div className="chartBackground">
         <svg viewBox="0 0 500 500" width="100%" height="100%">
@@ -85,4 +86,15 @@ export default class BarChart extends Component {
     );
   }
 }
+
+const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
+const mapDispatch = (dispatch) => {
+    return {
+        loadData(url) {
+            dispatch(fetchArticleData(url))
+        }
+    }
+}
+
+export default connect (mapState, mapDispatch)(BarChart)
 
