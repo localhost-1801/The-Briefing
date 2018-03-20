@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Menu, Header, Form, Button, Icon, Segment } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import history from '../history';
 
 // TODO: Update <Search> usage after its will be implemented
 
@@ -23,7 +24,7 @@ class Navbar extends Component {
 
   onSubmitHandler(e) {
     e.preventDefault();
-    this.props.makeArticle(this.state.articleUrl);
+    this.props.singleArticleAnalysis(this.state.articleUrl);
   }
 
   render() {
@@ -34,13 +35,18 @@ class Navbar extends Component {
       <Menu.Item fitted />
       <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
         <Menu.Item fitted position='right'>
-
-          <Form onSubmit={this.onSubmitHandler}>
-          <Form.Group>
-            <Form.Input placeholder='Search via Article URL' value={this.state.articleUrl}  onChange={this.onChangeHandler} />
-            <Form.Button className="searchButton" content='Submit' />
-          </Form.Group>
-        </Form>
+        <Form>
+                <Form.Field>
+                    <input
+                        placeholder='Search via Article URL'
+                        onChange={this.onChangeHandler}
+                        value={this.state.articleUrl}
+                    />
+                </Form.Field>
+                <NavLink to='/singleArticleData'>
+                <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
+                </NavLink>
+            </Form>
 
         </Menu.Item>
       </Menu>
@@ -49,8 +55,13 @@ class Navbar extends Component {
   }
 }
 
-const mapState = null;
-const mapDispatch = { makeArticle }
+const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapDispatch = (dispatch, ownProps) => ({
+    singleArticleAnalysis(articleUrl) {
+        dispatch(makeArticle(articleUrl))
+        history.push('/singleArticleData')
+    }
+})
 
 export default connect(mapState, mapDispatch)(Navbar)
 
