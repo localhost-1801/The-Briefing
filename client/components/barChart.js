@@ -40,7 +40,7 @@ class BarChart extends Component {
       this.parseData = this.parseData.bind(this);
       this.parseDataMultiple = this.parseDataMultiple.bind(this);
     }
-    
+
   shouldComponentUpdate(nextProps, nextState){
     console.log('nextProps',nextProps)
     if(this.props !== nextProps){
@@ -52,12 +52,12 @@ class BarChart extends Component {
   componentDidMount(){
     // this.props.loadData('https://www.nytimes.com/2018/03/15/world/europe/corbyn-labour-russian-spy-poisoning.html')
     // console.log('props',this.props)
-    
+
   }
-  
+
   parseData(data){
     let resultArr = [];
-    
+
     data.tone_categories.forEach( category => {
       if(category.category_id === 'emotion_tone' || category.category_id === 'social_tone'){
         category.tones.forEach(tone => {
@@ -70,7 +70,7 @@ class BarChart extends Component {
     })
     return resultArr;
   }
-  
+
   parseDataMultiple(dataArr){
     console.log(dataArr)
     let transitionArr = [];
@@ -103,7 +103,6 @@ class BarChart extends Component {
   render(){
     let singleArticleData = this.parseData(singleArticle.tone.document_tone)
     let aggregateData = this.parseDataMultiple(relatedArticles)
-    console.log
     return(
       <div className="chartBackground">
         <svg viewBox="0 0 500 500" width="100%" height="100%">
@@ -111,11 +110,11 @@ class BarChart extends Component {
         <VictoryStack horizontal
           standalone={false}
           /* setting a symmetric domain makes it much easier to center the axis  */
-          domain={{ x: [-60, 60] }}
-          padding={{ top: 20, bottom: 30, left: 20, right: 20 }}
+          domain={{ x: [-70, 70] }}
+          padding={{ top: 10, bottom: 10, left: 210}}
           height={500}
-          width={500}
-          style={{ data: { width: 20 }, labels: { fontSize: 11 } }}
+          width={400}
+          style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
         >
           <VictoryBar
             style={{ data: { fill: "tomato" } }}
@@ -130,9 +129,9 @@ class BarChart extends Component {
           />
         </VictoryStack>
         <VictoryAxis dependentAxis
-        height={500}
+        height={400}
         width={500}
-        padding={{ top: 30, bottom: 30, left: 20, right: 20 }}
+        padding={{ top: 0, bottom: 0, left: 100, right: 50 }}
         style={{
           axis: { stroke: "transparent" },
           ticks: { stroke: "transparent" },
