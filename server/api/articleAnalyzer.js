@@ -26,7 +26,7 @@ const Promise = require('bluebird')
 // });
 // nlu.analyzeAsync = Promise.promisify(nlu.analyze)
 
-// 
+//api/article/related/url/
 router.get('/related/url/*', (req, res, next) => {
     const query = db.collection('articles').where('info.parent', '==', req.params[0])
     const related = [];
@@ -50,11 +50,11 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = newsResults.articles.map(async (article) => {
-        
+
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
         const nlpResults = await nlp.analyze(scrapeObj.text.slice(0, 500));
         nlpResults.info = scrapeObj
-        
+
         //Add document to Firestore
         const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
         if (documentSnap.data() === undefined) {

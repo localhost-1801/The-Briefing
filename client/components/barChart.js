@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { VictoryBar, VictoryStack, VictoryAxis, VictoryLabel } from 'victory';
+import { connect } from 'react-redux'
+import { fetchArticleData } from '../store/singleArticle'
+import { fetchRelatedArticles } from '../store/relatedArticles'
 
 // https://formidable.com/open-source/victory/gallery/stacked-bars-central-axis/
 
@@ -34,10 +37,37 @@ class BarChart extends Component {
           { x: "Emotional Range", y: 25 }
         ]
       };
+      this.parseData = this.parseData.bind(this);
     }
+    
+  shouldComponentUpdate(nextProps, nextState){
+    console.log('nextProps',nextProps)
+    if(this.props !== nextProps){
+      return true
+    }
+  }
+  //change singleArticle to this.props.whatever
+  //change aggregateData to this.props.whatever
+  componentDidMount(){
+    // this.props.loadData('https://www.nytimes.com/2018/03/15/world/europe/corbyn-labour-russian-spy-poisoning.html')
+    // console.log('props',this.props)
+    
+  }
+  
+  parseData(data){
+    console.log(data)
+    let dataArr = [];
+  }
+  
+  parseDataMultiple(dataArr){
+    console.log('hello again', dataArr)
+    return 2;
+  }
 
   render(){
-    console.log(this.props)
+    let singleArticleData = this.parseData(this.props.singleArticle)
+    let aggregateData = this.parseDataMultiple(this.props.relatedArticles)
+    
     return(
       <div className="chartBackground">
         <svg viewBox="0 0 500 500" width="100%" height="100%">
@@ -92,6 +122,7 @@ const mapDispatch = (dispatch) => {
     return {
         loadData(url) {
             dispatch(fetchArticleData(url))
+            dispatch(fetchRelatedArticles(url))
         }
     }
 }
