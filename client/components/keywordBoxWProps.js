@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+
 
 class KeywordBox extends Component {
   constructor(){
@@ -40,11 +42,30 @@ class KeywordBox extends Component {
 
   render(){
     return(
-      <div>
-        {this.state.emotionKeyWords.map(emotionAndWord => {
-          return(<div>{emotionAndWord.word + ' | ' + emotionAndWord.emotion}</div>)
-        })}
-      </div>
+      <div id='keywordTable'>
+       <Table basic='very' celled unstackable>
+         <Table.Header>
+           <Table.Row>
+             <Table.HeaderCell>Keyword</Table.HeaderCell>
+             <Table.HeaderCell>Dominant Emotion</Table.HeaderCell>
+           </Table.Row>
+         </Table.Header>
+       <Table.Body>
+         {this.state.emotionKeyWords.map(emotionAndWord => {
+           return(
+           <Table.Row>
+             <Table.Cell unstackable>
+               {emotionAndWord.word}
+             </Table.Cell>
+             <Table.Cell>
+               {emotionAndWord.emotion}
+             </Table.Cell>
+           </Table.Row>
+           )
+         })}
+       </Table.Body>
+     </Table>
+   </div>
     )
   }
 }
