@@ -30,11 +30,11 @@ form div {
 .logo {
   font-family: 'Abril Fatface', cursive;
   color: white;
-  font-size: 2rem
+  font-size: 2rem;
 }
 
 .searchButton {
-  padding: 15px
+  margin-top: 500px
 }
 
 .landingPageBackground {
