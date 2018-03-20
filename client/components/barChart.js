@@ -101,6 +101,7 @@ class BarChart extends Component {
   }
 
   render(){
+    //change what you're feeding into these into props objects
     let singleArticleData = this.parseData(singleArticle.tone.document_tone)
     let aggregateData = this.parseDataMultiple(relatedArticles)
     console.log
