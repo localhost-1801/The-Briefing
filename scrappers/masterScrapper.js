@@ -38,6 +38,8 @@ const data = {
 const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
 // const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
+
+
 async function masterArticleScrapper(url, parentUrl) {
     // console.log('------!_!_!_!__!_!_!_!!_!_!_!_!_-----', url);
     let resultString = '';
@@ -46,6 +48,14 @@ async function masterArticleScrapper(url, parentUrl) {
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
+
+    /*
+    * REVIEW
+    * abstract away all of these else-if blocks into something that can be declaratively called:
+    * eg:
+    *    const parserParams = getParserParams(domain)
+    *    const infoObj = parseArticle(article, parserParms)
+    */
     try {
         if (domain === 'bbc') {
             infoObj.source = 'bbc'

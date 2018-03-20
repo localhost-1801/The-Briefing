@@ -1,3 +1,8 @@
+/**
+ * REVIEW This file should probably be called `articles` to match the mount point
+ *        in your API
+ */
+
 const router = require('express').Router()
 const masterArticleScrapper = require('../../scrappers/masterScrapper.js');
 const db = require('../db/firestore')
@@ -26,8 +31,10 @@ const Promise = require('bluebird')
 // });
 // nlu.analyzeAsync = Promise.promisify(nlu.analyze)
 
-// 
+// GET /articles/:id/related
+// GET /articles?relatedTo=<url>
 router.get('/related/url/*', (req, res, next) => {
+    // REVIEW - What's going on here with info.parent? What is your storage schema?
     const query = db.collection('articles').where('info.parent', '==', req.params[0])
     const related = [];
     query.get().then(docu => {
@@ -40,6 +47,9 @@ router.get('/related/url/*', (req, res, next) => {
 
 })
 
+/**
+ * REVIEW - What's going on here?
+ */
 router.post('/related', async (req, res, next) => {
     const keywords = req.body.keywords
     const parentUrl = req.body.url
@@ -50,11 +60,11 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = newsResults.articles.map(async (article) => {
-        
+
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
         const nlpResults = await nlp.analyze(scrapeObj.text.slice(0, 500));
         nlpResults.info = scrapeObj
-        
+
         //Add document to Firestore
         const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
         if (documentSnap.data() === undefined) {
@@ -77,6 +87,8 @@ router.post('/url/*', async (req, res, next) => {
     nlpResults.info = scrapeObj
 
     //Add document to Firestore
+    // REVIEW - Probaby safer to check by URL, rather than headline. Headlines get updated,
+    //          URLs usually don't
     const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
     if (documentSnap.data() === undefined) {
         const documentCreate = await db.collection('articles').doc(scrapeObj.headline).set(nlpResults)
