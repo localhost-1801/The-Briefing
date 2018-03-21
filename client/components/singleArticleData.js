@@ -8,6 +8,8 @@ import RadarChartWProps from './radarChartWProps'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import StackedBar from './stackedBar'
+import SingleBarChart from './singleBarChart'
+import OverallSentimentAnalysisWithProps from './overallSentimentAnalysisWithProps'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -22,7 +24,7 @@ class singleArticleData extends Component {
 
     render() {
 
-        
+
         if (Object.keys(this.props.singleArticle).length === 0) {
             return (
                 <div>
@@ -39,11 +41,14 @@ class singleArticleData extends Component {
                     <div>
                         <ArticleAnalyzer />
                     </div>
-                    <div>Title: {this.props.singleArticle.info.headline}
-                        <KeywordBoxWProps/>
-                    <StackedBar />
+                    <div><strong>Title: {this.props.singleArticle.info.headline}</strong>
+                        <KeywordBoxWProps />
+                        <OverallSentimentAnalysisWithProps/>
+                        <StackedBar />
+                        <SingleBarChart/>
                         {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />
+                    </div>
                 </div>
             )
         }
