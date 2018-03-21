@@ -8,6 +8,7 @@ import RadarChartWProps from './radarChartWProps'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import StackedBar from './stackedBar'
+import Tweets from './tweets'
 import { Grid } from 'semantic-ui-react'
 import SingleBarChart from './singleBarChart'
 import OverallSentimentAnalysisWithProps from './overallSentimentAnalysisWithProps'
@@ -48,11 +49,16 @@ class singleArticleData extends Component {
                     <div>
                         <ArticleAnalyzer />
                     </div>
+<<<<<<< HEAD
+                    {/* <Tweets /> */}
+                    <StackedBar />
+=======
                     <div><strong>Title: {this.props.singleArticle.info.headline}</strong>
                         <KeywordBoxWProps />
                         <OverallSentimentAnalysisWithProps/>
                         <StackedBar />
                         <SingleBarChart/>
+>>>>>>> master
                         {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />
                     </div>

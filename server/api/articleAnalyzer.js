@@ -7,7 +7,9 @@ var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-lan
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 const secrets = require('../../secrets')
 const NLP = require('../services/watson/nlp');
+const Tweet = require('../services/twitter/twitter')
 const nlp = new NLP
+const tweet = new Tweet
 
 const Promise = require('bluebird')
 // var toneAnalyzer = new ToneAnalyzerV3({
@@ -42,11 +44,13 @@ router.get('/related/url/*', (req, res, next) => {
 
 router.post('/related', async (req, res, next) => {
     const keywords = req.body.keywords
+    // console.log(keywords)
     const parentUrl = req.body.url
-    console.log(keywords)
+    const query = keywords.slice(0, 3).join(' ')
+    console.log(query)
     const newsResults = await newsapi.v2.everything({
-        sources: 'the-new-york-times',
-        q: keywords.slice(0, 2).join(' '),
+        sources: 'the-new-york-times, bbc-news',
+        q: query,
         language: 'en',
         // country: 'us'
     })
@@ -54,7 +58,7 @@ router.post('/related', async (req, res, next) => {
 
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
         if (scrapeObj.text !== 0){
-            const nlpResults = await nlp.analyze(scrapeObj.text.slice(0, 500));
+            const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
             
             //Add document to Firestore
@@ -78,15 +82,19 @@ router.post('/url/*', async (req, res, next) => {
     const scrapeObj = await masterArticleScrapper(req.params[0]);
     const nlpResults = await nlp.analyze(scrapeObj.text);
     nlpResults.info = scrapeObj
-
-    //Add document to Firestore
+    const data = nlpResults
+    data.info = scrapeObj
+    // Add document to Firestore
+    const query = nlpResults.nlu.entities[0].text
+    const tweets = await tweet.query(query)
+    data.tweets = tweets
     const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
     if (documentSnap.data() === undefined) {
-        const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(nlpResults)
+        const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(data)
     } else {
-        const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
+        const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(data)
     }
-    res.send(nlpResults)
+    res.send(data)
 })
 router.get('/url/*', (req, res, next) => {
     // console.log('hello')

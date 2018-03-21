@@ -26,6 +26,7 @@ class Navbar extends Component {
   onSubmitHandler(e) {
     e.preventDefault();
     this.props.singleArticleAnalysis(this.state.articleUrl);
+    this.setState({ articleUrl: ''})
   }
 
   render() {
