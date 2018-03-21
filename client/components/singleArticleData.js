@@ -5,20 +5,23 @@ import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { ArticleAnalyzer, KeywordBox, RadarChart } from '../components'
 import KeywordBoxWProps from './keywordBoxWProps'
 import RadarChartWProps from './radarChartWProps'
-import history from '../history';
 import ReactLoading from 'react-loading';
+import history from '../history';
 
 class singleArticleData extends Component {
     constructor(props) {
         super(props)
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props !== nextProps) {
+            return true;
+        }
+    }
 
     render() {
-        console.log(this.props.singleArticle.info)
+
+        
         if (Object.keys(this.props.singleArticle).length === 0) {
             return (
                 <div>
@@ -36,7 +39,7 @@ class singleArticleData extends Component {
                         <ArticleAnalyzer />
                     </div>
                     <div>Title: {this.props.singleArticle.info.headline}
-                        <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} />
+                        <KeywordBoxWProps/>
                         <RadarChartWProps />
                     </div>
                 </div>

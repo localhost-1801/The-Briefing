@@ -49,7 +49,7 @@ const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     singleArticleAnalysis(articleUrl) {
         dispatch(makeArticle(articleUrl))
-        history.push('/singleArticleData')
+        // history.push('/singleArticleData')
     }
 })
 
