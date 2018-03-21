@@ -54,8 +54,11 @@ async function masterArticleScrapper(url, parentUrl) {
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('.headline').text().trim();
-            infoObj.textLength = await $('.article-body').text().length
-            infoObj.text = await $('.article-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('.article-body p').each(function() {
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'wsj') {
             infoObj.source = 'wsj'
@@ -130,7 +133,7 @@ async function masterArticleScrapper(url, parentUrl) {
     }
 }
 
-masterArticleScrapper('http://www.bbc.com/news/world-us-canada-43490247')
+masterArticleScrapper('http://www.foxnews.com/us/2018/03/21/austin-serial-bombing-suspect-may-have-other-devices-out-there-cops-uncover-treasure-trove-information.html')
 .then(result => console.log(result))
 
 // masterArticleScrapper(url)
