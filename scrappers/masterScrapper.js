@@ -89,8 +89,4 @@ try {
        return infoObj
 }
 
-masterArticleScrapper('https://www.theguardian.com/technology/2018/mar/21/mark-zuckerberg-response-facebook-cambridge-analytica')
-.then(result => console.log(result))
-
-// masterArticleScrapper(url)
 module.exports = masterArticleScrapper
