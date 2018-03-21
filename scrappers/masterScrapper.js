@@ -76,8 +76,6 @@ async function masterArticleScrapper(url, parentUrl) {
             $('.zn-body__readl-all .zn-body__paragraph').each(function (){
               infoObj.text += $(this).text()
             })
-            // infoObj.textLength = await $('.l-container').text().length
-            // infoObj.text = await $('.l-container').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
             infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
