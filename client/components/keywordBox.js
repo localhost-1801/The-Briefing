@@ -55,7 +55,7 @@ export default class KeywordBox extends Component {
             <Table.Body>
               {this.state.emotionKeyWords.map(emotionAndWord => {
                 return (
-                  <Table.Row>
+                  <Table.Row key={emotionAndWord.word}>
                     <Table.Cell unstackable>
                       {emotionAndWord.word}
                     </Table.Cell>
