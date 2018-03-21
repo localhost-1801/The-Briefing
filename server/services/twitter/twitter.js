@@ -25,6 +25,7 @@ function Tweet () {
                     name: tweet.user.screen_name,
                     profilePic: tweet.user.profile_image_url
                 }
+                pruned.timeStamp = tweet.created_at
                 return pruned
             })
             console.log(prunedTweets)

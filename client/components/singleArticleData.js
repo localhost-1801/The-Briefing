@@ -8,6 +8,7 @@ import RadarChartWProps from './radarChartWProps'
 import history from '../history';
 import ReactLoading from 'react-loading';
 import StackedBar from './stackedBar'
+import Tweets from './tweets'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class singleArticleData extends Component {
                     <div>
                         <ArticleAnalyzer />
                     </div>
+                    {/* <Tweets /> */}
                     <StackedBar />
                         {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />

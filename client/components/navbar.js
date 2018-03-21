@@ -26,49 +26,51 @@ class Navbar extends Component {
   onSubmitHandler(e) {
     e.preventDefault();
     this.props.singleArticleAnalysis(this.state.articleUrl);
+    this.setState({ articleUrl: ''})
   }
 
   render() {
 
     return (
       <div>
-      <Menu inverted borderless widths={3}>
-      <Menu.Item fitted />
-      <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
-        <Menu.Item fitted position='right'>
-        <Form>
-                <Form.Field className="searchBar">
-                    <input
-                        placeholder='Search via Article URL'
-                        onChange={this.onChangeHandler}
-                        value={this.state.articleUrl}
-                    />
-                </Form.Field>
-                <NavLink to='/singleArticleData'>
+        <Menu inverted borderless widths={3}>
+          <Menu.Item fitted />
+          <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
+          <Menu.Item fitted position='right'>
+
+            <Form>
+              <Form.Field className="searchBar">
+                <input
+                  placeholder='Search via Article URL'
+                  onChange={this.onChangeHandler}
+                  value={this.state.articleUrl}
+                />
+              </Form.Field>
+              <NavLink to='/singleArticleData'>
                 <div>
-                <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button></div>
-                </NavLink>
+                  <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button></div>
+              </NavLink>
             </Form>
 
-        </Menu.Item>
-      </Menu>
-    </div>
+          </Menu.Item>
+        </Menu>
+      </div>
     )
   }
 }
 
 const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
-    singleArticleAnalysis(articleUrl) {
-        dispatch(makeArticle(articleUrl)).then((res)=> {
-          // console.log('in dispatch then', res);
-          const keywords = res.nlu.keywords.map(obj => obj.text)
-          // console.log(keywords)
-          dispatch(makeRelatedArticles(keywords, articleUrl))
-        }).catch(err=>console.log(err))
-        // dispatch(makeRelatedArticles(articleUrl))
-        history.push('/singleArticleData')
-    }
+  singleArticleAnalysis(articleUrl) {
+    dispatch(makeArticle(articleUrl)).then((res) => {
+      // console.log('in dispatch then', res);
+      const keywords = res.nlu.keywords.map(obj => obj.text)
+      // console.log(keywords)
+      dispatch(makeRelatedArticles(keywords, articleUrl))
+    }).catch(err => console.log(err))
+    // dispatch(makeRelatedArticles(articleUrl))
+    history.push('/singleArticleData')
+  }
 })
 
 export default connect(mapState, mapDispatch)(Navbar)
