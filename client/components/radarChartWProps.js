@@ -18,25 +18,6 @@ class RadarChart extends Component {
         };
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (this.props !== nextProps) {
-    //         // this.props.loadData();
-    //         console.log(this.props)
-    //         console.log(nextProps)
-    //         this.setState({
-    //             data: this.processData(this.parseData(nextProps.singleArticle.tone.document_tone.tone_categories[0].tones)),
-    //             maxima: this.getMaxima(this.parseData(nextProps.singleArticle.tone.document_tone.tone_categories[0].tones)),
-    //             url: nextProps.singleArticle.info.url
-    //         })
-    //             // this.props.newUrl(nextProps.singleArticle.info.url)
-    //     }
-    // }
-    
-    // componentWillMount() {
-    //     this.props.loadData();
-
-    // }
-
     componentDidMount() {
         // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
         // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
