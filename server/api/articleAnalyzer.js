@@ -43,30 +43,33 @@ router.get('/related/url/*', (req, res, next) => {
 router.post('/related', async (req, res, next) => {
     const keywords = req.body.keywords
     const parentUrl = req.body.url
+    console.log(keywords)
     const newsResults = await newsapi.v2.everything({
-        sources: 'the-new-york-times,bbc-news,cnn,the-wall-street-journal',
-        q: keywords.slice(0, 3).join(' '),
+        sources: 'the-new-york-times',
+        q: keywords.slice(0, 2).join(' '),
         language: 'en',
         // country: 'us'
     })
     const promiseArray = newsResults.articles.map(async (article) => {
         
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
-        const nlpResults = await nlp.analyze(scrapeObj.text.slice(0, 500));
-        nlpResults.info = scrapeObj
-        
-        //Add document to Firestore
-        const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
-        if (documentSnap.data() === undefined) {
-            const documentCreate = await db.collection('articles').doc(scrapeObj.headline).set(nlpResults)
-        } else {
-            const documentUpdate = await db.collection('articles').doc(scrapeObj.headline).update(nlpResults)
+        if (scrapeObj.text !== 0){
+            const nlpResults = await nlp.analyze(scrapeObj.text.slice(0, 500));
+            nlpResults.info = scrapeObj
+            
+            //Add document to Firestore
+            const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
+            if (documentSnap.data() === undefined) {
+                const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(nlpResults)
+            } else {
+                const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
+            }
+            return nlpResults 
         }
-        return nlpResults
     })
     Promise.all(promiseArray)
         .then(results => {
-            // console.log(results)
+            console.log('IN API SEND HELP', results.length)
             res.send(results)
         })
     // res.send(articleArray)
@@ -77,16 +80,16 @@ router.post('/url/*', async (req, res, next) => {
     nlpResults.info = scrapeObj
 
     //Add document to Firestore
-    const documentSnap = await db.collection('articles').doc(scrapeObj.headline).get()
+    const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
     if (documentSnap.data() === undefined) {
-        const documentCreate = await db.collection('articles').doc(scrapeObj.headline).set(nlpResults)
+        const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(nlpResults)
     } else {
-        const documentUpdate = await db.collection('articles').doc(scrapeObj.headline).update(nlpResults)
+        const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
     }
     res.send(nlpResults)
 })
 router.get('/url/*', (req, res, next) => {
-    console.log('hello')
+    // console.log('hello')
     let articleRef = db.collection('articles').where('info.url', '==', req.params[0])
     articleRef.get().then(docu => {
         docu.forEach(d => {
