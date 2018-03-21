@@ -43,7 +43,7 @@ class Navbar extends Component {
       var monthIndex = date.getMonth();
       var year = date.getFullYear();
 
-      return monthNames[monthIndex] + ' ' + day + ' ' + year;
+      return monthNames[monthIndex] + ' ' + day + ', ' + year;
     }
 
     let date = formatDate(new Date());
@@ -51,7 +51,7 @@ class Navbar extends Component {
     return (
       <div>
         <Menu inverted borderless widths={3}>
-          <Menu.Item fitted header className="logo" href='/'>{date} </Menu.Item>
+          <Menu.Item fitted header className="logo">{date} </Menu.Item>
           <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
           <Menu.Item fitted position='right'>
             <Form>
@@ -63,18 +63,16 @@ class Navbar extends Component {
                 />
               </Form.Field>
               <NavLink to='/singleArticleData'>
-                <div>
                   <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button>
-                </div>
               </NavLink>
             </Form>
-
           </Menu.Item>
         </Menu>
       </div>
     )
   }
 }
+
 
 const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer, Sunburst } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
@@ -21,8 +21,8 @@ class LandingPage extends Component {
   }
   render(){
     return (
-      <div className="chartBackground">
-    <Grid divided='vertically'>
+      <div>
+    <Grid>
 
 
     <Grid.Row centered columns={1} className="spacing">
@@ -107,19 +107,6 @@ class LandingPage extends Component {
     </Grid.Column>
     <Grid.Column>
 
-    <Table size='small'>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>SUNBURST</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell><Sunburst /></Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
 
 
     </Grid.Column>

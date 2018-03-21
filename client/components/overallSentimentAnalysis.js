@@ -38,13 +38,13 @@ export default class OverallSentimentAnalysis extends Component {
             width={400} height={400}
             data={this.state.data}
             innerRadius={120}
-            cornerRadius={25}
+            // cornerRadius={25}
             labels={() => null}
             style={{
               data: {
                 fill: (d) => {
                   const color = d.y > 30 ? 'green' : 'red'; // might want to reformat this to say if 'positive' from watson ? 'green' : 'red'
-                  return d.x === 1 ? color : 'transparent';
+                  return d.x === 1 ? color : 'gray';
                 }
               }
             }}
