@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 const Promise = require('bluebird');
 
-async function scrapeFox(url, infoObj){
+async function scrapeWSJ(url, infoObj){
   infoObj.source = 'wsj'
   const article = await axios.get(url)
   const $ = await cheerio.load(article.data)
@@ -12,4 +12,4 @@ async function scrapeFox(url, infoObj){
   return infoObj;
 }
 
-module.exports = scrapeFox;
+module.exports = scrapeWSJ;
