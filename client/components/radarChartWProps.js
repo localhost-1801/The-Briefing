@@ -18,35 +18,19 @@ class RadarChart extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props !== nextProps) {
-            // this.props.loadData();
-            console.log(this.props)
-            console.log(nextProps)
-            this.setState({
-                data: this.processData(this.parseData(nextProps.singleArticle.tone.document_tone.tone_categories[0].tones)),
-                maxima: this.getMaxima(this.parseData(nextProps.singleArticle.tone.document_tone.tone_categories[0].tones)),
-                url: nextProps.singleArticle.info.url
-            })
-                // this.props.newUrl(nextProps.singleArticle.info.url)
-        }
-    }
-    
-    // componentWillMount() {
-    //     this.props.loadData();
-
-    // }
-
     componentDidMount() {
-        let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
-        let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
-        setInterval(()=> {
-        this.setState({
-            bool: !this.state.bool,
-            data: this.processData(this.state.bool ? emotionalTones : socialTones),
-            maxima: this.getMaxima(this.state.bool ? emotionalTones : socialTones)
-        })
-    }, 5000)
+        // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
+        // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
+    //     setInterval(()=> {
+    //     this.setState({
+    //         bool: !this.state.bool,
+    //         data: this.processData(this.state.bool ? emotionalTones : socialTones),
+    //         maxima: this.getMaxima(this.state.bool ? emotionalTones : socialTones)
+    //     })
+    // }, 5000)
+        setInterval(()=>{
+            this.setState({bool: !this.state.bool})
+        }, 3000)
     }
 
     parseData(data) {
@@ -83,10 +67,17 @@ class RadarChart extends Component {
     }
 
     render() {
-        if (this.props.singleArticle === undefined) {
+        if (this.props.singleArticle === undefined ) {
             console.log(this.props.tone)
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
+        let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
+        let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
+        let processedEmo = this.processData(emotionalTones)
+        let processedTones = this.processData(socialTones)
+        let data = this.state.bool ? processedEmo : processedTones
+        let maxima = this.state.bool ? this.getMaxima(emotionalTones): this.getMaxima(socialTones)
+        console.log(maxima)
         // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
         // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
 
@@ -121,12 +112,12 @@ class RadarChart extends Component {
                 <VictoryGroup colorScale={["gold", "orange", "tomato"]}
                     style={{ data: { fillOpacity: 0.2, strokeWidth: 2 } }}
                 >
-                    {this.state.data.map((data, i) => {
+                    {data.map((data, i) => {
                         return <VictoryArea key={i} data={data} />;
                     })}
                 </VictoryGroup>
                 {
-                    Object.keys(this.state.maxima).map((key, i) => {
+                    Object.keys(maxima).map((key, i) => {
                         return (
                             <VictoryPolarAxis key={i} dependentAxis
                                 style={{
@@ -139,7 +130,7 @@ class RadarChart extends Component {
                                 }
                                 labelPlacement="perpendicular"
                                 axisValue={i + 1} label={key}
-                                tickFormat={(t) => Math.ceil(t * this.state.maxima[key])}
+                                tickFormat={(t) => Math.ceil(t * maxima[key])}
                                 tickValues={[0.25, 0.5, 0.75]}
                             />
                         );

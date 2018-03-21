@@ -18,7 +18,8 @@ export const fetchRelatedArticles = (url) => dispatch => {
 export const makeRelatedArticles = (keywords, url) => dispatch => {
     axios.post('api/article/related', {keywords, url})
     .then(response => {
-        dispatch(createRelatedArticles(response))
+        // console.log(response)
+        dispatch(createRelatedArticles(response.data))
         // console.log('progress + +', response);
     })
 }

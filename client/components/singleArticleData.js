@@ -7,6 +7,7 @@ import KeywordBoxWProps from './keywordBoxWProps'
 import RadarChartWProps from './radarChartWProps'
 import ReactLoading from 'react-loading';
 import history from '../history';
+import StackedBar from './stackedBar'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -40,8 +41,9 @@ class singleArticleData extends Component {
                     </div>
                     <div>Title: {this.props.singleArticle.info.headline}
                         <KeywordBoxWProps/>
+                    <StackedBar />
+                        {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />
-                    </div>
                 </div>
             )
         }

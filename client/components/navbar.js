@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Menu, Header, Form, Button, Icon, Segment } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { makeRelatedArticles } from '../store/relatedArticles'
 import { Link, NavLink } from "react-router-dom";
 import history from '../history';
 
@@ -36,7 +37,7 @@ class Navbar extends Component {
       <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
         <Menu.Item fitted position='right'>
         <Form>
-                <Form.Field>
+                <Form.Field className="searchBar">
                     <input
                         placeholder='Search via Article URL'
                         onChange={this.onChangeHandler}
@@ -44,7 +45,8 @@ class Navbar extends Component {
                     />
                 </Form.Field>
                 <NavLink to='/singleArticleData'>
-                <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
+                <div>
+                <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button></div>
                 </NavLink>
             </Form>
 
@@ -58,7 +60,13 @@ class Navbar extends Component {
 const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     singleArticleAnalysis(articleUrl) {
-        dispatch(makeArticle(articleUrl))
+        dispatch(makeArticle(articleUrl)).then((res)=> {
+          // console.log('in dispatch then', res);
+          const keywords = res.nlu.keywords.map(obj => obj.text)
+          // console.log(keywords)
+          dispatch(makeRelatedArticles(keywords, articleUrl))
+        }).catch(err=>console.log(err))
+        // dispatch(makeRelatedArticles(articleUrl))
         history.push('/singleArticleData')
     }
 })

@@ -16,7 +16,6 @@ export const makeArticle = (url) => dispatch => {
 
     return axios.post(`/api/article/url/${url}`)
         .then(response => {
-            //console.log(response.data)
             dispatch(createArticle(response.data))
             return response.data
         })
