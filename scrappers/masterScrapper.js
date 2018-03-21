@@ -36,12 +36,18 @@ async function masterArticleScrapper(url, parentUrl) {
     const resultObject = {}
     try {
         if (domain === 'bbc') {
+          // if(){
+          //
+          // }
             infoObj.source = 'bbc'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=story-body__h1]').text().trim();
-            infoObj.textLength = await $('.story-body__inner').text().length
-            infoObj.text = await $('.story-body__inner').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('.story-body__inner p').each(function () {
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'foxnews') {
             infoObj.source = 'fox'
@@ -124,7 +130,7 @@ async function masterArticleScrapper(url, parentUrl) {
     }
 }
 
-masterArticleScrapper('https://www.cnn.com/2018/03/21/us/austin-explosions/index.html')
+masterArticleScrapper('http://www.bbc.com/news/world-us-canada-43490247')
 .then(result => console.log(result))
 
 // masterArticleScrapper(url)
