@@ -32,6 +32,10 @@ function NLP() {
         nluParameters: {
             text: this.text, // Buffer or String
             features: {
+                categories: {},
+                entities: {
+                    limit: 5
+                },
                 keywords: {
                     sentiment: true,
                     emotion: true,
@@ -50,12 +54,28 @@ function NLP() {
             this.toneParamaters.tone_input = text
             const nluResults = await nlu.analyzeAsync(this.nluParameters)
             const toneResults = await toneAnalyzer.toneAsync(this.toneParamaters)
-            nluResults.keywords.forEach(keyword => {
-                console.log('SNOZO', keyword);
+            console.log(nluResults.keywords) 
+            // nluResults.keywords = nluResults.keywords.reduce((acc, keyword) => {
+            //     if (!keyword.text.match(/[^ a-zA-Z.'"]/) && !keyword.text.match(/ {2,}/ig) && !keyword.text.match(/[^ ]\.[^ ]/ig)  ){
+            //         const newWord = keyword.text.replace(/[^ a-zA-Z]/ig, ' ').replace(/ {2,}/ig, ' ')
+            //         if (newWord !== undefined){
+            //             return [...acc, newWord]
+            //         }
+            //     }
+            // }, [])
+            const keywordArray = [];
+            nluResults.keywords.forEach((keyword) => {
+                if (!keyword.text.match(/[^ a-zA-Z.'"]/) && !keyword.text.match(/ {2,}/ig) && !keyword.text.match(/\.[^ ]/ig)  && !keyword.text.match(/[a-z][A-Z]/g) ){
+                    keyword.text = keyword.text.replace(/[^ a-zA-Z]/ig, ' ').replace(/ {2,}/ig, ' ')
+                    keywordArray.push(keyword)
+                  }
             })
+            console.log('new array', keywordArray)
+            nluResults.keywords = keywordArray
+            // console.log('the array',nluResults.keywords)
             const data = {
                 tone: toneResults,
-                nlu: nluResults
+                nlu: nluResults,
             }
             // console.log(data)
             return data
