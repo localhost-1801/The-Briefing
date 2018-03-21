@@ -63,10 +63,7 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.source = 'cnn'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=pg-headline]').text().trim();
-            $('p').each(function () {
-              infoObj.text += $(this).text()
-            })
+            infoObj.headline = await $('h1[class=pg-headline]').text().trim()
             $('.zn-body__paragraph').each(function (){
               infoObj.text += $(this).text()
             })
