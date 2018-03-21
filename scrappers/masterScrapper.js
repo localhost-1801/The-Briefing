@@ -40,16 +40,22 @@ async function masterArticleScrapper(url, parentUrl) {
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=story-body__h1]').text().trim();
-            infoObj.textLength = await $('.story-body__inner').text().length
-            infoObj.text = await $('.story-body__inner').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('.story-body__inner p').each(function () {
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'foxnews') {
             infoObj.source = 'fox'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('.headline').text().trim();
-            infoObj.textLength = await $('.article-body').text().length
-            infoObj.text = await $('.article-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('.article-body p').each(function() {
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'wsj') {
             infoObj.source = 'wsj'
@@ -63,9 +69,12 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.source = 'cnn'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=pg-headline]').text().trim();
-            infoObj.textLength = await $('.l-container').text().length
-            infoObj.text = await $('.l-container').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            infoObj.headline = await $('h1[class=pg-headline]').text().trim()
+            $('.zn-body__paragraph').each(function (){
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'chicagotribune') {
             infoObj.source = 'chicagotribune'
@@ -83,6 +92,17 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.textLength = await $('.story-body-text').text().length
             infoObj.text = await $('.story-body-text').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
+        } else if (domain === 'washingtonpost'){
+          infoObj.source = 'washingtonpost'
+          const article = await axios.get(url)
+          const $ = await cheerio.load(article.data)
+          infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
+          $('#article-body p').each(function (){
+            infoObj.text += $(this).text()
+          })
+          infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+          infoObj.textLength = infoObj.text.length
+          resultString = infoObj.text;
         } else {
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
@@ -120,5 +140,9 @@ async function masterArticleScrapper(url, parentUrl) {
         console.log('ERROR', err)
     }
 }
+
+masterArticleScrapper('https://www.washingtonpost.com/powerpost/spending-deal-nears-finish-with-some-funds-for-border-wall-but-none-for-ny-tunnel-project/2018/03/21/96d5d19e-2cee-11e8-b0b0-f706877db618_story.html?utm_term=.8cf818b5f396')
+.then(result => console.log(result))
+
 // masterArticleScrapper(url)
 module.exports = masterArticleScrapper
