@@ -9,22 +9,9 @@ const Promise = require('bluebird')
 const db = require('../server/db/firestore')
 
 
-
-var toneAnalyzer = new ToneAnalyzerV3({
-    username: process.env.TONE_USERNAME,
-    password: process.env.TONE_PW,
-    version: '2016-05-19',
-    url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
-});
-var nlu = new NaturalLanguageUnderstandingV1({
-    username: process.env.NLU_USERNAME,
-    password: process.env.NLU_PW,
-    version: '2017-02-27',
-    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
-});
-const data = {
-    title: 'hello'
-}
+// const data = {
+//     title: 'hello'
+// }
 //  db.collection('articles').doc('Thing').set(data).then(()=> {
 //      console.log('created')
 //  })
@@ -41,7 +28,8 @@ const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-eliza
 async function masterArticleScrapper(url, parentUrl) {
     // console.log('------!_!_!_!__!_!_!_!!_!_!_!_!_-----', url);
     let resultString = '';
-    const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
+    let domain = url.slice(url.indexOf('.') + 1)
+    domain = domain.slice(0, domain.indexOf('.'))
     let infoObj = {};
     infoObj.url = url;
     const resultUrl = infoObj.url

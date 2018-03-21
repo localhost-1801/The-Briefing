@@ -44,6 +44,7 @@ class singleArticleData extends Component {
                     <StackedBar />
                         {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />
+                    </div>
                 </div>
             )
         }
