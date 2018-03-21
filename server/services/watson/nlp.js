@@ -50,14 +50,10 @@ function NLP() {
             this.toneParamaters.tone_input = text
             const nluResults = await nlu.analyzeAsync(this.nluParameters)
             const toneResults = await toneAnalyzer.toneAsync(this.toneParamaters)
-            // nluResults.keywords.forEach(keyword => {
-            //     console.log('SNOZO', keyword);
-            // })
             const data = {
                 tone: toneResults,
                 nlu: nluResults
             }
-            // console.log(data)
             return data
         }
     }
