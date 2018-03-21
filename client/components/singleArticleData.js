@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart } from '../components'
-import KeywordBoxWProps from './keywordBoxWProps'
-import RadarChartWProps from './radarChartWProps'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart,OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
-import StackedBar from './stackedBar'
-import Tweets from './tweets'
-import { Grid } from 'semantic-ui-react'
-import SingleBarChart from './singleBarChart'
-import OverallSentimentAnalysisWithProps from './overallSentimentAnalysisWithProps'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form } from 'semantic-ui-react'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -47,28 +40,123 @@ class singleArticleData extends Component {
             return (
                 <div>
                     <div>
-                        <ArticleAnalyzer />
+                    <br/>
+                        <Header as='h2' icon textAlign='center'>
+                        <Icon name='newspaper' circular />
+                        <Header.Content>
+                        {this.props.singleArticle.info.headline}
+                        </Header.Content>
+                        </Header>
                     </div>
-<<<<<<< HEAD
-                    {/* <Tweets /> */}
-                    <StackedBar />
-=======
-                    <div><strong>Title: {this.props.singleArticle.info.headline}</strong>
-                        <KeywordBoxWProps />
+                        {/*<KeywordBoxWProps />
                         <OverallSentimentAnalysisWithProps/>
                         <StackedBar />
                         <SingleBarChart/>
->>>>>>> master
-                        {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
-                        <RadarChartWProps />
-                    </div>
+                        {<KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> }
+                        <RadarChartWProps />*/}
+                        <div>
+                        <br/>
+    <Grid>
+    <Grid.Row centered columns={3} className="spacing">
+      <Grid.Column>
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>KEYWORDS</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><KeywordBoxWProps /></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+      </Grid.Column>
+      <Grid.Column>
+
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><OverallSentimentAnalysisWithProps/></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+
+
+      </Grid.Column>
+      <Grid.Column>
+
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><Tweets /></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+
+
+      </Grid.Column>
+    </Grid.Row>
+
+    <Grid.Row centered columns={2} className="spacing">
+    <Grid.Column>
+
+    <Table size='small'>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell><SingleBarChart/></Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+
+    </Grid.Column>
+    <Grid.Column>
+
+    <Table size='small'>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell><RadarChartWProps /></Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+
+
+    </Grid.Column>
+  </Grid.Row>
+</Grid>
+</div>
+
+
                 </div>
             )
         }
     }
 }
-
-
 
 
 const mapState = ({ singleArticle }) => ({ singleArticle })

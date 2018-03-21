@@ -16,10 +16,10 @@ class OverallSentimentAnalysisWithProps extends Component {
         // };
     }
 
-    componentDidMount() {
-        this.props.loadData();
-        this.setState({ bool: !this.state.bool })
-    }
+    // componentDidMount() {
+    //     this.props.loadData();
+    //     this.setState({ bool: !this.state.bool })
+    // }
 
     //   componentDidMount() {
     //     let percent = 70 // this would feed from Watson
@@ -35,13 +35,13 @@ class OverallSentimentAnalysisWithProps extends Component {
     render() {
         let isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
         let data;
-        if (this.state.bool) {
-            data = { percent: 0, data: [{ x: 1, y: 0 }, { x: 2, y: 100 }] }
-        } else {
+        // if (this.state.bool) {
+            // data = { percent: 0, data: [{ x: 1, y: 0 }, { x: 2, y: 100 }] }
+        // } else {
             data = {
-                percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100)),
-                data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100)))
-            }
+                percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score  * 100)) || 50,
+                data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100))) || 50
+            // }
         }
         //[{x:1, y:79}, {x:2, y:21}]
 
@@ -62,7 +62,7 @@ class OverallSentimentAnalysisWithProps extends Component {
                             data: {
                                 fill: (d) => {
                                     const color = isPositiveInt ? 'green' : 'red'; // might want to reformat this to say if 'positive' from watson ? 'green' : 'red'
-                                    return d.x === 1 ? color : 'transparent';
+                                    return d.x === 1 ? color : 'gray';
                                 }
                             }
                         }}
@@ -73,8 +73,8 @@ class OverallSentimentAnalysisWithProps extends Component {
                                 <VictoryLabel
                                     textAnchor="middle" verticalAnchor="middle"
                                     x={200} y={200}
-                                    text={`${Math.round(data.percent)}%
-                                    ${isPositiveInt ? 'Positive' : 'Negative'}`} // should upate 'Positive' with the info from Watson
+                                    text={`${Math.round(data.percent)}% ${this.props.singleArticle.nlu.sentiment.document.label}`}
+                                   // ${isPositiveInt ? 'Positive' : 'Negative'}`} // should upate 'Positive' with the info from Watson
                                     style={{ fontSize: 45 }}
                                 />
                             );
