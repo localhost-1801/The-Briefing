@@ -77,7 +77,6 @@ function NLP() {
                 tone: toneResults,
                 nlu: nluResults,
             }
-            // console.log(data)
             return data
         }
     }

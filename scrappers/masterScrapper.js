@@ -9,22 +9,9 @@ const Promise = require('bluebird')
 const db = require('../server/db/firestore')
 
 
-
-var toneAnalyzer = new ToneAnalyzerV3({
-    username: process.env.TONE_USERNAME,
-    password: process.env.TONE_PW,
-    version: '2016-05-19',
-    url: 'https://gateway.watsonplatform.net/tone-analyzer/api/'
-});
-var nlu = new NaturalLanguageUnderstandingV1({
-    username: process.env.NLU_USERNAME,
-    password: process.env.NLU_PW,
-    version: '2017-02-27',
-    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
-});
-const data = {
-    title: 'hello'
-}
+// const data = {
+//     title: 'hello'
+// }
 //  db.collection('articles').doc('Thing').set(data).then(()=> {
 //      console.log('created')
 //  })
@@ -41,7 +28,8 @@ const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-eliza
 async function masterArticleScrapper(url, parentUrl) {
     // console.log('------!_!_!_!__!_!_!_!!_!_!_!_!_-----', url);
     let resultString = '';
-    const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
+    let domain = url.slice(url.indexOf('.') + 1)
+    domain = domain.slice(0, domain.indexOf('.'))
     let infoObj = {};
     infoObj.url = url;
     const resultUrl = infoObj.url
@@ -52,16 +40,22 @@ async function masterArticleScrapper(url, parentUrl) {
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=story-body__h1]').text().trim();
-            infoObj.textLength = await $('.story-body__inner').text().length
-            infoObj.text = await $('.story-body__inner').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('.story-body__inner p').each(function () {
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'foxnews') {
             infoObj.source = 'fox'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('.headline').text().trim();
-            infoObj.textLength = await $('.article-body').text().length
-            infoObj.text = await $('.article-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('.article-body p').each(function() {
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'wsj') {
             infoObj.source = 'wsj'
@@ -75,9 +69,12 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.source = 'cnn'
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=pg-headline]').text().trim();
-            infoObj.textLength = await $('.l-container').text().length
-            infoObj.text = await $('.l-container').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            infoObj.headline = await $('h1[class=pg-headline]').text().trim()
+            $('.zn-body__paragraph').each(function (){
+              infoObj.text += $(this).text()
+            })
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'chicagotribune') {
             infoObj.source = 'chicagotribune'
@@ -95,7 +92,29 @@ async function masterArticleScrapper(url, parentUrl) {
             infoObj.textLength = await $('.story-body-text').text().length
             infoObj.text = await $('.story-body-text').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
             resultString = infoObj.text;
-        } else {
+        } else if (domain === 'washingtonpost'){
+          infoObj.source = 'washingtonpost'
+          const article = await axios.get(url)
+          const $ = await cheerio.load(article.data)
+          infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
+          $('#article-body p').each(function (){
+            infoObj.text += $(this).text()
+          })
+          infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+          infoObj.textLength = infoObj.text.length
+          resultString = infoObj.text;
+        } else if(domain === 'politico'){
+          infoObj.source = 'politico'
+          const article = await axios.get(url)
+          const $ = await cheerio.load(article.data)
+          infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
+          $('.story-text p').each(function (){
+            infoObj.text += $(this).text()
+          })
+          infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+          infoObj.textLength = infoObj.text.length
+          resultString = infoObj.text;
+        }else {
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             if ($('meta[property="og:title"]')) {
@@ -132,5 +151,6 @@ async function masterArticleScrapper(url, parentUrl) {
         console.log('ERROR', err)
     }
 }
+
 // masterArticleScrapper(url)
 module.exports = masterArticleScrapper

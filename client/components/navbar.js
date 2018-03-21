@@ -31,15 +31,31 @@ class Navbar extends Component {
 
   render() {
 
+    function formatDate(date) {
+      var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+      ];
+
+      var day = date.getDate();
+      var monthIndex = date.getMonth();
+      var year = date.getFullYear();
+
+      return monthNames[monthIndex] + ' ' + day + ' ' + year;
+    }
+
+    let date = formatDate(new Date());
+
     return (
       <div>
         <Menu inverted borderless widths={3}>
-          <Menu.Item fitted />
+          <Menu.Item fitted header className="logo" href='/'>{date} </Menu.Item>
           <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
           <Menu.Item fitted position='right'>
-
             <Form>
-              <Form.Field className="searchBar">
+              <Form.Field className="searchBar" >
                 <input
                   placeholder='Search via Article URL'
                   onChange={this.onChangeHandler}
@@ -48,7 +64,8 @@ class Navbar extends Component {
               </Form.Field>
               <NavLink to='/singleArticleData'>
                 <div>
-                  <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button></div>
+                  <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button>
+                </div>
               </NavLink>
             </Form>
 
