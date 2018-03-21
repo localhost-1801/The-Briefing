@@ -9,6 +9,9 @@ const Promise = require('bluebird')
 const db = require('../server/db/firestore')
 const scrapeBBC = require('./bbcScraper')
 const scrapeFox = require('./foxScraper')
+const scrapeWSJ = require('./wsjScraper')
+const scrapeCNN = require('./cnnScraper')
+const scrapeChicagoTribune = require('./chicagotribuneScraper')
 
 
 // const data = {
@@ -45,6 +48,16 @@ try {
         break;
       case 'foxnews':
         infoObj = await scrapeFox(infoObj.url, infoObj)
+        break;
+      case 'wsj':
+        infoObj = await scrapeWSJ(infoObj.url, infoObj)
+        break;
+      //cnn still not fully supported
+      case 'cnn':
+        infoObj = await scrapeCNN(infoObj.url, infoObj)
+        break;
+      case 'chicagotribune':
+        infoObj = await scrapeChicagoTribune(infoObj.url, infoObj)
         break;
       default:
         console.log('default')
@@ -183,7 +196,7 @@ try {
        return infoObj
 }
 
-masterArticleScrapper('http://www.foxnews.com/us/2018/03/21/austin-serial-bombing-suspect-may-have-other-devices-out-there-cops-uncover-treasure-trove-information.html')
+masterArticleScrapper('http://www.chicagotribune.com/news/local/politics/ct-met-bruce-rauner-jb-pritzker-illinois-governor-race-20180320-story.html')
 .then(result => console.log(result))
 
 // masterArticleScrapper(url)
