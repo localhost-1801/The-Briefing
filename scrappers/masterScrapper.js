@@ -124,6 +124,7 @@ async function masterArticleScrapper(url, parentUrl) {
         }
         // console.log(infoObj.text.slice(0,100))
         infoObj.text = infoObj.text.slice(0,1000)
+        // console.log(infoObj.text.length);
         return infoObj
     }
 
