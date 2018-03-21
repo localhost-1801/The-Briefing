@@ -89,4 +89,7 @@ try {
        return infoObj
 }
 
+masterArticleScrapper('http://www.bbc.com/news/world-us-canada-43494337')
+.then(result => console.log(result))
+
 module.exports = masterArticleScrapper
