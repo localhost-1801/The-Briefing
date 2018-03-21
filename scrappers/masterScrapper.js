@@ -152,8 +152,5 @@ async function masterArticleScrapper(url, parentUrl) {
     }
 }
 
-masterArticleScrapper('https://www.politico.com/story/2018/03/21/spending-bill-congress-leaders-476784')
-.then(result => console.log(result))
-
 // masterArticleScrapper(url)
 module.exports = masterArticleScrapper
