@@ -61,9 +61,6 @@ async function masterArticleScrapper(url, parentUrl) {
             resultString = infoObj.text;
         } else if (domain === 'cnn') {
             infoObj.source = 'cnn'
-            // if(){
-            //
-            // }
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=pg-headline]').text().trim();
@@ -71,9 +68,6 @@ async function masterArticleScrapper(url, parentUrl) {
               infoObj.text += $(this).text()
             })
             $('.zn-body__paragraph').each(function (){
-              infoObj.text += $(this).text()
-            })
-            $('.zn-body__readl-all .zn-body__paragraph').each(function (){
               infoObj.text += $(this).text()
             })
             infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
