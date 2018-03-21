@@ -7,6 +7,8 @@ var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-lan
 const secrets = require('../secrets')
 const Promise = require('bluebird')
 const db = require('../server/db/firestore')
+const scrapeBBC = require('./bbcScraper')
+const scrapeFox = require('./foxScraper')
 
 
 // const data = {
@@ -22,11 +24,12 @@ const db = require('../server/db/firestore')
 //const url = 'http://www.chicagotribune.com/news/local/breaking/ct-met-school-walkouts-gun-reform-20180313-story.html';
 //const url = 'http://www.foxnews.com/world/2018/03/14/23-russian-diplomats-to-be-expelled-from-britain-amid-probe-into-ex-spys-poisoning.html';
 // const url = 'https://www.nytimes.com/2018/03/14/world/europe/uk-russia-spy-punitive-measures.html';
-const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
+// const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
 // const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
 async function masterArticleScrapper(url, parentUrl) {
     // console.log('------!_!_!_!__!_!_!_!!_!_!_!_!_-----', url);
+    //going to have to set resultStr equal to infoObj.text
     let resultString = '';
     let domain = url.slice(url.indexOf('.') + 1)
     domain = domain.slice(0, domain.indexOf('.'))
@@ -34,123 +37,154 @@ async function masterArticleScrapper(url, parentUrl) {
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
-    try {
-        if (domain === 'bbc') {
-            infoObj.source = 'bbc'
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=story-body__h1]').text().trim();
-            $('.story-body__inner p').each(function () {
-              infoObj.text += $(this).text()
-            })
-            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
-            infoObj.textLength = infoObj.text.length
-            resultString = infoObj.text;
-        } else if (domain === 'foxnews') {
-            infoObj.source = 'fox'
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('.headline').text().trim();
-            $('.article-body p').each(function() {
-              infoObj.text += $(this).text()
-            })
-            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
-            infoObj.textLength = infoObj.text.length
-            resultString = infoObj.text;
-        } else if (domain === 'wsj') {
-            infoObj.source = 'wsj'
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=wsj-article-headline]').text().trim();
-            infoObj.textLength = await $('.wsj-snippet-body').text().length
-            infoObj.text = await $('.wsj-snippet-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
-            resultString = infoObj.text;
-        } else if (domain === 'cnn') {
-            infoObj.source = 'cnn'
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=pg-headline]').text().trim()
-            $('.zn-body__paragraph').each(function (){
-              infoObj.text += $(this).text()
-            })
-            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
-            infoObj.textLength = infoObj.text.length
-            resultString = infoObj.text;
-        } else if (domain === 'chicagotribune') {
-            infoObj.source = 'chicagotribune'
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('h1[class=pg-headline]').text().trim();
-            infoObj.textLength = await $('.trb_ar_bd').text().length
-            infoObj.text = await $('.trb_ar_bd').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
-            resultString = infoObj.text;
-        } else if (domain === 'nytimes') {
-            infoObj.source = 'nytimes'
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            infoObj.headline = await $('#headline').text().trim();
-            infoObj.textLength = await $('.story-body-text').text().length
-            infoObj.text = await $('.story-body-text').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
-            resultString = infoObj.text;
-        } else if (domain === 'washingtonpost'){
-          infoObj.source = 'washingtonpost'
-          const article = await axios.get(url)
-          const $ = await cheerio.load(article.data)
-          infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
-          $('#article-body p').each(function (){
-            infoObj.text += $(this).text()
-          })
-          infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
-          infoObj.textLength = infoObj.text.length
-          resultString = infoObj.text;
-        } else if(domain === 'politico'){
-          infoObj.source = 'politico'
-          const article = await axios.get(url)
-          const $ = await cheerio.load(article.data)
-          infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
-          $('.story-text p').each(function (){
-            infoObj.text += $(this).text()
-          })
-          infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
-          infoObj.textLength = infoObj.text.length
-          resultString = infoObj.text;
-        }else {
-            const article = await axios.get(url)
-            const $ = await cheerio.load(article.data)
-            if ($('meta[property="og:title"]')) {
-                infoObj.headline = $('meta[property="og:title"]').attr('content').replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
-            } else if ($('itemprop="name"')) {
-                infoObj.headline = $('itemprop="name"').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();;
-            } else if ($('title')) {
-                infoObj.headline = $('title').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();;
-            } else {
-                infoObj.headline = url;
-            }
 
-            if ($('meta[property="og:description"]')) {
-                infoObj.text = $('meta[property="og:description"]').attr('content').replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
-            } else if ($('[itemprop="description"]')) {
-                infoObj.text = $('[itemprop="description"]').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();;
-            } else if ($('meta[name="description"]')) {
-                infoObj.text = $('meta[name="description"]').attr('content').replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
-            } else {
-                throw new Error('no description/text');
-            }
-            resultString = infoObj.text;
-        }
-        if(parentUrl){
-            infoObj.parent = parentUrl
-        }
-        // console.log(infoObj.text.slice(0,100))
-        infoObj.text = infoObj.text.slice(0,1000)
-        // console.log(infoObj.text.length);
-        return infoObj
+try {
+    switch (domain){
+      case 'bbc':
+        infoObj = await scrapeBBC(infoObj.url, infoObj)
+        break;
+      case 'foxnews':
+        infoObj = await scrapeFox(infoObj.url, infoObj)
+        break;
+      default:
+        console.log('default')
+        break;
     }
-
-    catch (err) {
-        console.log('ERROR', err)
-    }
+  }
+  catch (err) {
+      console.log('ERROR', err)
+  }
+    // let resultStr = infoObj.text
+    // try {
+    //     if (domain === 'bbc') {
+    //         infoObj.source = 'bbc'
+    //         const article = await axios.get(url)
+    //         const $ = await cheerio.load(article.data)
+    //         infoObj.headline = await $('h1[class=story-body__h1]').text().trim();
+    //         $('.story-body__inner p').each(function () {
+    //           infoObj.text += $(this).text()
+    //         })
+    //         infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+    //         infoObj.textLength = infoObj.text.length
+    //         resultString = infoObj.text;
+    //     } else if (domain === 'foxnews') {
+            // infoObj.source = 'fox'
+            // const article = await axios.get(url)
+            // const $ = await cheerio.load(article.data)
+            // infoObj.headline = await $('.headline').text().trim();
+            // $('.article-body p').each(function() {
+            //   infoObj.text += $(this).text()
+            // })
+            // infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            // infoObj.textLength = infoObj.text.length
+            // resultString = infoObj.text;
+    //     } else if (domain === 'wsj') {
+    //         infoObj.source = 'wsj'
+    //         const article = await axios.get(url)
+    //         const $ = await cheerio.load(article.data)
+    //         infoObj.headline = await $('h1[class=wsj-article-headline]').text().trim();
+    //         infoObj.textLength = await $('.wsj-snippet-body').text().length
+    //         infoObj.text = await $('.wsj-snippet-body').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+    //         resultString = infoObj.text;
+    //     } else if (domain === 'cnn') {
+    //         infoObj.source = 'cnn'
+    //         const article = await axios.get(url)
+    //         const $ = await cheerio.load(article.data)
+    //         infoObj.headline = await $('h1[class=pg-headline]').text().trim()
+    //         $('.zn-body__paragraph').each(function (){
+    //           infoObj.text += $(this).text()
+    //         })
+    //         infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+    //         infoObj.textLength = infoObj.text.length
+    //         resultString = infoObj.text;
+    //     } else if (domain === 'chicagotribune') {
+    //         infoObj.source = 'chicagotribune'
+    //         const article = await axios.get(url)
+    //         const $ = await cheerio.load(article.data)
+    //         infoObj.headline = await $('h1[class=pg-headline]').text().trim();
+    //         infoObj.textLength = await $('.trb_ar_bd').text().length
+    //         infoObj.text = await $('.trb_ar_bd').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+    //         resultString = infoObj.text;
+    //     } else if (domain === 'nytimes') {
+    //       if(){
+    //
+    //       }
+    //         infoObj.source = 'nytimes'
+    //         const article = await axios.get(url)
+    //         const $ = await cheerio.load(article.data)
+    //         infoObj.headline = await $('#headline').text().trim();
+    //         infoObj.textLength = await $('.story-body-text').text().length
+    //         infoObj.text = await $('.story-body-text').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+    //         resultString = infoObj.text;
+    //     } else if (domain === 'washingtonpost'){
+    //       infoObj.source = 'washingtonpost'
+    //       const article = await axios.get(url)
+    //       const $ = await cheerio.load(article.data)
+    //       infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
+    //       $('#article-body p').each(function (){
+    //         infoObj.text += $(this).text()
+    //       })
+    //       infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+    //       infoObj.textLength = infoObj.text.length
+    //       resultString = infoObj.text;
+    //     } else if(domain === 'politico'){
+    //       infoObj.source = 'politico'
+    //       const article = await axios.get(url)
+    //       const $ = await cheerio.load(article.data)
+    //       infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
+    //       $('.story-text p').each(function (){
+    //         infoObj.text += $(this).text()
+    //       })
+    //       infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+    //       infoObj.textLength = infoObj.text.length
+    //       resultString = infoObj.text;
+    //     }else {
+    //         const article = await axios.get(url)
+    //         const $ = await cheerio.load(article.data)
+    //         if ($('meta[property="og:title"]')) {
+    //             infoObj.headline = $('meta[property="og:title"]').attr('content').replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+    //         } else if ($('itemprop="name"')) {
+    //             infoObj.headline = $('itemprop="name"').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();;
+    //         } else if ($('title')) {
+    //             infoObj.headline = $('title').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();;
+    //         } else {
+    //             infoObj.headline = url;
+    //         }
+    //
+    //         if ($('meta[property="og:description"]')) {
+    //             infoObj.text = $('meta[property="og:description"]').attr('content').replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+    //         } else if ($('[itemprop="description"]')) {
+    //             infoObj.text = $('[itemprop="description"]').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();;
+    //         } else if ($('meta[name="description"]')) {
+    //             infoObj.text = $('meta[name="description"]').attr('content').replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+    //         } else {
+    //             throw new Error('no description/text');
+    //         }
+    //         resultString = infoObj.text;
+    //     }
+    //     if(parentUrl){
+    //         infoObj.parent = parentUrl
+    //     }
+    //     // console.log(infoObj.text.slice(0,100))
+    //     infoObj.text = infoObj.text.slice(0,1000)
+    //     // console.log(infoObj.text.length);
+    //     return infoObj
+    // }
+    //
+    // catch (err) {
+    //     console.log('ERROR', err)
+    // }
+    if (parentUrl){
+           infoObj.parent = parentUrl
+       }
+       // console.log(infoObj.text.slice(0,100))
+       infoObj.text = infoObj.text.slice(0,1000)
+       // console.log(infoObj.text.length);
+       return infoObj
 }
+
+masterArticleScrapper('http://www.foxnews.com/us/2018/03/21/austin-serial-bombing-suspect-may-have-other-devices-out-there-cops-uncover-treasure-trove-information.html')
+.then(result => console.log(result))
 
 // masterArticleScrapper(url)
 module.exports = masterArticleScrapper
