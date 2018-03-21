@@ -21,7 +21,7 @@ class LandingPage extends Component {
   }
   render(){
     return (
-      <div className="landingPageBackground">
+      <div className="chartBackground">
     <Grid divided='vertically'>
 
 

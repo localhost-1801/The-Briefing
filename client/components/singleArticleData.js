@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, KeywordBox, RadarChart } from '../components'
+import { ArticleAnalyzer, RadarChart } from '../components'
 import KeywordBoxWProps from './keywordBoxWProps'
 import RadarChartWProps from './radarChartWProps'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import StackedBar from './stackedBar'
+import { Grid } from 'semantic-ui-react'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -21,26 +22,29 @@ class singleArticleData extends Component {
     }
 
     render() {
-
-        
         if (Object.keys(this.props.singleArticle).length === 0) {
             return (
                 <div>
-                    <div>
-                        <ArticleAnalyzer />
-                    </div>
-                    <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+                    <br />
+                    <Grid centered columns={4}>
+                        <Grid.Column>
+                        </Grid.Column>
+                        <Grid.Column>
+                        <div className="loading">
+                            <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+                            </div>
+                        </Grid.Column>
+                        <Grid.Column>
+                        </Grid.Column>
+                    </Grid>
                 </div>
             )
         } else {
-            //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories} 
+            //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
             return (
                 <div>
-                    <div>
-                        <ArticleAnalyzer />
-                    </div>
-                    <div>Title: {this.props.singleArticle.info.headline}
-                        <KeywordBoxWProps/>
+                    <div>{this.props.singleArticle.info.headline}
+                        <KeywordBoxWProps />
                     <StackedBar />
                         {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />
