@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { VictoryBar, VictoryStack, VictoryAxis, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
-import { fetchArticleData } from '../store/singleArticle'
+import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
+import ReactLoading from 'react-loading';
 
 // https://formidable.com/open-source/victory/gallery/stacked-bars-central-axis/
 
@@ -42,7 +43,7 @@ class BarChart extends Component {
     }
 
   shouldComponentUpdate(nextProps, nextState){
-    console.log('nextProps',nextProps)
+    // console.log('nextProps',nextProps)
     if(this.props !== nextProps){
       return true
     }
@@ -72,7 +73,7 @@ class BarChart extends Component {
   }
 
   parseDataMultiple(dataArr){
-    console.log(dataArr)
+    // console.log(dataArr)
     let transitionArr = [];
     let resultArr = [];
     dataArr.forEach(article => {

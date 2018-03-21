@@ -9,6 +9,8 @@ import ReactLoading from 'react-loading';
 import history from '../history';
 import StackedBar from './stackedBar'
 import { Grid } from 'semantic-ui-react'
+import SingleBarChart from './singleBarChart'
+import OverallSentimentAnalysisWithProps from './overallSentimentAnalysisWithProps'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -43,9 +45,14 @@ class singleArticleData extends Component {
             //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
             return (
                 <div>
-                    <div>{this.props.singleArticle.info.headline}
+                    <div>
+                        <ArticleAnalyzer />
+                    </div>
+                    <div><strong>Title: {this.props.singleArticle.info.headline}</strong>
                         <KeywordBoxWProps />
-                    <StackedBar />
+                        <OverallSentimentAnalysisWithProps/>
+                        <StackedBar />
+                        <SingleBarChart/>
                         {/* <KeywordBoxWProps singleArticle={this.props.singleArticle.emotion} /> */}
                         <RadarChartWProps />
                     </div>
