@@ -61,11 +61,25 @@ async function masterArticleScrapper(url, parentUrl) {
             resultString = infoObj.text;
         } else if (domain === 'cnn') {
             infoObj.source = 'cnn'
+            // if(){
+            //
+            // }
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             infoObj.headline = await $('h1[class=pg-headline]').text().trim();
-            infoObj.textLength = await $('.l-container').text().length
-            infoObj.text = await $('.l-container').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            $('p').each(function () {
+              infoObj.text += $(this).text()
+            })
+            $('.zn-body__paragraph').each(function (){
+              infoObj.text += $(this).text()
+            })
+            $('.zn-body__readl-all .zn-body__paragraph').each(function (){
+              infoObj.text += $(this).text()
+            })
+            // infoObj.textLength = await $('.l-container').text().length
+            // infoObj.text = await $('.l-container').text().replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim();
+            infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+            infoObj.textLength = infoObj.text.length
             resultString = infoObj.text;
         } else if (domain === 'chicagotribune') {
             infoObj.source = 'chicagotribune'
@@ -120,5 +134,9 @@ async function masterArticleScrapper(url, parentUrl) {
         console.log('ERROR', err)
     }
 }
+
+masterArticleScrapper('https://www.cnn.com/2018/03/21/us/austin-explosions/index.html')
+.then(result => console.log(result))
+
 // masterArticleScrapper(url)
 module.exports = masterArticleScrapper
