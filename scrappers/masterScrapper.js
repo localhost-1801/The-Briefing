@@ -103,7 +103,18 @@ async function masterArticleScrapper(url, parentUrl) {
           infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
           infoObj.textLength = infoObj.text.length
           resultString = infoObj.text;
-        } else {
+        } else if(domain === 'politico'){
+          infoObj.source = 'politico'
+          const article = await axios.get(url)
+          const $ = await cheerio.load(article.data)
+          infoObj.headline = await $('#topper-headline-wrapper h1').text().trim()
+          $('.story-text p').each(function (){
+            infoObj.text += $(this).text()
+          })
+          infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
+          infoObj.textLength = infoObj.text.length
+          resultString = infoObj.text;
+        }else {
             const article = await axios.get(url)
             const $ = await cheerio.load(article.data)
             if ($('meta[property="og:title"]')) {
@@ -140,9 +151,6 @@ async function masterArticleScrapper(url, parentUrl) {
         console.log('ERROR', err)
     }
 }
-
-masterArticleScrapper('https://www.washingtonpost.com/powerpost/spending-deal-nears-finish-with-some-funds-for-border-wall-but-none-for-ny-tunnel-project/2018/03/21/96d5d19e-2cee-11e8-b0b0-f706877db618_story.html?utm_term=.8cf818b5f396')
-.then(result => console.log(result))
 
 // masterArticleScrapper(url)
 module.exports = masterArticleScrapper
