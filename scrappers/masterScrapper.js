@@ -89,7 +89,7 @@ try {
        return infoObj
 }
 
-masterArticleScrapper('http://www.bbc.com/news/world-us-canada-43494337')
+masterArticleScrapper('http://www.foxnews.com/us/2018/03/21/austin-bombing-suspect-kills-self-with-explosive-as-police-close-in-report.html')
 .then(result => console.log(result))
 
 module.exports = masterArticleScrapper
