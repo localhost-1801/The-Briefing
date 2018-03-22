@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, BarChart } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, BarChart } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form } from 'semantic-ui-react'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -42,132 +42,106 @@ class singleArticleData extends Component {
             //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
             return (
                 <div>
-                    <div>
-                        <br />
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
-                            <Header.Content>
-                                {this.props.singleArticle.info.headline}
+                            <Header.Content>{this.props.singleArticle.info.headline}
                             </Header.Content>
                         </Header>
-                    </div>
+<br />
+                    <Grid columns={3}>
+                        <Grid.Row stretched>
+                            <Grid.Column>
+                            <Table color={'blue'} size='small'>
+                            <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell>KEYWORDS</Table.HeaderCell>
+                                </Table.Row>
+                            </Table.Header>
 
-                    <div>
-                        <br />
-                        <Grid>
-                            <Grid.Row centered columns={3} className="spacing">
-                                <Grid.Column>
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>KEYWORDS</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell><KeywordBoxWProps /></Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
 
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><KeywordBoxWProps /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-                                </Grid.Column>
-                                <Grid.Column>
+                                <Table color={'blue'} size='small'>
+                                <Table.Header>
+                                    <Table.Row>
+                                        <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
 
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
+                                <Table.Body>
+                                    <Table.Row>
+                                        <Table.Cell><OverallSentimentAnalysisWithProps /></Table.Cell>
+                                    </Table.Row>
+                                </Table.Body>
+                            </Table>
 
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><OverallSentimentAnalysisWithProps /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
+                            <Table color={'blue'} size='small'>
+                            <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+                                </Table.Row>
+                            </Table.Header>
 
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell><RadarChartWProps /></Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
 
-                                </Grid.Column>
-                                <Grid.Column>
+                            </Grid.Column>
+                            <Grid.Column>
 
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>BAR CHART</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
+                            <Table color={'blue'} size='small'>
+                            <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+                                </Table.Row>
+                            </Table.Header>
 
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><Tweets /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell><BarChart /></Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
 
+                            <Table color={'blue'} size='small'>
+                            <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+                                </Table.Row>
+                            </Table.Header>
 
-                                </Grid.Column>
-                            </Grid.Row>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell><SingleBarChart /></Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
 
-                            <Grid.Row centered columns={3} className="spacing">
-                                <Grid.Column>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Table color={'blue'} size='small'>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell>RELATED TWEETS</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
 
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>BAR CHART</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
-
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><SingleBarChart /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-
-                                </Grid.Column>
-                                <Grid.Column>
-
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
-
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><RadarChartWProps /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-
-
-                                </Grid.Column>
-                                <Grid.Column>
-
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>COMPARATIVE BAR CHART</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
-
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><BarChart /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-
-
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </div>
-
-
+                                    <Table.Body>
+                                        <Table.Row>
+                                            <Table.Cell><Tweets /></Table.Cell>
+                                        </Table.Row>
+                                    </Table.Body>
+                                </Table>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 </div>
             )
         }
