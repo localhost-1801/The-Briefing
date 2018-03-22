@@ -4,21 +4,19 @@ import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
 import { Grid, Image, Table, Icon, Segment, Header } from 'semantic-ui-react'
+import { makelandingArticles } from '../store/landingPageArticles.js'
+
 
 class LandingPage extends Component {
   constructor() {
     super()
   }
-  componentDidMount() {
-    // let url = 'https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html'
-    // this.props.makeArticle('https://www.nytimes.com/2018/03/18/world/middleeast/afrin-turkey-syria.html')
-    // .then(res => {
-    //     let keywords = res.emotion.keywords.map(obj => {
-    //       return obj.text
-    //     })
-    //     this.props.makeRelatedArticles(keywords, this.props.singleArticle.info.url)
-    // })
+
+  componentWillMount() {
+    console.log(this.props)
+    this.props.loadData()
   }
+
   render() {
     function formatDate(date) {
       var monthNames = [
@@ -118,18 +116,16 @@ class LandingPage extends Component {
   }
 }
 
-
 const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
+const mapState = ({ singleArticle, relatedArticles, landingPageArticles }) => ({ singleArticle, relatedArticles, landingPageArticles })
 
-const mapDispatch = ({ makeArticle, makeRelatedArticles })
-// const mapDispatch = (dispatch) => {
-//   return {
-//     makeAndRelate(url){
-//       dispatch(makeArticle(url))
-//       // console.log('this is props',this.props.singleArticle)
-//     }
-//   }
-// }
+
+//const mapDispatch = ({ makeArticle, makeRelatedArticles })
+const mapDispatch = (dispatch) => ({
+  loadData() {
+    dispatch(makelandingArticles())
+  }
+})
 
 
 

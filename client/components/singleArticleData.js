@@ -18,6 +18,9 @@ class singleArticleData extends Component {
     }
 
     render() {
+        if (this.props.singleArticle.message){
+            return <div>{this.props.singleArticle.message}</div>
+        }
         if (Object.keys(this.props.singleArticle).length === 0) {
             return (
                 <div>
@@ -139,7 +142,6 @@ class singleArticleData extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-
                 </div>
             )
         }

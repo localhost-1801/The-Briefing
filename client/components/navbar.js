@@ -30,6 +30,7 @@ class Navbar extends Component {
   }
 
   render() {
+    console.log(this.props)
 
     function formatDate(date) {
       var monthNames = [
@@ -83,8 +84,13 @@ const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
   singleArticleAnalysis(articleUrl) {
     dispatch(makeArticle(articleUrl)).then((res) => {
-      const keywords = res.nlu.keywords.map(obj => obj.text)
-      dispatch(makeRelatedArticles(keywords, articleUrl))
+      if (!res.message) {
+        const keywords = res.nlu.entities[0].text
+        dispatch(makeRelatedArticles(keywords, articleUrl))   
+      }
+      // console.log('in dispatch then', res);
+      // const keywords = res.nlu.keywords.map(obj => obj.text)
+      // console.log(keywords)
     }).catch(err => console.log(err))
     history.push('/singleArticleData')
   }
