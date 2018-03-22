@@ -89,7 +89,7 @@ try {
        return infoObj
 }
 
-masterArticleScrapper('http://www.chicagotribune.com/news/local/politics/ct-met-bruce-rauner-jb-pritzker-illinois-governor-race-20180320-story.html')
+masterArticleScrapper('https://www.wsj.com/articles/u-s-to-apply-tariffs-on-50-billion-of-chinese-imports-1521723078')
 .then(result => console.log(result))
 
 module.exports = masterArticleScrapper
