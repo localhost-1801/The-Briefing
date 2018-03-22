@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryBar, VictoryStack, VictoryAxis, VictoryLabel } from 'victory';
+import { VictoryBar, VictoryStack, VictoryTooltip, VictoryAxis, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
@@ -39,6 +39,7 @@ class BarChart extends Component {
           let resultObj = {}
           resultObj.x = tone.tone_name;
           resultObj.y = Math.floor(tone.score * 100);
+          resultObj.label = descriptions[tone.tone_name.toLowerCase()]
           resultArr.push(resultObj)
         })
       }
@@ -95,6 +96,7 @@ class BarChart extends Component {
           style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
         >
           <VictoryBar
+            labelComponent={<VictoryTooltip />}
             style={{ data: { fill: "tomato" } }}
             data={singleArticleData}
             y={(data) => (-Math.abs(data.y))} // tomato numbers

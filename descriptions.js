@@ -11,7 +11,7 @@ const descriptions = {
     conscientousness: 'High conscientiousness is often perceived as stubbornness and obsession. Low conscientiousness is associated with flexibility and spontaneity, but can also appear as sloppiness and lack of reliability.',
     extraversion: 'Energy, positive emotions, surgency, assertiveness, sociability and the tendency to seek stimulation in the company of others, and talkativeness.',
     agreeableness: 'A tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others.',
-    neuroticism: 'Neuroticism identifies certain people who are more prone to psychological stress.'
+    'emotional range': 'The extent to which a person\'s emotions are sensitive to the person\'s environment.'
 
 }
 
