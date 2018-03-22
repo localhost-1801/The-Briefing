@@ -36,16 +36,12 @@ form div {
   font-family: 'Abril Fatface', cursive;
   color: white;
   font-size: 2rem;
-  padding-bottom: 25px !important;
-  padding-top:5px !important;
+  padding-bottom: 5px !important;
+  /* padding-top:5px !important; */
 }
 
 .searchBar {
   padding-bottom: 10px !important;
-}
-
-.landingPageBackground {
-  background-color: black
 }
 
 .chartBackground {
@@ -69,4 +65,15 @@ form div {
 
 .datamap {
   height: 65vh;
+}
+
+.loading {
+  position: absolute;
+   /* top: 50%; */
+   left: 40%;
+   right: 50%;
+   /* width: 500px; */
+   /* height: 500px; */
+   /* margin-top: -250px; Half the height */
+   /* margin-left: -10px; */
 }

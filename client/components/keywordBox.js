@@ -18,7 +18,7 @@ export default class KeywordBox extends Component {
   parseData(data) {
     let resultArr = []
     for (var i = 0; i < 5; i++) {
-      console.log(data.keywords[i].emotion);
+      // console.log(data.keywords[i].emotion);
       let greatestEmotionScore = 0;
       let greatestEmotionTitle = '';
       Object.keys(data.keywords[i].emotion).forEach(emotionKey => {
@@ -32,7 +32,7 @@ export default class KeywordBox extends Component {
         emotion: greatestEmotionTitle
       })
     }
-    console.log(resultArr)
+    // console.log(resultArr)
     return resultArr;
   }
 
@@ -55,7 +55,7 @@ export default class KeywordBox extends Component {
             <Table.Body>
               {this.state.emotionKeyWords.map(emotionAndWord => {
                 return (
-                  <Table.Row>
+                  <Table.Row key={emotionAndWord.word}>
                     <Table.Cell unstackable>
                       {emotionAndWord.word}
                     </Table.Cell>

@@ -13,7 +13,7 @@ class StackedBar extends Component {
         }
     }
     componentDidMount(){
-        setInterval(()=>{
+        setInterval(() => {
             this.setState({dataSet1: !this.state.dataSet1})
         }, 4000)
     }
@@ -22,39 +22,35 @@ class StackedBar extends Component {
         if (this.props.singleArticle.info === undefined || this.props.relatedArticles.length === 0){
             return <div/>
         }
-        console.log('smello', this.props.singleArticle)
-        console.log('1', this.props.singleArticle.tone.document_tone.tone_categories)
-        console.log('jello', this.props.relatedArticles)
+        // console.log('smello', this.props.singleArticle)
+        // console.log('1', this.props.singleArticle.tone.document_tone.tone_categories)
+        // console.log('jello', this.props.relatedArticles)
         const data1 = this.props.singleArticle.tone.document_tone.tone_categories[0].tones.map((obj, index )=> {
-            console.log(obj.score)
             return {
                 x: obj.tone_name,
                 y: obj.score * 100
             }
         })
         const data2 = this.props.singleArticle.tone.document_tone.tone_categories[2].tones.map((obj, index) => {
-            console.log(obj.score)
             return {
                 x: obj.tone_name,
                 y: obj.score * 100
             }
         })
         const data3 = this.props.relatedArticles[0].tone.document_tone.tone_categories[0].tones.map((obj, index )=> {
-            console.log(obj.score)
             return {
                 x: obj.tone_name,
                 y: obj.score * 100
             }
         })
         const data4 = this.props.relatedArticles[0].tone.document_tone.tone_categories[2].tones.map((obj, index) => {
-            console.log(obj.score)
             return {
                 x: obj.tone_name,
                 y: obj.score * 100
             }
         })
         const useThis = this.state.dataSet1 ? [data1, data2] : [data3, data4]
-        console.log(useThis[0][0], useThis[1][0])
+        // console.log(useThis[0][0], useThis[1][0])
         return (
           <div>
             <VictoryChart

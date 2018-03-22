@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer, Sunburst } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
-import { Grid, Image, Advertisement, Table } from 'semantic-ui-react'
+import { Grid, Image, Table } from 'semantic-ui-react'
 
 class LandingPage extends Component {
   constructor() {
@@ -21,8 +21,8 @@ class LandingPage extends Component {
   }
   render(){
     return (
-      <div className="landingPageBackground">
-    <Grid divided='vertically'>
+      <div>
+    <Grid>
 
 
     <Grid.Row centered columns={1} className="spacing">
@@ -78,7 +78,7 @@ class LandingPage extends Component {
 
       <Table.Body>
         <Table.Row>
-          <Table.Cell><BarChart/></Table.Cell>
+          <Table.Cell></Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
@@ -107,19 +107,6 @@ class LandingPage extends Component {
     </Grid.Column>
     <Grid.Column>
 
-    <Table size='small'>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>SUNBURST</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell><Sunburst /></Table.Cell>
-      </Table.Row>
-    </Table.Body>
-  </Table>
 
 
     </Grid.Column>
