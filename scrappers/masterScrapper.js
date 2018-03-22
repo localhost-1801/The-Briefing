@@ -44,7 +44,7 @@ async function masterArticleScrapper(url, parentUrl) {
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
-
+    
 try {
     switch (domain){
       case 'bbc':

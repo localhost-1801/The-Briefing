@@ -5,8 +5,9 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import user from './user'
 import singleArticle from './singleArticle'
 import relatedArticles from './relatedArticles'
+import landingPageArticles from './landingPageArticles'
 
-const reducer = combineReducers({ user, singleArticle, relatedArticles })
+const reducer = combineReducers({ user, singleArticle, relatedArticles, landingPageArticles })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({ collapsed: true })

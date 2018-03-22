@@ -56,12 +56,11 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = await newsResults.articles.map(async (article) => {
-
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
         if (!scrapeObj.flag){
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
-            
+
             //Add document to Firestore
             const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
             if (documentSnap.data() === undefined) {
@@ -69,7 +68,7 @@ router.post('/related', async (req, res, next) => {
             } else {
                 const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
             }
-            return nlpResults 
+            return nlpResults
         }
     })
     Promise.all(promiseArray)
@@ -80,6 +79,37 @@ router.post('/related', async (req, res, next) => {
         })
     // res.send(articleArray)
 })
+
+router.post('/landing', async (req, res, next) => {
+    const newsResult = await newsapi.v2.topHeadlines({
+        sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal',
+        pageSize: 100
+    })
+    // let promiseLandingArray = [];
+    const promiseLandingArray = newsResult.articles.map(async (article) => {
+
+        const scrapeObj2 = await masterArticleScrapper(article.url)
+
+        if (scrapeObj2.text !== 0) {
+            const nlpResults2 = await nlp.analyze(scrapeObj2.text); 
+            nlpResults2.info = scrapeObj2
+
+            const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
+            if (documentSnap.data() === undefined) {
+                const documentCreate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).set(nlpResults2)
+            } else {
+                const documentUpdate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).update(nlpResults2)
+            }
+            return nlpResults2
+        }
+    })
+
+    Promise.all(promiseLandingArray)
+        .then(results => {
+            res.send(results)
+        })
+})
+
 router.post('/url/*', async (req, res, next) => {
     const scrapeObj = await masterArticleScrapper(req.params[0]);
     if (scrapeObj.flag){
@@ -114,6 +144,8 @@ router.get('/url/*', (req, res, next) => {
     })
 
 })
+
+
 module.exports = router;
 
 

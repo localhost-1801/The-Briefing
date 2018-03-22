@@ -50,12 +50,12 @@ const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     singleArticleAnalysis(articleUrl) {
         dispatch(makeArticle(articleUrl))
-            .then((res) =>{
-                // console.log(res.nlu.keywords)
-                dispatch(makeRelatedArticles(articleUrl))
-            }
+            // .then((res) =>{
+            //     // console.log(res.nlu.keywords)
+            //     dispatch(makeRelatedArticles(articleUrl))
+            // }
                 
-            )
+            // )
         // dispatch(makeRelatedArticles(articleUrl))
         history.push('/singleArticleData')
     }
