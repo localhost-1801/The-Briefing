@@ -9,12 +9,14 @@ const getLandingArticles = articles => ({ type: GET_LANDING_ARTICLES, articles }
 const createLandingArticles = articles => ({ type: CREATE_LANDING_ARTICLES, articles })
 
 
-// export const fetchlandingArticles = () => dispatch => {
-//     return axios.get(`api/article/landing/url/${url}`)
-//         .then(response => {
-//             dispatch(getLandingArticles(response))
-//         })
-// }
+export const fetchlandingArticles = () => dispatch => {
+    return axios.get(`api/article/landing`)
+        .then(response => {
+            dispatch(getLandingArticles(response))
+            return response.data
+        })
+}
+
 export const makelandingArticles = () => dispatch => {
     return axios.post(`api/article/landing`)
         .then(response => {

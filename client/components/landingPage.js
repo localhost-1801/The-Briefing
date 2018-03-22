@@ -30,7 +30,7 @@ class LandingPage extends Component {
 
   // }
   render() {
-    console.log(this.props)
+    console.log(this.props.landingPageArticles)
     return (
       <div>
     <Grid>

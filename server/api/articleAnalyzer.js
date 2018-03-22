@@ -56,8 +56,8 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = await newsResults.articles.map(async (article) => {
-        const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
-        if (!scrapeObj.flag){
+        const scrapeObj = await masterArticleScrapper(article.url, parentUrl);
+        if (!scrapeObj.flag) {
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
 
@@ -73,25 +73,33 @@ router.post('/related', async (req, res, next) => {
     })
     Promise.all(promiseArray)
         .then(results => {
-            console.log('IN API SEND HELP', results.length)
-            console.log('something', results.indexOf(undefined))
             res.send(results.filter(element => element !== undefined));
         })
     // res.send(articleArray)
 })
 
+router.get('/landing', async (req, res,next) => {
+    let allLandingPageArticles = db.collection('landingArticles')
+    console.log(allLandingPageArticles)
+    allLandingPageArticles.get().then(docu => {
+        docu.forEach(d => {
+            const data = d.data()
+            res.send(data)
+        })
+    })
+})
+
 router.post('/landing', async (req, res, next) => {
     const newsResult = await newsapi.v2.topHeadlines({
-        sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal',
+        sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal,the-washington-post',
         pageSize: 100
     })
     // let promiseLandingArray = [];
     const promiseLandingArray = newsResult.articles.map(async (article) => {
 
         const scrapeObj2 = await masterArticleScrapper(article.url)
-
-        if (scrapeObj2.text !== 0) {
-            const nlpResults2 = await nlp.analyze(scrapeObj2.text); 
+        if (!scrapeObj2.flag) {
+            const nlpResults2 = await nlp.analyze(scrapeObj2.text);
             nlpResults2.info = scrapeObj2
 
             const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
@@ -106,14 +114,14 @@ router.post('/landing', async (req, res, next) => {
 
     Promise.all(promiseLandingArray)
         .then(results => {
-            res.send(results)
+            res.send(results.filter(element => element !== undefined));
         })
 })
 
 router.post('/url/*', async (req, res, next) => {
     const scrapeObj = await masterArticleScrapper(req.params[0]);
-    if (scrapeObj.flag){
-        res.send({message: ':('})
+    if (scrapeObj.flag) {
+        res.send({ message: ':(' })
     } else {
         const nlpResults = await nlp.analyze(scrapeObj.text);
         nlpResults.info = scrapeObj
