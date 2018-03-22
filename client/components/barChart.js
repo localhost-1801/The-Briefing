@@ -103,7 +103,7 @@ class BarChart extends Component {
   }
 
   render(){
-    // console.log(descriptions.anger)
+    console.log(descriptions.anger)
     let singleArticleData = this.parseData(singleArticle.tone.document_tone)
     let aggregateData = this.parseDataMultiple(relatedArticles)
     return(
