@@ -89,7 +89,4 @@ try {
        return infoObj
 }
 
-masterArticleScrapper('https://www.wsj.com/articles/u-s-to-apply-tariffs-on-50-billion-of-chinese-imports-1521723078')
-.then(result => console.log(result))
-
 module.exports = masterArticleScrapper
