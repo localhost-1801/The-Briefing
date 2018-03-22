@@ -77,3 +77,14 @@ form div {
    /* margin-top: -250px; Half the height */
    /* margin-left: -10px; */
 }
+
+.bubbleWrapper {
+  position: fixed;
+  top: 10px;
+  right: 0;
+  bottom: 0;
+  left: 15%;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+}
