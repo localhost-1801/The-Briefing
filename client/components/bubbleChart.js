@@ -4,8 +4,31 @@ import { ResponsiveBubble } from '@nivo/circle-packing';
 
 
 class BubbleChart extends React.Component {
+  constructor(){
+    super()
+
+    this.state = {
+      aggregate: false
+    }
+  }
+
+  parseData(data){
+
+  }
+  parseDataMultiple(data){
+
+  }
 
   render(){
+    if(this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined){
+      return (<div>no related articles</div>)
+    }
+    let bubbleData = [];
+    if(this.state.aggregate){
+      bubbleData = this.parseDataMultiple(this.props.relatedArticles)
+    }else {
+      bubbleData = this.parseData(this.props.singleArticle)
+    }
     return(
       <div className='bubbleWrapper'>
       <ResponsiveBubble
@@ -17,17 +40,17 @@ class BubbleChart extends React.Component {
               {
                 "name": "outline",
                 "color": "hsl(335, 70%, 50%)",
-                "loc": 156025
+                "loc": 1
               },
               {
                 "name": "slices",
                 "color": "hsl(86, 70%, 50%)",
-                "loc": 64359
+                "loc": 2
               },
               {
                 "name": "bbox",
                 "color": "hsl(64, 70%, 50%)",
-                "loc": 97842
+                "loc": 3
               }
             ]
           }
@@ -49,7 +72,6 @@ class BubbleChart extends React.Component {
         defs={[
             {
                 "id": "lines",
-                "type": "patternLines",
                 "background": "none",
                 "color": "inherit",
                 "rotation": -45,
