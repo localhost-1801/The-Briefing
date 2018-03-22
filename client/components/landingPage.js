@@ -78,7 +78,7 @@ class LandingPage extends Component {
 
       <Table.Body>
         <Table.Row>
-          <Table.Cell><BarChart/></Table.Cell>
+          <Table.Cell></Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
