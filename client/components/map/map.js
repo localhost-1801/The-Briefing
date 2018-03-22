@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import statesDefaults from './states-defaults';
 import collection from './states-data';
-import { Header } from 'semantic-ui-react'
+import { Grid, Image, Table } from 'semantic-ui-react'
 
 // https://caspg.github.io/simple-data-table-map/
 //https://github.com/caspg/simple-data-table-map/blob/master/app/components/DataMap.jsx
@@ -50,6 +50,7 @@ export default class MapIndex extends React.Component {
     //   fills: { defaultFill: '#bbe4f9' },
       scope: 'usa',
       data: this.redducedData(),
+      height: 400,
       geographyConfig: {
         borderWidth: 0.5,
         highlightFillColor: '#f5c006',
@@ -74,7 +75,19 @@ export default class MapIndex extends React.Component {
 
   render(){
     return (
-      <div id="datamap-container" className="chartBackground" />
+      <Table color={'blue'} size='small'>
+<Table.Header>
+  <Table.Row>
+    <Table.HeaderCell>NUMBER OF TRENDING STORIES AROUND THE US</Table.HeaderCell>
+  </Table.Row>
+</Table.Header>
+
+<Table.Body>
+  <Table.Row>
+    <Table.Cell><div id="datamap-container" /></Table.Cell>
+  </Table.Row>
+</Table.Body>
+</Table>
     );
   }
 }
