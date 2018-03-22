@@ -33,97 +33,97 @@ class LandingPage extends Component {
     console.log(this.props)
     return (
       <div>
-        <Grid>
+    <Grid>
 
 
-          <Grid.Row centered columns={1} className="spacing">
-            <Grid.Column>
-              <br />
-              <MapIndex />
+    <Grid.Row centered columns={1} className="spacing">
+      <Grid.Column>
+<br/>
+    <MapIndex />
 
-            </Grid.Column>
-          </Grid.Row>
+      </Grid.Column>
+    </Grid.Row>
 
-          <Grid.Row centered columns={3} className="spacing">
-            <Grid.Column>
-              <Table size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+    <Grid.Row centered columns={3} className="spacing">
+      <Grid.Column>
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><RadarChart /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-            </Grid.Column>
-            <Grid.Column>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><RadarChart/></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+      </Grid.Column>
+      <Grid.Column>
 
-              <Table size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><OverallSentimentAnalysis /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-
-
-            </Grid.Column>
-            <Grid.Column>
-
-              <Table size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>BAR CHART</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><BarChart /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell><OverallSentimentAnalysis /></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
 
 
-            </Grid.Column>
-          </Grid.Row>
+      </Grid.Column>
+      <Grid.Column>
 
-          <Grid.Row centered columns={2} className="spacing">
-            <Grid.Column>
+      <Table size='small'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-              <Table size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>KEYWORDS AND EMOTION</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><KeywordBox /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-
-            </Grid.Column>
-            <Grid.Column>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell></Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
 
 
+      </Grid.Column>
+    </Grid.Row>
 
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </div>
+    <Grid.Row centered columns={2} className="spacing">
+    <Grid.Column>
+
+    <Table size='small'>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>KEYWORDS AND EMOTION</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell><KeywordBox /></Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+
+    </Grid.Column>
+    <Grid.Column>
+
+
+
+    </Grid.Column>
+  </Grid.Row>
+</Grid>
+</div>
     )
   }
 }

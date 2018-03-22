@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, BarChart } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form } from 'semantic-ui-react'
@@ -18,6 +18,9 @@ class singleArticleData extends Component {
     }
 
     render() {
+        if (this.props.singleArticle.message){
+            return <div>{this.props.singleArticle.message}</div>
+        }
         if (Object.keys(this.props.singleArticle).length === 0) {
             return (
                 <div>
@@ -106,7 +109,7 @@ class singleArticleData extends Component {
                                 </Grid.Column>
                             </Grid.Row>
 
-                            <Grid.Row centered columns={2} className="spacing">
+                            <Grid.Row centered columns={3} className="spacing">
                                 <Grid.Column>
 
                                     <Table color={'blue'} size='small'>
@@ -136,6 +139,24 @@ class singleArticleData extends Component {
                                         <Table.Body>
                                             <Table.Row>
                                                 <Table.Cell><RadarChartWProps /></Table.Cell>
+                                            </Table.Row>
+                                        </Table.Body>
+                                    </Table>
+
+
+                                </Grid.Column>
+                                <Grid.Column>
+
+                                    <Table color={'blue'} size='small'>
+                                        <Table.Header>
+                                            <Table.Row>
+                                                <Table.HeaderCell>COMPARATIVE BAR CHART</Table.HeaderCell>
+                                            </Table.Row>
+                                        </Table.Header>
+
+                                        <Table.Body>
+                                            <Table.Row>
+                                                <Table.Cell><BarChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
