@@ -31,6 +31,7 @@ async function masterArticleScrapper(url, parentUrl) {
     let domain = url.slice(url.indexOf('.') + 1)
     domain = domain.slice(0, domain.indexOf('.'))
     let infoObj = {};
+    infoObj.text = '';
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
@@ -149,6 +150,7 @@ async function masterArticleScrapper(url, parentUrl) {
 
     catch (err) {
         console.log('ERROR', err)
+        // return err
     }
 }
 

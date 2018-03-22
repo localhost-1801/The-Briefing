@@ -54,7 +54,7 @@ function NLP() {
             this.toneParamaters.tone_input = text
             const nluResults = await nlu.analyzeAsync(this.nluParameters)
             const toneResults = await toneAnalyzer.toneAsync(this.toneParamaters)
-            console.log(nluResults.keywords) 
+            // console.log(nluResults.keywords) 
             // nluResults.keywords = nluResults.keywords.reduce((acc, keyword) => {
             //     if (!keyword.text.match(/[^ a-zA-Z.'"]/) && !keyword.text.match(/ {2,}/ig) && !keyword.text.match(/[^ ]\.[^ ]/ig)  ){
             //         const newWord = keyword.text.replace(/[^ a-zA-Z]/ig, ' ').replace(/ {2,}/ig, ' ')
@@ -70,7 +70,7 @@ function NLP() {
                     keywordArray.push(keyword)
                   }
             })
-            console.log('new array', keywordArray)
+            // console.log('new array', keywordArray)
             nluResults.keywords = keywordArray
             // console.log('the array',nluResults.keywords)
             const data = {
