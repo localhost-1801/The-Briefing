@@ -4,12 +4,14 @@ import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
 import ReactLoading from 'react-loading';
+import descriptions from '../../descriptions'
 
 // https://formidable.com/open-source/victory/gallery/stacked-bars-central-axis/
 
 class BarChart extends Component {
     constructor() {
       super();
+      
       this.parseData = this.parseData.bind(this);
       this.parseDataMultiple = this.parseDataMultiple.bind(this);
     }
@@ -75,7 +77,6 @@ class BarChart extends Component {
 
   render(){
     if(this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined){
-      console.log(this.props.relatedArticles.length)
       return (<div>no related articles</div>)
     }
     let singleArticleData = this.parseData(this.props.singleArticle.tone.document_tone)
