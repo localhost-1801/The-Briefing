@@ -20,9 +20,9 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={LandingPage} />
-        <Route exact path="/test" component={BubbleChart} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/test" component={BubbleChart} />
         <Route path="/singleArticleData" component={singleArticleData} />
         {
           isLoggedIn &&
