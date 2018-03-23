@@ -42,6 +42,7 @@ class singleArticleData extends Component {
             //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
             return (
                 <div>
+                  <div>
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
                             <Header.Content>{this.props.singleArticle.info.headline}
