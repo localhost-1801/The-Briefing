@@ -47,7 +47,7 @@ class BubbleChart extends React.Component {
       if(!resultObj.hasOwnProperty(singleDataObj.name)){
         resultObj[singleDataObj.name] = singleDataObj.loc
       } else {
-        resultObj[singleDataObj.name] = ((resultObj[singleDataObj.name] + singleDataObj.loc) / 2);
+        resultObj[singleDataObj.name] = Math.floor(((resultObj[singleDataObj.name] + singleDataObj.loc) / 2));
       }
     }
     Object.keys(resultObj).forEach( key => resultArr.push ({
@@ -121,6 +121,7 @@ class BubbleChart extends React.Component {
         colorBy="name"
         leavesOnly={true}
         padding={6}
+        labelSkipRadius={32}
         labelTextColor="inherit:darker(0.8)"
         borderWidth={2}
         fill={[
