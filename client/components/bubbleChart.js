@@ -87,7 +87,12 @@ class BubbleChart extends React.Component {
     }
     if (bubbleData.length === 0){
       return(
+        <div>
+        <button onClick={this.handleClick}>
+          {this.state.aggregate ? 'Your Article' : 'Aggregate'}
+        </button>
         <div>loading</div>
+        </div>
       )
     }
 
