@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, BarChart } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, BarChart, BubbleChart } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form } from 'semantic-ui-react'
@@ -63,7 +63,7 @@ class singleArticleData extends Component {
 
                                         <Table.Body>
                                             <Table.Row>
-                                                <Table.Cell><KeywordBoxWProps /></Table.Cell>
+                                                <Table.Cell><BubbleChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
