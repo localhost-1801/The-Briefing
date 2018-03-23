@@ -1,5 +1,12 @@
 const admin = require('firebase-admin')
-const serviceAccount = require('../../googleKey.json')
+let serviceAccount
+try {
+  serviceAccount = require('../../googleKey.json')
+}
+catch (err){
+  serviceAccount =  JSON.parse(process.env.FIRESTORE)
+  console.log('in production environment')
+}
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 })
