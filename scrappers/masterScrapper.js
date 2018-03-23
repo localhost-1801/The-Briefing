@@ -11,7 +11,7 @@ const scrapeBBC = require('./bbcScraper')
 const scrapeFox = require('./foxScraper')
 const scrapeWSJ = require('./wsjScraper')
 const scrapeCNN = require('./cnnScraper')
-const scrapeChicagoTribune = require('./chicagotribuneScraper')
+const scrapeChicagoTribune = require('./chicagoTribuneScraper')
 const scrapeNYTimes = require('./nytimesScraper')
 const scrapeWashingtonPost = require('./washingtonPostScraper')
 const scrapePolitico = require('./politicoScraper')
@@ -44,7 +44,7 @@ async function masterArticleScrapper(url, parentUrl) {
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
-    
+
 try {
     switch (domain){
       case 'bbc':
