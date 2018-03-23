@@ -4,8 +4,8 @@ try {
   serviceAccount = require('../../googleKey.json')
 }
 catch (err){
-  serviceAccount =  JSON.parse(process.env.FIRESTORE)
-  console.log('in production environment')
+  serviceAccount = JSON.parse(FIRESTORE)
+  console.log('in production environment', serviceAccount)
 }
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
