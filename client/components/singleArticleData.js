@@ -12,14 +12,18 @@ class singleArticleData extends Component {
         super(props)
     }
 
-    componentDidMount(){
+    componentWillMount(){
+        console.log(window.location.href)
         if (window.location.href.indexOf('=') > 0) {
             const url = window.location.href.slice(window.location.href.indexOf('=') + 1)
+            console.log('url from extension: ', url)
             this.props.singleArticleAnalysis(url)
         }
 
-
-        this.props.fetchingArticleInfo(JSON.parse(localStorage.getItem('singleArticle').info.url));
+        if (this.props.singleArticle.info === undefined) {
+            console.log(JSON.parse(window.localStorage.getItem('singleArticle')).info.url)
+            this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -29,10 +33,10 @@ class singleArticleData extends Component {
     }
 
     render() {
-        if (this.props.singleArticle.message && JSON.parse(localStorage.getItem('singleArticle').message)){
+        if (this.props.singleArticle.message && JSON.parse(window.localStorage.getItem('singleArticle')).message){
             return <div>{this.props.singleArticle.message}</div>
         }
-        if (Object.keys(this.props.singleArticle).length === 0 && JSON.parse(localStorage.getItem('singleArticle').length === 0)){
+        if (this.props.singleArticle.info === undefined && JSON.parse(window.localStorage.getItem('singleArticle')).info === undefined){
             return (
                 <div>
                     <br />
@@ -51,7 +55,7 @@ class singleArticleData extends Component {
             )
         } else {
             // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
-            const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(localStorage.getItem('singleArticle')) : this.props.singleArticle
+            const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
                 <div>
                         <Header as='h2' icon textAlign='center'>

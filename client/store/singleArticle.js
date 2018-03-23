@@ -25,10 +25,6 @@ export const fetchArticleData = (url) => dispatch => {
     return axios.get(`/api/article/url/${url}`)
         .then(JSONData => {
             console.log('JSON:', JSONData.data)
-            // if (JSONData.data === undefined){
-            //     console.log('localStorage singleArticle: ', JSON.parse(localStorage.getItem('singleArticle')))
-            //     return dispatch(getArticleData(JSON.parse(localStorage.getItem('singleArticle'))))
-            // }
             return dispatch(getArticleData(JSONData.data))
         })
         .catch(err => console.log(err))
@@ -39,7 +35,7 @@ export default function (state = defaultArticle, action) {
         case GET_ARTICLE_DATA:
             return action.article
         case CREATE_ARTICLE:
-            localStorage.setItem('singleArticle', JSON.stringify(action.article))
+            window.localStorage.setItem('singleArticle', JSON.stringify(action.article))
             return action.article
         default:
             return state

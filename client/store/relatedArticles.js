@@ -22,7 +22,7 @@ export const fetchRelatedArticles = (url) => dispatch => {
 export const makeRelatedArticles = (keywords, url) => dispatch => {
     axios.post('api/article/related', {keywords, url})
     .then(response => {
-        console.log(response)
+        // console.log(response)
         dispatch(createRelatedArticles(response.data))
         // console.log('progress + +', response);
     })
@@ -31,7 +31,7 @@ export const makeRelatedArticles = (keywords, url) => dispatch => {
 export default function (state = defaultArticles, action) {
     switch (action.type) {
         case CREATE_RELATED_ARTICLES:
-            localStorage.setItem('relatedArticles', JSON.stringify(action.articles))
+            window.localStorage.setItem('relatedArticles', JSON.stringify(action.articles))
             return action.articles
         case GET_RELATED_ARTICLES:
             return action.articles
