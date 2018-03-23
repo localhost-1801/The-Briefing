@@ -40,7 +40,7 @@ class LandingPage extends Component {
       <br />
         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
-                            <Header.Content>Today's Briefing
+                            <Header.Content>"Today's Briefing"
                             </Header.Content>
                             <p className="date spacing">{date.toUpperCase()}</p>
                         </Header>
@@ -116,7 +116,6 @@ class LandingPage extends Component {
   }
 }
 
-const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
 const mapState = ({ singleArticle, relatedArticles, landingPageArticles }) => ({ singleArticle, relatedArticles, landingPageArticles })
 
 
