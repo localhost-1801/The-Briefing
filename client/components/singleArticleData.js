@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, BarChart, BubbleChart } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, BarChart, BubbleChart } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form } from 'semantic-ui-react'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -18,6 +18,9 @@ class singleArticleData extends Component {
     }
 
     render() {
+        if (this.props.singleArticle.message){
+            return <div>{this.props.singleArticle.message}</div>
+        }
         if (Object.keys(this.props.singleArticle).length === 0) {
             return (
                 <div>
@@ -39,12 +42,9 @@ class singleArticleData extends Component {
             //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
             return (
                 <div>
-                    <div>
-                        <br />
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
-                            <Header.Content>
-                                {this.props.singleArticle.info.headline}
+                            <Header.Content>{this.props.singleArticle.info.headline}
                             </Header.Content>
                         </Header>
                     </div>
@@ -163,8 +163,6 @@ class singleArticleData extends Component {
                             </Grid.Row>
                         </Grid>
                     </div>
-
-
                 </div>
             )
         }

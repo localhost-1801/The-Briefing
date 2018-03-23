@@ -50,11 +50,16 @@ function NLP() {
             }
         },
         analyze: async function (text){
+            const data = {flag: false}
+            if (text.length === 0){
+                console.log('Y U NO LONG ENUF?')
+                data.flag = true
+                return data
+            }
             this.nluParameters.text = text
             this.toneParamaters.tone_input = text
             const nluResults = await nlu.analyzeAsync(this.nluParameters)
             const toneResults = await toneAnalyzer.toneAsync(this.toneParamaters)
-            console.log(nluResults.keywords) 
             // nluResults.keywords = nluResults.keywords.reduce((acc, keyword) => {
             //     if (!keyword.text.match(/[^ a-zA-Z.'"]/) && !keyword.text.match(/ {2,}/ig) && !keyword.text.match(/[^ ]\.[^ ]/ig)  ){
             //         const newWord = keyword.text.replace(/[^ a-zA-Z]/ig, ' ').replace(/ {2,}/ig, ' ')
@@ -70,17 +75,17 @@ function NLP() {
                     keywordArray.push(keyword)
                   }
             })
-            console.log('new array', keywordArray)
+            // console.log('new array', keywordArray)
             nluResults.keywords = keywordArray
             // console.log('the array',nluResults.keywords)
-            const data = {
-                tone: toneResults,
-                nlu: nluResults,
-            }
+            data.tone = toneResults
+            data.nlu = nluResults
             return data
         }
     }
 }
+// const test = new NLP
+// test.analyze('test this is a string')
 
  module.exports = NLP
 // NLP.prototype.tone = function (text) {

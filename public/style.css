@@ -20,18 +20,6 @@ form div {
   display: inline-block;
 }
 
-#datamap-container {
-  width: 100%;
-  /* height: 100%; */
-  /* display: block; */
-  /* position: relative; */
-  /* margin: auto; */
-  /* padding: 0; */
-  /* height: 100%; */
-  /* padding-top: 20px; */
-
-}
-
 .logo {
   font-family: 'Abril Fatface', cursive;
   color: white;
@@ -40,18 +28,41 @@ form div {
   /* padding-top:5px !important; */
 }
 
-.searchBar {
-  padding-bottom: 10px !important;
+.subheading {
+  font-family: 'Abril Fatface', cursive;
+  color: black;
+  font-size: 3rem;
+  /* padding-bottom: 50px !important; */
+  text-align: center;
+  /* padding-top:5px !important; */
+  margin: 0 !important;
+}
+
+.date{
+  font-size: 1rem;
+  /* padding-bottom: 20px !important; */
+  text-align: center;
+  font-family: sans-serif;
 }
 
 .chartBackground {
   background-color: white;
+  height: 30vh;
 }
 
 .spacing {
   padding-top: 0 !important;
   padding-left: 50px !important;
-  padding-right: 50px !important
+  padding-right: 50px !important;
+  padding-bottom: 0 !important;
+}
+
+.inputBar {
+  margin-right: 5px !important;
+}
+
+.searchBar {
+  padding-bottom: 0 !important;
 }
 
 .headerBackground {
@@ -62,20 +73,16 @@ form div {
   margin: 0
 }
 
-
-.datamap {
-  height: 65vh;
-}
-
 .loading {
   position: absolute;
-   /* top: 50%; */
-   left: 40%;
-   right: 50%;
-   /* width: 500px; */
-   /* height: 500px; */
-   /* margin-top: -250px; Half the height */
-   /* margin-left: -10px; */
+  left: 40%;
+  right: 50%;
+}
+
+.ui.center.aligned.header, .ui.centered.header {
+  text-align: center;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
 }
 
 .bubbleWrapper {

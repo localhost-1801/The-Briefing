@@ -22,7 +22,7 @@ class Tweets extends Component {
         return (
             <div>
                 <Feed>
-                    {tweets.slice(0, 5).map((tweet) => {
+                    {tweets.slice(0, 15).map((tweet) => {
                         return (
                             <Feed.Event>
                             <Feed.Label image={tweet.user.profilePic} />

@@ -40,11 +40,11 @@ async function masterArticleScrapper(url, parentUrl) {
     let resultString = '';
     let domain = url.slice(url.indexOf('.') + 1)
     domain = domain.slice(0, domain.indexOf('.'))
-    let infoObj = {};
+    let infoObj = {text: '', flag: false};
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
-
+    
 try {
     switch (domain){
       case 'bbc':
@@ -84,6 +84,9 @@ try {
            infoObj.parent = parentUrl
        }
        // console.log(infoObj.text.slice(0,100))
+       if(infoObj.text.length < 50){
+            infoObj.flag = true
+       }
        infoObj.text = infoObj.text.slice(0,1000)
        // console.log(infoObj.text.length);
        return infoObj

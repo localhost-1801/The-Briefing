@@ -1,6 +1,8 @@
-const cheerio = require('cheerio');
+var cheerio = require('cheerio');
 const axios = require('axios');
 const Promise = require('bluebird');
+var cheerioAdv = require('cheerio-advanced-selectors');
+cheerio = cheerioAdv.wrap(cheerio)
 
 async function scrapeBBC(url, infoObj){
   infoObj.source = 'bbc'
@@ -10,6 +12,7 @@ async function scrapeBBC(url, infoObj){
   $('.story-body__inner p').each(function () {
     infoObj.text += $(this).text()
   })
+  infoObj.imageUrl = $('.story-body__inner img:first').attr('src')
   infoObj.text = infoObj.text.replace(/(\n)+/g, ' ').replace(/(\t)+/g, ' ').trim()
   infoObj.textLength = infoObj.text.length
   return infoObj;

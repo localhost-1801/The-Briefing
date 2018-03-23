@@ -46,21 +46,21 @@ router.post('/related', async (req, res, next) => {
     const keywords = req.body.keywords
     // console.log(keywords)
     const parentUrl = req.body.url
-    const query = keywords.slice(0, 3).join(' ')
-    console.log(query)
+    // const query = keywords.slice(0, 2).join(' ')
+    const query = keywords;
+    console.log('Query: ', query)
     const newsResults = await newsapi.v2.everything({
         sources: 'the-new-york-times, bbc-news',
         q: query,
         language: 'en',
         // country: 'us'
     })
-    const promiseArray = newsResults.articles.map(async (article) => {
-
+    const promiseArray = await newsResults.articles.map(async (article) => {
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
-        if (scrapeObj.text !== 0){
+        if (!scrapeObj.flag){
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
-            
+
             //Add document to Firestore
             const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
             if (documentSnap.data() === undefined) {
@@ -68,33 +68,70 @@ router.post('/related', async (req, res, next) => {
             } else {
                 const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
             }
-            return nlpResults 
+            return nlpResults
         }
     })
     Promise.all(promiseArray)
         .then(results => {
             console.log('IN API SEND HELP', results.length)
-            res.send(results)
+            console.log('something', results.indexOf(undefined))
+            res.send(results.filter(element => element !== undefined));
         })
     // res.send(articleArray)
 })
+
+router.post('/landing', async (req, res, next) => {
+    const newsResult = await newsapi.v2.topHeadlines({
+        sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal',
+        pageSize: 100
+    })
+    // let promiseLandingArray = [];
+    const promiseLandingArray = newsResult.articles.map(async (article) => {
+
+        const scrapeObj2 = await masterArticleScrapper(article.url)
+
+        if (scrapeObj2.text !== 0) {
+            const nlpResults2 = await nlp.analyze(scrapeObj2.text); 
+            nlpResults2.info = scrapeObj2
+
+            const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
+            if (documentSnap.data() === undefined) {
+                const documentCreate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).set(nlpResults2)
+            } else {
+                const documentUpdate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).update(nlpResults2)
+            }
+            return nlpResults2
+        }
+    })
+
+    Promise.all(promiseLandingArray)
+        .then(results => {
+            res.send(results)
+        })
+})
+
 router.post('/url/*', async (req, res, next) => {
     const scrapeObj = await masterArticleScrapper(req.params[0]);
-    const nlpResults = await nlp.analyze(scrapeObj.text);
-    nlpResults.info = scrapeObj
-    const data = nlpResults
-    data.info = scrapeObj
-    // Add document to Firestore
-    const query = nlpResults.nlu.entities[0].text
-    const tweets = await tweet.query(query)
-    data.tweets = tweets
-    const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
-    if (documentSnap.data() === undefined) {
-        const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(data)
+    if (scrapeObj.flag){
+        res.send({message: ':('})
     } else {
-        const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(data)
+        const nlpResults = await nlp.analyze(scrapeObj.text);
+        nlpResults.info = scrapeObj
+        const data = nlpResults
+        data.info = scrapeObj
+        // Add document to Firestore
+        const query = nlpResults.nlu.entities[0].text
+        const tweets = await tweet.query(query)
+        data.tweets = tweets
+        const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
+        if (documentSnap.data() === undefined) {
+            const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(data)
+        } else {
+            const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(data)
+        }
+        res.send(data)
     }
-    res.send(data)
+
 })
 router.get('/url/*', (req, res, next) => {
     // console.log('hello')
@@ -107,6 +144,8 @@ router.get('/url/*', (req, res, next) => {
     })
 
 })
+
+
 module.exports = router;
 
 

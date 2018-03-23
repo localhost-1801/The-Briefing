@@ -1,6 +1,8 @@
-const cheerio = require('cheerio');
+var cheerio = require('cheerio');
 const axios = require('axios');
 const Promise = require('bluebird');
+var cheerioAdv = require('cheerio-advanced-selectors');
+cheerio = cheerioAdv.wrap(cheerio)
 
 async function scrapeCNN(url, infoObj){
   infoObj.source = 'cnn'
