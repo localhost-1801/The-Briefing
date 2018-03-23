@@ -52,7 +52,7 @@ function NLP() {
         analyze: async function (text){
             const data = {flag: false}
             if (text.length === 0){
-                console.log('Y U NO LONG ENUF?')
+                // console.log('Y U NO LONG ENUF?')
                 data.flag = true
                 return data
             }

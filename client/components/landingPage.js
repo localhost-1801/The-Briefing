@@ -12,10 +12,10 @@ class LandingPage extends Component {
     super()
   }
 
-  componentWillMount() {
-    console.log(this.props)
-    this.props.loadData()
-  }
+  // componentWillMount() {
+  //   console.log(this.props)
+  //   this.props.loadData()
+  // }
 
   render() {
     function formatDate(date) {
@@ -116,7 +116,6 @@ class LandingPage extends Component {
   }
 }
 
-const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
 const mapState = ({ singleArticle, relatedArticles, landingPageArticles }) => ({ singleArticle, relatedArticles, landingPageArticles })
 
 

@@ -11,7 +11,7 @@ import descriptions from '../../descriptions'
 class BarChart extends Component {
     constructor() {
       super();
-      
+
       this.parseData = this.parseData.bind(this);
       this.parseDataMultiple = this.parseDataMultiple.bind(this);
     }
@@ -27,7 +27,7 @@ class BarChart extends Component {
   // componentDidMount(){
   //   // this.props.loadData('https://www.nytimes.com/2018/03/15/world/europe/corbyn-labour-russian-spy-poisoning.html')
   //   // console.log('props',this.props)
-  // 
+  //
   // }
 
   parseData(data){
@@ -77,12 +77,17 @@ class BarChart extends Component {
   }
 
   render(){
-    if(this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined){
-      return (<div>no related articles</div>)
+    if ((this.props.relatedArticles.length === 0 || JSON.parse(localStorage.getItem('relatedArticles')).length === 0) || (this.props.singleArticle.tone === undefined || JSON.parse(localStorage.getItem('singleArticle')).tone === undefined)){
+      return (<div>No Related Articles</div>)
     }
-    let singleArticleData = this.parseData(this.props.singleArticle.tone.document_tone)
-    let aggregateData = this.parseDataMultiple(this.props.relatedArticles)
-    return(
+
+    let singleArticle = this.props.singleArticle.tone === undefined ? JSON.parse(localStorage.getItem('singleArticle')).tone : this.props.singleArticle.tone
+    let relatedArticles = this.props.relatedArticles.length === 0 ? JSON.parse(localStorage.getItem('relatedArticles')) : this.props.relatedArticles
+
+    let singleArticleData = this.parseData(singleArticle.document_tone)
+    let aggregateData = this.parseDataMultiple(relatedArticles)
+
+    return (
       <div className="chartBackground">
         <svg viewBox="0 0 500 500" width="100%" height="100%">
       >

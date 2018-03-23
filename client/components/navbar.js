@@ -30,8 +30,6 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log(this.props)
-
     function formatDate(date) {
       var monthNames = [
         "January", "February", "March",
@@ -68,7 +66,7 @@ class Navbar extends Component {
             value={this.state.articleUrl}
             />
             <NavLink to='/singleArticleData'>
-            <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button>
+            <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
           </NavLink>
           </Form.Group>
           </Form>
@@ -86,7 +84,7 @@ const mapDispatch = (dispatch, ownProps) => ({
     dispatch(makeArticle(articleUrl)).then((res) => {
       if (!res.message) {
         const keywords = res.nlu.entities[0].text
-        dispatch(makeRelatedArticles(keywords, articleUrl))   
+        dispatch(makeRelatedArticles(keywords, articleUrl))
       }
       // console.log('in dispatch then', res);
       // const keywords = res.nlu.keywords.map(obj => obj.text)
