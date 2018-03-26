@@ -38,7 +38,8 @@ class singleArticleData extends Component {
         }
         if (this.props.singleArticle.info === undefined && JSON.parse(window.localStorage.getItem('singleArticle')).info === undefined){
             return (
-                <div>
+                <div className="singleArticleBackground">
+                    <br />
                     <br />
                     <Grid centered columns={4}>
                         <Grid.Column>
@@ -57,7 +58,8 @@ class singleArticleData extends Component {
             // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
             const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
-                <div>
+                <div className="articleBackground">
+                <br />
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
                             <Header.Content>{singleArticle.info.headline}
