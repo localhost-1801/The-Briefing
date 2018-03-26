@@ -85,8 +85,8 @@ class RadarChart extends Component {
         domain={{ y: [ 0, 1 ] }}
         animate={{ duration: 1000 }}
       >
-        <VictoryGroup colorScale={["gold", "orange", "tomato"]}
-          style={{ data: { fillOpacity: 0.2, strokeWidth: 2 } }}
+        <VictoryGroup colorScale={["blue","red","orange"]}
+          style={{ data: { fillOpacity: 0.4, strokeWidth: 1 } }}
         >
           {this.state.data.map((data, i) => {
             return <VictoryArea key={i} data={data}/>;

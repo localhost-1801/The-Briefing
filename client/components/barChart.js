@@ -39,7 +39,6 @@ class BarChart extends Component {
           let resultObj = {}
           resultObj.x = tone.tone_name;
           resultObj.y = Math.floor(tone.score * 100);
-          resultObj.label = descriptions[tone.tone_name.toLowerCase()]
           resultArr.push(resultObj)
         })
       }
@@ -77,14 +76,15 @@ class BarChart extends Component {
   }
 
   render(){
-    if ((this.props.relatedArticles.length === 0 || JSON.parse(localStorage.getItem('relatedArticles')).length === 0) || (this.props.singleArticle.tone === undefined || JSON.parse(localStorage.getItem('singleArticle')).tone === undefined)){
+    if (this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined ){
       return (<div>No Related Articles</div>)
     }
 
-    let singleArticle = this.props.singleArticle.tone === undefined ? JSON.parse(localStorage.getItem('singleArticle')).tone : this.props.singleArticle.tone
-    let relatedArticles = this.props.relatedArticles.length === 0 ? JSON.parse(localStorage.getItem('relatedArticles')) : this.props.relatedArticles
+    let singleArticle = this.props.singleArticle.tone
+    let relatedArticles = this.props.relatedArticles
 
     let singleArticleData = this.parseData(singleArticle.document_tone)
+    console.log(relatedArticles)
     let aggregateData = this.parseDataMultiple(relatedArticles)
 
     return (
@@ -101,7 +101,6 @@ class BarChart extends Component {
           style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
         >
           <VictoryBar
-            labelComponent={<VictoryTooltip />}
             style={{ data: { fill: "tomato" } }}
             data={singleArticleData}
             y={(data) => (-Math.abs(data.y))} // tomato numbers

@@ -16,7 +16,7 @@ export const fetchRelatedArticles = (url) => dispatch => {
         //     console.log(JSON.parse(localStorage.getItem('relatedArticles')))
         //     return dispatch(getRelatedArticles(JSON.parse(localStorage.getItem('relatedArticles'))))
         // }
-        dispatch(getRelatedArticles(response))
+        dispatch(getRelatedArticles(response.data))
     })
 }
 export const makeRelatedArticles = (keywords, url) => dispatch => {
