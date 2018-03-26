@@ -2,12 +2,12 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
 const request = require('request')
-const masterArticleScrapper = require('../scrappers/masterScrapper.js')
+const masterArticleScraper = require('../scrapers/masterScraper.js')
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI(process.env.NEWS_KEY);
 
-function frontPageScrapper() {
-    //JUST FOR THE SAKE OF DATA MANAGEMENT, I decided to just add NYT to newsAPI instead of using its own API, strictly for new york times, 
+function frontPageScraper() {
+    //JUST FOR THE SAKE OF DATA MANAGEMENT, I decided to just add NYT to newsAPI instead of using its own API, strictly for new york times,
     // request.get({
     //     url: "https://api.nytimes.com/svc/topstories/v2/home.json",
     //     qs: {
@@ -23,14 +23,14 @@ function frontPageScrapper() {
         pageSize: 100
     }).then(response => {
         response.articles.forEach(article => {
-           masterArticleScrapper(article.url)
+           masterArticleScraper(article.url)
            .then(articles => console.log(article))
            .catch(err => console.error(err))
         })
     });
 }
 
-frontPageScrapper();
+frontPageScraper();
 
 
 
@@ -43,7 +43,7 @@ frontPageScrapper();
 // const url = 'https://www.wsj.com/'
 
 // let urlArr = [];
-// function frontPageScrapper(url, urlArr = []) {
+// function frontPageScraper(url, urlArr = []) {
 // const domain = url.substring(url.lastIndexOf('www.') + 4, url.lastIndexOf('.com'));
 
 // axios.get(url)
@@ -68,4 +68,4 @@ frontPageScrapper();
 //             })
 //     }))
 // }
-//frontPageScrapper(url, urlArr);
+//frontPageScraper(url, urlArr);

@@ -13,9 +13,9 @@ class RelatedArticlesSingle extends Component {
   createCards(){
     let resultArr = []
     for (let i = 0; i < 3; i++){
-      console.log('relatedArticles', this.props.relatedArticles)
+      // console.log('relatedArticles', this.props.relatedArticles)
       let article = this.props.relatedArticles[i];
-      console.log('article', article)
+      // console.log('article', article)
       resultArr.push(
 
           <Card fluid centered color='blue'>
