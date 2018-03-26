@@ -10,10 +10,9 @@ class OverallSentimentAnalysisWithProps extends Component {
     constructor() {
         super();
         this.state = {
-            aggregate: true,
+            aggregate: false,
         }
-        this.parseData = this.parseData.bind(this)
-        this.parseDataMultiple = this.parseDataMultiple.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     handleClick(){
@@ -22,25 +21,6 @@ class OverallSentimentAnalysisWithProps extends Component {
       })
     }
 
-    parseData(data){
-      let score = data.nlu.sentiment.document.score
-      let percent = Math.abs(Math.floor(score * 100)) || 50
-      let sum = Math.floor(score * 100) > 0 ?
-      return [{x:1, y: percent}, {x: 2, y: 100 - percent}, {isPositive: }]
-    }
-
-    parseDataMultiple(dataArr){
-      let avgPercent = 0;
-      let iterated = false;
-      dataArr.forEach( (dataObj, index) => {
-        let score = dataObj.nlu.sentiment.document.score;
-        positiveNegative += score;
-        let denom = iterated ? 2 : 1;
-        avgPercent += (Math.abs(Math.floor(score * 100)) || 0) / denom;
-      })
-      let newArr = [{x:1, y: avgPercent }, {x:2, y: 100 - avgPercent}];
-      return newArr
-    }
 
     getData(percent) {
         return [{ x: 1, y: percent }, { x: 2, y: 100 - percent }];
@@ -50,8 +30,42 @@ class OverallSentimentAnalysisWithProps extends Component {
         if(this.props.relatedArticles.length === 0){
           return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
-        let data = this.state.aggregate ? this.parseDataMultiple(this.props.relatedArticles) : this.parseData(this.props.singleArticle)
-        let positive =
+        let data;
+        let isPositiveInt;
+        let label;
+        if(this.state.aggregate){
+          let aggregateNumber = this.props.relatedArticles.map(article => {
+            return article.nlu.sentiment.document.score * 100
+          }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+          let average = (aggregateNumber / this.props.relatedArticles.length)
+          isPositiveInt = average > 0 ? true : false;
+          data = {
+            percent: Math.abs(Math.floor(average)) || 0,
+            data: this.getData(Math.abs(Math.floor(average))) || 0
+            // }
+          }
+          if(average > 0){
+            label = 'Positive'
+          } else if(average < 0){
+            label = 'Negative'
+          } else {
+            label = 'Neutral'
+          }
+        } else {
+          isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
+          data = {
+              percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score  * 100)) || 0,
+              data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100))) || 0
+          }
+          let evalScore = this.props.singleArticle.nlu.sentiment.document.score
+          if(evalScore > 0){
+            label = 'Positive'
+          } else if(evalScore < 0){
+            label = 'Negative'
+          } else {
+            label = 'Neutral'
+          }
+        }
                 // if (this.state.bool) {
             // data = { percent: 0, data: [{ x: 1, y: 0 }, { x: 2, y: 100 }] }
         // } else {
@@ -81,7 +95,7 @@ class OverallSentimentAnalysisWithProps extends Component {
                         style={{
                             data: {
                                 fill: (d) => {
-                                    const color = positive ? 'green' : 'red'; // might want to reformat this to say if 'positive' from watson ? 'green' : 'red'
+                                    const color = isPositiveInt? 'green' : 'red'; // might want to reformat this to say if 'positive' from watson ? 'green' : 'red'
                                     return d.x === 1 ? color : 'gray';
                                 }
                             }
@@ -93,8 +107,8 @@ class OverallSentimentAnalysisWithProps extends Component {
                                 <VictoryLabel
                                     textAnchor="middle" verticalAnchor="middle"
                                     x={200} y={200}
-                                    text={`${Math.round(data.percent)}% ${this.props.singleArticle.nlu.sentiment.document.label}`}
-                                   // ${positive ? 'Positive' : 'Negative'}`}
+                                    text={`${Math.round(data.percent)}% ${label}`}
+                                   // ${isPositiveInt ? 'Positive' : 'Negative'}`}
                                     style={{ fontSize: 45 }}
                                 />
                             );
