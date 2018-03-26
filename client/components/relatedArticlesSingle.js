@@ -17,19 +17,18 @@ class RelatedArticlesSingle extends Component {
       let article = this.props.relatedArticles[i];
       console.log('article', article)
       resultArr.push(
-        <Table.Cell id={i}>
+
           <Card fluid centered color='blue'>
-            <Image width={100} height={100} href='/' src={article.info.imageUrl} />
+            <Image width={100} height={100} href={article.info.url} src={article.info.imageUrl} />
             <Card.Content>
               <Card.Header href={article.info.url}>
                 {article.info.headline}
           </Card.Header>
-              <Card.Description href='/'>
+              <Card.Description href={article.info.url}>
                 {article.info.text.slice(0, 47) + '...'}
           </Card.Description>
             </Card.Content>
           </Card>
-        </Table.Cell>
       )
     }
     return resultArr;
@@ -38,7 +37,18 @@ class RelatedArticlesSingle extends Component {
   render(){
     if(this.props.relatedArticles.length === 0){
       return (
-        <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+        <Table color={'blue'} size='small'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <Table.Row>
+              <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+            </Table.Row>
+          </Table.Body>
+        </Table>
       )
     }
     return (
@@ -46,12 +56,16 @@ class RelatedArticlesSingle extends Component {
         <Table color={'blue'} size='small'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
+              <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             <Table.Row>
-              {this.createCards()}
+              <Table.Cell>
+                <Card.Group itemsPerRow={3} stackable={false}>
+                  {this.createCards()}
+                </Card.Group>
+              </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
