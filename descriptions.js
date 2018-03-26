@@ -8,7 +8,7 @@ const descriptions = {
     tentative: 'A person’s degree of inhibition.',
     disgust: 'A feeling of revulsion or profound disapproval.',
     openness: 'Openness reflects the degree of intellectual curiosity, creativity and a preference for novelty.',
-    conscientousness: 'High conscientiousness is often perceived as stubbornness and obsession. Low conscientiousness is associated with flexibility and spontaneity, but can also appear as sloppiness and lack of reliability.',
+    conscientiousness: 'High conscientiousness is often perceived as stubbornness and obsession. Low conscientiousness is associated with flexibility and spontaneity, but can also appear as sloppiness and lack of reliability.',
     extraversion: 'Energy, positive emotions, surgency, assertiveness, sociability and the tendency to seek stimulation in the company of others, and talkativeness.',
     agreeableness: 'A tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others.',
     'emotional range': 'The extent to which a person\'s emotions are sensitive to the person\'s environment.'
