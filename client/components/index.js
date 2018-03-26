@@ -23,3 +23,4 @@ export { default as OverallSentimentAnalysisWithProps } from './overallSentiment
 export { default as BubbleChart} from './bubbleChart'
 export { default as RelatedArticles } from './relatedArticles'
 export { default as Categories } from './categories'
+export { default as RelatedArticlesSingle} from './relatedArticlesSingle'

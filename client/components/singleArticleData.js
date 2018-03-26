@@ -162,6 +162,10 @@ class singleArticleData extends Component {
 
                                 </Grid.Column>
                             </Grid.Row>
+                            <Grid.Row centered columns={1} className="spacing">
+                                <Grid.Column>
+                                </Grid.Column>
+                            </Grid.Row>
                         </Grid>
                     </div>
                 </div>
