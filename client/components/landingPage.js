@@ -24,6 +24,10 @@ class LandingPage extends Component {
     this.setState({ articleUrl: e.target.value })
   }
 
+  componentWillMount() {
+    // console.log(this.props)
+    // this.props.loadData()
+  }
   onSubmitHandler(e) {
     e.preventDefault();
     this.props.singleArticleAnalysis(this.state.articleUrl);
