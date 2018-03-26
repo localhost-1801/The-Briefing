@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:300" rel="stylesheet">
+  <style>
+    body {
+      width: 200px;
+      background-image: url('background.png')
+    }
+
+    h1 {
+      font-family: 'Abril Fatface', cursive;
+      font-size: 1.2rem;
+      text-align: center
+    }
+
+    /* #checkPage {
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      margin-left: 30%;
+      margin-right: 30%;
+      background-color: rgb(38, 99, 211);
+      border: none;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    } */
+
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+.snip1566 {
+  position: relative;
+  display: inline-block;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 0;
+  max-width: 150px;
+  width: 50%;
+  color: #bbb;
+  font-size: 16px;
+  box-shadow: none !important;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.snip1566 *,
+.snip1566:before,
+.snip1566:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.snip1566:before,
+.snip1566:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 50%;
+  content: '';
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: -1;
+  border: 2px solid #bbb;
+  border-color: transparent #bbb;
+}
+
+.snip1566 img {
+  max-width: 100%;
+  backface-visibility: hidden;
+  vertical-align: top;
+  border-radius: 50%;
+  padding: 0px;
+}
+
+.snip1566 figcaption {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  right: 5px;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.snip1566 i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 4em;
+  z-index: 1;
+}
+
+.snip1566:hover figcaption,
+.snip1566.hover figcaption {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+.snip1566:hover:before,
+.snip1566.hover:before,
+.snip1566:hover:after,
+.snip1566.hover:after {
+  border-width: 10px;
+}
+
+.snip1566:hover:before,
+.snip1566.hover:before {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.snip1566:hover:after,
+.snip1566.hover:after {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+body {
+  background-color: #212121;
+  text-align: center;
+}
+
+.spacing {
+  padding: 0;
+  margin: 5px 0 2px 0;
+}
+  </style>
+  <title>The Briefing</title>
+  <script src="popup.js"></script>
+</head>
+
+<body>
+  <br />
+  <h1 class="spacing">The Briefing</h1>
+  <p class="spacing">Click below for a comparative analysis on this article</p>
+  <br />
+  <!-- <button id="checkPage">Analyze Article</button> -->
+<figure class="snip1566" id="checkPage">
+  <img src="search2.png" alt="analyze" />
+  <figcaption><i class="ion-android-add"></i></figcaption>
+</figure>
+</body>
+</html>
