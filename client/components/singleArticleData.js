@@ -192,8 +192,10 @@ class singleArticleData extends Component {
 const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     fetchingArticleInfo(url) {
-        dispatch(fetchArticleData(url))
-        dispatch(fetchRelatedArticles(url))
+        dispatch(fetchArticleData(url)).then(()=>{
+            dispatch(fetchRelatedArticles(url))
+
+        })
     },
 
     singleArticleAnalysis(articleUrl) {

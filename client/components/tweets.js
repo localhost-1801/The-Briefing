@@ -22,6 +22,7 @@ class Tweets extends Component {
         return (
             <div>
                 <Feed>
+                    <div >
                     {tweets.slice(0, 15).map((tweet) => {
                         return (
                             <Feed.Event>
@@ -38,6 +39,7 @@ class Tweets extends Component {
                         </Feed.Event>
                         )
                     })}
+                    </div>
                 </Feed>
             </div>
         );
