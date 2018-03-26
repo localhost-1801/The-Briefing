@@ -5,7 +5,7 @@ import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, Overal
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
-import { makeRelatedArticles } from '../store/relatedArticles'
+import { makeRelatedArticles, fetchRelatedArticles } from '../store/relatedArticles'
 
 class singleArticleData extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class singleArticleData extends Component {
         }
 
         if (this.props.singleArticle.info === undefined) {
-            console.log(JSON.parse(window.localStorage.getItem('singleArticle')).info.url)
+            console.log('fetching with localstorage info')
             this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
         }
     }
@@ -33,10 +33,10 @@ class singleArticleData extends Component {
     }
 
     render() {
-        if (this.props.singleArticle.message && JSON.parse(window.localStorage.getItem('singleArticle')).message){
+        if (this.props.singleArticle.message){
             return <div>{this.props.singleArticle.message}</div>
         }
-        if (this.props.singleArticle.info === undefined && JSON.parse(window.localStorage.getItem('singleArticle')).info === undefined){
+        if (this.props.singleArticle.info === undefined){
             return (
                 <div>
                     <br />
@@ -55,12 +55,12 @@ class singleArticleData extends Component {
             )
         } else {
             // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
-            const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
+            // const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
                 <div>
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
-                            <Header.Content>{singleArticle.info.headline}
+                            <Header.Content>{this.props.singleArticle.info.headline}
                             </Header.Content>
                         </Header>
 <br />
@@ -169,6 +169,7 @@ const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     fetchingArticleInfo(url) {
         dispatch(fetchArticleData(url))
+        dispatch(fetchRelatedArticles(url))
     },
 
     singleArticleAnalysis(articleUrl) {

@@ -110,7 +110,7 @@ class RadarChart extends Component {
                 animate={{ duration: 1000 }}
             >
                 <VictoryGroup colorScale={["gold", "orange", "tomato"]}
-                    style={{ data: { fillOpacity: 0.2, strokeWidth: 2 } }}
+                    style={{ data: { fillOpacity: 0.2 } }}
                 >
                     {data.map((data, i) => {
                         return <VictoryArea key={i} data={data} />;
