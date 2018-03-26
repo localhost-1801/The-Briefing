@@ -164,6 +164,7 @@ router.post('/url/*', async (req, res, next) => {
 
 router.get('/url/*', (req, res, next) => {
     let articleRef = db.collection('articles').where('info.url', '==', req.params[0])
+    console.log(req.params[0])
     articleRef.get().then(docu => {
         docu.forEach(d => {
             const data = d.data()
