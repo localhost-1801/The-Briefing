@@ -172,7 +172,9 @@ class singleArticleData extends Component {
 
                                         <Table.Body>
                                             <Table.Row>
-                                                <Table.Cell><BarChart /></Table.Cell>
+                                                <BarChart />
+                                            </Table.Row>
+                                            <Table.Row> 
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>

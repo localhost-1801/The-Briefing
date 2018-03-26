@@ -5,23 +5,27 @@ import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
 import ReactLoading from 'react-loading';
 import descriptions from '../../descriptions'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
 
 // https://formidable.com/open-source/victory/gallery/stacked-bars-central-axis/
 
 class BarChart extends Component {
     constructor() {
       super();
+      this.state = {
+        activeDescription: 'Emotional Range'
+      }
 
       this.parseData = this.parseData.bind(this);
       this.parseDataMultiple = this.parseDataMultiple.bind(this);
     }
 
-  shouldComponentUpdate(nextProps, nextState){
-    // console.log('nextProps',nextProps)
-    if(this.props !== nextProps){
-      return true
-    }
-  }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   // console.log('nextProps',nextProps)
+  //   // if(this.props !== nextProps){
+  //   //   return true
+  //   // }
+  // }
   // //change singleArticle to this.props.whatever
   // //change aggregateData to this.props.whatever
   // componentDidMount(){
@@ -84,10 +88,11 @@ class BarChart extends Component {
     let relatedArticles = this.props.relatedArticles
 
     let singleArticleData = this.parseData(singleArticle.document_tone)
-    console.log(relatedArticles)
     let aggregateData = this.parseDataMultiple(relatedArticles)
 
     return (
+      <div>
+      <Table.Cell>
       <div className="chartBackground">
         <svg viewBox="0 0 500 500" width="100%" height="100%">
       >
@@ -96,11 +101,36 @@ class BarChart extends Component {
           /* setting a symmetric domain makes it much easier to center the axis  */
           domain={{ x: [-70, 70] }}
           padding={{ top: 10, bottom: 10, left: 210}}
-          height={500}
-          width={400}
+          height={600}
+          width={500}
           style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
         >
           <VictoryBar
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [{
+                      mutation: (props) => {
+                        console.log('state', this.state.activeDescription)
+                        this.setState({activeDescription: props.datum.x})
+                        return {
+                          style: Object.assign({},props.style, {fill:'yellow'})
+                        }
+                      }
+                    }]
+                  },
+                  onMouseOut: () => {
+                    return [{
+                      mutation: (props) => {
+                        return null
+                      }
+                    }]
+                  }
+                }
+              }
+            ]}
             style={{ data: { fill: "tomato" } }}
             data={singleArticleData}
             y={(data) => (-Math.abs(data.y))} // tomato numbers
@@ -130,8 +160,15 @@ class BarChart extends Component {
         tickLabelComponent={<VictoryLabel x={250} textAnchor="middle" />}
         tickValues={singleArticleData.map((point) => point.x).reverse()}
       />
+
       </svg>
+
       </div>
+      </Table.Cell>
+      <Segment compact={true} attached='top'>
+        {`${this.state.activeDescription}: ${descriptions[this.state.activeDescription.toLowerCase()]}`}
+      </Segment>
+        </div>
     );
   }
 }
