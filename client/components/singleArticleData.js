@@ -60,6 +60,7 @@ class singleArticleData extends Component {
             return (
                 <div className="articleBackground">
                 <br />
+                    <div>
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
                             <Header.Content>{this.props.singleArticle.info.headline}
