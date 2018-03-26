@@ -40,7 +40,7 @@ class KeywordBox extends Component {
   }
 
   render() {
-    if (this.props.singleArticle === undefined) {
+    if (this.props.singleArticle.info === undefined) {
       return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
     } else {
       let data = this.parseData(this.props.singleArticle.nlu).filter(word => {
