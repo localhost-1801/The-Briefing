@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, BarChart, BubbleChart } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, BarChart, BubbleChart, RelatedArticlesSingle } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
@@ -60,6 +60,7 @@ class singleArticleData extends Component {
             return (
                 <div className="articleBackground">
                 <br />
+                    <div>
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
                             <Header.Content>{this.props.singleArticle.info.headline}
@@ -179,6 +180,11 @@ class singleArticleData extends Component {
 
                                 </Grid.Column>
                             </Grid.Row>
+                            <Grid.Row centered columns={1} className="spacing">
+                                <Grid.Column>
+                                  <RelatedArticlesSingle />
+                                </Grid.Column>
+                            </Grid.Row>
                         </Grid>
                     </div>
                 </div>
@@ -191,8 +197,10 @@ class singleArticleData extends Component {
 const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     fetchingArticleInfo(url) {
-        dispatch(fetchArticleData(url))
-        dispatch(fetchRelatedArticles(url))
+        dispatch(fetchArticleData(url)).then(()=>{
+            dispatch(fetchRelatedArticles(url))
+
+        })
     },
 
     singleArticleAnalysis(articleUrl) {

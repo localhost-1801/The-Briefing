@@ -25,6 +25,9 @@ class LandingPage extends Component {
   }
 
 
+
+
+
   componentWillMount() {
     // console.log(this.props)
     // this.props.loadData()
