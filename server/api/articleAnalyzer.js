@@ -91,7 +91,7 @@ router.post('/landing', async (req, res, next) => {
         const scrapeObj2 = await masterArticleScrapper(article.url)
 
         if (scrapeObj2.text !== 0) {
-            const nlpResults2 = await nlp.analyze(scrapeObj2.text); 
+            const nlpResults2 = await nlp.analyze(scrapeObj2.text);
             nlpResults2.info = scrapeObj2
 
             const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
@@ -111,9 +111,10 @@ router.post('/landing', async (req, res, next) => {
 })
 
 router.post('/url/*', async (req, res, next) => {
+    console.log(req.params[0])
     const scrapeObj = await masterArticleScrapper(req.params[0]);
     if (scrapeObj.flag){
-        res.send({message: ':('})
+        res.send({message: 'Could not process this article. Please try another link.'})
     } else {
         const nlpResults = await nlp.analyze(scrapeObj.text);
         nlpResults.info = scrapeObj
@@ -133,12 +134,41 @@ router.post('/url/*', async (req, res, next) => {
     }
 
 })
+
+// router.post('/fromArticle?', async (req, res, next) => {
+//     let url = req.query.url
+//     const scrapeObj = await masterArticleScrapper(url);
+//     if (scrapeObj.flag){
+//         console.log('testing things')
+//         res.send({message: 'Could not process this article. Please try another link.'})
+//     } else {
+//         const nlpResults = await nlp.analyze(scrapeObj.text);
+//         nlpResults.info = scrapeObj
+//         const data = nlpResults
+//         data.info = scrapeObj
+//         // Add document to Firestore
+//         const query = nlpResults.nlu.entities[0].text
+//         const tweets = await tweet.query(query)
+//         data.tweets = tweets
+//         const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get();
+//         console.log('testing else statement')
+//         if (documentSnap.data() === undefined) {
+//             const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(data)
+//         } else {
+//             const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(data)
+//         }
+//         res.redirect(`/singleArticleData?url=${url}`)
+//     }
+// })
+
+
 router.get('/url/*', (req, res, next) => {
-    // console.log('hello')
     let articleRef = db.collection('articles').where('info.url', '==', req.params[0])
+    console.log(req.params[0])
     articleRef.get().then(docu => {
         docu.forEach(d => {
             const data = d.data()
+            console.log('data: ', data)
             res.send(data)
         })
     })

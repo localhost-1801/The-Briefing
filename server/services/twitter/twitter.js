@@ -16,6 +16,7 @@ function Tweet () {
         },
         query: async function (queryString) {
             this.params.q = queryString
+            this.params.lang = 'en'
             const tweets = await client.get('search/tweets', this.params)
             // console.log(tweets.statuses[0])
             const prunedTweets = tweets.statuses.map((tweet) => {

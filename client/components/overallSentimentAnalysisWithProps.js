@@ -86,7 +86,7 @@ class OverallSentimentAnalysisWithProps extends Component {
                 <svg viewBox="0 0 400 400" width="100%" height="100%">
                     <VictoryPie // can update the height and width on the line above
                         standalone={false}
-                        animate={{ duration: 1500 }}
+                        animate={{ duration: 850 }}
                         width={400} height={400}
                         data={data.data}
                         innerRadius={120}

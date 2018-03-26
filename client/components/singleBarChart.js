@@ -18,7 +18,7 @@ class SingleBarChart extends Component {
     }
 
     render() {
-        if (this.props.singleArticle === undefined) {
+        if (this.props.singleArticle.info === undefined) {
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
         let grabData = this.props.singleArticle.tone.document_tone.tone_categories[1].tones

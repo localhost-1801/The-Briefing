@@ -46,7 +46,7 @@ form div {
 }
 
 .chartBackground {
-  background-color: white;
+  /* background-color: white; */
   height: 30vh;
 }
 
@@ -84,6 +84,33 @@ form div {
   margin-top: 0px !important;
   padding-top: 0px !important;
 }
+
+.landingPageSearch {
+  height: 90vh;
+  /* background-color: rgb(241, 239, 239); */
+  background-image: url('img/background.png');
+  margin: auto 0;
+  padding-top: 60px;
+}
+
+.todaysBriefing {
+  padding-top: 20px;
+}
+
+.arrow {
+  padding-top: 200px;
+  /* padding-left: 50px; */
+  /* padding-right: 50px; */
+  padding-bottom: 0;
+}
+
+.extension {
+  padding-left: 40%;
+  padding-right: 40%;
+}
+
+.articleBackground {
+  background-color: rgb(243, 243, 243);
 
 .bubbleWrapper {
   height: 500px;
