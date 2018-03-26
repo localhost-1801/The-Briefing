@@ -14,7 +14,7 @@ class RadarChart extends Component {
             data: [],
             maxima: [],
             bool: true,
-            url: this.props.singleArticle.info.url
+            // url: this.props.singleArticle.info.url
         };
     }
 
@@ -67,7 +67,7 @@ class RadarChart extends Component {
     }
 
     render() {
-        if (this.props.singleArticle === undefined ) {
+        if (this.props.singleArticle.info === undefined ) {
             // console.log(this.props.tone)
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }

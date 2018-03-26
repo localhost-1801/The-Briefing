@@ -5,10 +5,25 @@ import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, Overal
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
+import { makeRelatedArticles } from '../store/relatedArticles'
 
 class singleArticleData extends Component {
     constructor(props) {
         super(props)
+    }
+
+    componentWillMount(){
+        console.log(window.location.href)
+        if (window.location.href.indexOf('=') > 0) {
+            const url = window.location.href.slice(window.location.href.indexOf('=') + 1)
+            console.log('url from extension: ', url)
+            this.props.singleArticleAnalysis(url)
+        }
+
+        if (this.props.singleArticle.info === undefined) {
+            console.log(JSON.parse(window.localStorage.getItem('singleArticle')).info.url)
+            this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -18,12 +33,13 @@ class singleArticleData extends Component {
     }
 
     render() {
-        if (this.props.singleArticle.message){
+        if (this.props.singleArticle.message && JSON.parse(window.localStorage.getItem('singleArticle')).message){
             return <div>{this.props.singleArticle.message}</div>
         }
-        if (Object.keys(this.props.singleArticle).length === 0) {
+        if (this.props.singleArticle.info === undefined && JSON.parse(window.localStorage.getItem('singleArticle')).info === undefined){
             return (
-                <div>
+                <div className="singleArticleBackground">
+                    <br />
                     <br />
                     <Grid centered columns={4}>
                         <Grid.Column>
@@ -39,13 +55,14 @@ class singleArticleData extends Component {
                 </div>
             )
         } else {
-            //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
+            // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
+            const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
-                <div>
-                  <div>
+                <div className="articleBackground">
+                <br />
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
-                            <Header.Content>{this.props.singleArticle.info.headline}
+                            <Header.Content>{singleArticle.info.headline}
                             </Header.Content>
                         </Header>
                     </div>
@@ -172,12 +189,23 @@ class singleArticleData extends Component {
 
 
 const mapState = ({ singleArticle }) => ({ singleArticle })
-const mapDispatch = (dispatch, ownProps) => {
-    return {
-        loadData(url) {
-            dispatch(fetchArticleData(url))
+const mapDispatch = (dispatch, ownProps) => ({
+    fetchingArticleInfo(url) {
+        dispatch(fetchArticleData(url))
+    },
+
+    singleArticleAnalysis(articleUrl) {
+      dispatch(makeArticle(articleUrl)).then((res) => {
+        if (!res.message) {
+          const keywords = res.nlu.entities[0].text
+          dispatch(makeRelatedArticles(keywords, articleUrl))
         }
+        // console.log('in dispatch then', res);
+        // const keywords = res.nlu.keywords.map(obj => obj.text)
+        // console.log(keywords)
+      }).catch(err => console.log(err))
+      history.push('/singleArticleData')
     }
-}
+  })
 
 export default connect(mapState, mapDispatch)(singleArticleData)
