@@ -25,7 +25,7 @@ export const fetchArticleData = (url) => dispatch => {
     const obj = JSON.stringify({info: { url: url}})
     return axios.get(`/api/article/url/${url}`)
         .then(JSONData => {
-            window.localStorage.setItem('singleArticle', obj)            
+            window.localStorage.setItem('singleArticle', obj)
             console.log('JSON:', JSONData.data)
             dispatch(getArticleData(JSONData.data))
             return JSONData.data
