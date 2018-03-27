@@ -22,10 +22,11 @@ class Tweets extends Component {
         return (
             <div>
                 <Feed>
-                    {tweets.slice(0, 5).map((tweet) => {
+                    <div >
+                    {tweets.slice(0, 15).map((tweet) => {
                         return (
                             <Feed.Event>
-                            <Feed.Label image={tweet.user.profilePic} />
+                            <Feed.Label key={tweet.user.name} image={tweet.user.profilePic} />
                             <Feed.Content>
                                 <Feed.Date>{tweet.timeStamp}</Feed.Date>
                                 <Feed.Summary>
@@ -38,6 +39,7 @@ class Tweets extends Component {
                         </Feed.Event>
                         )
                     })}
+                    </div>
                 </Feed>
             </div>
         );

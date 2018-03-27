@@ -6,7 +6,6 @@ import { Login, Signup, UserHome, ArticleAnalyzer, OverallSentimentAnalysis, Lan
 import { me } from './store'
 import { fetchlandingArticles } from '../client/store/landingPageArticles'
 
-
 /**
  * COMPONENT
  */
@@ -17,12 +16,10 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props
-
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={LandingPage} />
-        <Route exact path="/test" component={BarChart} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/singleArticleData" component={singleArticleData} />

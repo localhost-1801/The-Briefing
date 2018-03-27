@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "The Briefing.",
+  "description": "A compartive news analysis tool",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "logo.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}

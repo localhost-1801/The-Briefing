@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from 'victory';
+import { VictoryChart, VictoryAxis, VictoryBar, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel, VictoryStack } from 'victory';
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
@@ -7,54 +7,102 @@ import { fetchArticleData, makeArticle } from '../store/singleArticle'
 
 
 class SingleBarChart extends Component {
-    constructor() {
-        super();
-        this.state = {
-            clicked: false,
-            style: {
-                data: { fill: "tomato" }
-            }
-        };
-    }
+  constructor() {
+    super();
+    this.state = {
+      clicked: false,
+      aggregate: false,
+      style: {
+        data: { fill: "tomato" }
+      }
+    };
+    this.parseDataSingle = this.parseDataSingle.bind(this)
+    this.parseDataMultiple = this.parseDataMultiple.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+  }
 
-    render() {
-        if (this.props.singleArticle === undefined) {
-            return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
-        }
-        let grabData = this.props.singleArticle.tone.document_tone.tone_categories[1].tones
-        let setData = []
-        console.log('grabData', grabData)
-        grabData.forEach(tone => {
-            setData.push({ x: tone.tone_name, y: Math.floor(tone.score * 100) })
-        })
-        console.log('setData', setData)
-        const handleMouseOver = () => {
-            const fillColor = this.state.clicked ? "blue" : "tomato";
-            const clicked = !this.state.clicked;
-            this.setState({
-                clicked,
-                style: {
-                    data: { fill: fillColor }
-                }
-            });
-        };
-        return (
-            <div>
-                <strong>Language Tone Analysis</strong>
-                <VictoryChart height={400} width={400}
-                    domainPadding={{ x: 100, y: [0, 100] }}
-                >
-                    <VictoryBar
-                        alignment="middle"
-                        labels={(d) => `${d.y}/100`}
-                        style={this.state.style}
-                        data={setData}
-                    />
-                </VictoryChart>
-            </div>
-        );
+  handleClick() {
+    this.setState({
+      aggregate: !this.state.aggregate
+    })
+  }
+
+  parseDataSingle(data) {
+    let resultArr = []
+    let dataArr = data.tone.document_tone.tone_categories[1].tones
+    let toneScore = 0
+    dataArr.forEach(tone => {
+      if (tone.score > 0) {
+        toneScore = Math.floor(tone.score * 100)
+      }
+      resultArr.push({ x: tone.tone_name, y: toneScore })
+      toneScore = 0
+    })
+    return [resultArr];
+  }
+
+  parseDataMultiple(data) {
+    let resultArr = []
+    data.forEach(relatedArticle =>
+      resultArr.push(...this.parseDataSingle(relatedArticle))
+    )
+    resultArr.map(arr => {
+      return arr.map(obj => {
+        obj.y = Math.floor((obj.y / resultArr.length))
+        return obj
+      })
+    })
+    return resultArr;
+  }
+
+  render() {
+    if (this.props.relatedArticles.length === 0) {
+      return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
     }
+    let grabData = this.props.singleArticle.tone.document_tone.tone_categories[1].tones
+    let setData = []
+    console.log('grabData', grabData)
+    grabData.forEach(tone => {
+      setData.push({ x: tone.tone_name, y: Math.floor(tone.score * 100) })
+    })
+    console.log('setData', setData)
+    const handleMouseOver = () => {
+      const fillColor = this.state.clicked ? "blue" : "tomato";
+      const clicked = !this.state.clicked;
+      this.setState({
+        clicked,
+        style: {
+          data: { fill: fillColor }
+        }
+      });
+    };
+    return (
+      <div>
+        <button onClick={this.handleClick}>
+          {this.state.aggregate ? 'Your Article' : 'Aggregate'}
+        </button>
+        <VictoryChart height={400} width={400}
+          domainPadding={{ x: 100, y: [0, 100] }}
+          animate={{ duration: 1000 }}
+        >
+          <VictoryStack
+            colorScale={["#61cdbb", "#e8a838", "#97e3d5", "e8c1a0", "#f5755f", "#f1e15b"]}
+          >
+            {dataset.map((data, i) => {
+              return <VictoryBar data={data} key={i} />;
+            })}
+          </VictoryStack>
+          <VictoryAxis dependentAxis
+            tickFormat={(tick) => { return (tick < 101 ? `${tick}%` : null) }}
+          />
+          <VictoryAxis
+            tickFormat={["Analytical", "Confident", "Tentative"]}
+          />
+        </VictoryChart>
+      </div>
+    );
+  }
 }
 
-const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
 export default connect(mapState)(SingleBarChart)

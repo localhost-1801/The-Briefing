@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Menu, Header, Form, Button, Icon, Segment } from 'semantic-ui-react'
+import { Menu, Header, Form, Button, Icon, Segment, Search, Grid } from 'semantic-ui-react'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
 import { Link, NavLink } from "react-router-dom";
@@ -26,12 +26,10 @@ class Navbar extends Component {
   onSubmitHandler(e) {
     e.preventDefault();
     this.props.singleArticleAnalysis(this.state.articleUrl);
-    this.setState({ articleUrl: ''})
+    this.setState({ articleUrl: '' })
   }
 
   render() {
-    console.log(this.props)
-
     function formatDate(date) {
       var monthNames = [
         "January", "February", "March",
@@ -52,21 +50,27 @@ class Navbar extends Component {
     return (
       <div>
         <Menu inverted borderless widths={3}>
-          <Menu.Item fitted header className="logo">{date} </Menu.Item>
+          <Menu.Item fitted header>
+          </Menu.Item>
+
           <Menu.Item fitted header className="logo" href='/'>The Briefing.</Menu.Item>
-          <Menu.Item fitted position='right'>
-            <Form>
-              <Form.Field className="searchBar" >
-                <input
-                  placeholder='Search via Article URL'
-                  onChange={this.onChangeHandler}
-                  value={this.state.articleUrl}
-                />
-              </Form.Field>
-              <NavLink to='/singleArticleData'>
-                  <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button>
-              </NavLink>
-            </Form>
+
+          <Menu.Item className="searchBar">
+
+          <Form>
+          <Form.Group unstackable>
+            <input
+            className="inputBar"
+            placeholder='Search via Article URL'
+            onChange={this.onChangeHandler}
+            value={this.state.articleUrl}
+            />
+            <NavLink to='/singleArticleData'>
+            <Button type='submit' onClick={this.onSubmitHandler}>Submit</Button>
+          </NavLink>
+          </Form.Group>
+          </Form>
+
           </Menu.Item>
         </Menu>
       </div>
@@ -81,13 +85,12 @@ const mapDispatch = (dispatch, ownProps) => ({
     dispatch(makeArticle(articleUrl)).then((res) => {
       if (!res.message) {
         const keywords = res.nlu.entities[0].text
-        dispatch(makeRelatedArticles(keywords, articleUrl))   
+        dispatch(makeRelatedArticles(keywords, articleUrl))
       }
       // console.log('in dispatch then', res);
       // const keywords = res.nlu.keywords.map(obj => obj.text)
       // console.log(keywords)
     }).catch(err => console.log(err))
-    // dispatch(makeRelatedArticles(articleUrl))
     history.push('/singleArticleData')
   }
 })
@@ -95,60 +98,15 @@ const mapDispatch = (dispatch, ownProps) => ({
 export default connect(mapState, mapDispatch)(Navbar)
 
 
-
-// import React from 'react'
-// import PropTypes from 'prop-types'
-// import {connect} from 'react-redux'
-// import {Link} from 'react-router-dom'
-// import {logout} from '../store'
-
-// const Navbar = ({ handleClick, isLoggedIn }) => (
-//   <div>
-//     <h1>BOILERMAKER</h1>
-//     <nav>
-//       {isLoggedIn ? (
-//         <div>
-//           {/* The navbar will show these links after you log in */}
-//           <Link to="/home">Home</Link>
-//           <a href="#" onClick={handleClick}>
-//             Logout
-//           </a>
-//         </div>
-//       ) : (
-//         <div>
-//           {/* The navbar will show these links before you log in */}
-//           <Link to="/login">Login</Link>
-//           <Link to="/signup">Sign Up</Link>
-//         </div>
-//       )}
-//     </nav>
-//     <hr />
-//   </div>
-// )
-
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }
+// <Form>
+// <Form.Field >
+//   <input
+//   placeholder='Search via Article URL'
+//     onChange={this.onChangeHandler}
+//     value={this.state.articleUrl}
+//   />
+//   <NavLink to='/singleArticleData'>
+//   <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button>
+// </NavLink>
+// </Form.Field>
+// </Form>

@@ -34,7 +34,7 @@ const scrapeDefault = require('./defaultScraper')
 // const url = 'https://www.wsj.com/articles/sec-charges-theranos-and-founder-elizabeth-holmes-with-fraud-1521045648';
 // const url = 'https://politics.theonion.com/rex-tillerson-shoots-mike-pompeo-quick-email-explaining-1823738923'
 
-async function masterArticleScrapper(url, parentUrl) {
+async function masterArticleScraper(url, parentUrl) {
     // console.log('------!_!_!_!__!_!_!_!!_!_!_!_!_-----', url);
     //going to have to set resultStr equal to infoObj.text
     let resultString = '';
@@ -44,7 +44,7 @@ async function masterArticleScrapper(url, parentUrl) {
     infoObj.url = url;
     const resultUrl = infoObj.url
     const resultObject = {}
-    
+
 try {
     switch (domain){
       case 'bbc':
@@ -92,4 +92,4 @@ try {
        return infoObj
 }
 
-module.exports = masterArticleScrapper
+module.exports = masterArticleScraper

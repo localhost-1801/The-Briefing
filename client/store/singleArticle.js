@@ -1,21 +1,19 @@
 
 import axios from 'axios';
-//const masterScrapper = require('../../scrappers/masterScrapper.js');
+//const masterScraper = require('../../scrapers/masterScraper.js');
 
 const GET_ARTICLE_DATA = 'GET_ARTICLE_DATA'
 const CREATE_ARTICLE = 'CREATE_ARTICLE'
 
 const defaultArticle = {};
 
-
-
 const getArticleData = article => ({ type: GET_ARTICLE_DATA, article })
 const createArticle = article => ({ type: CREATE_ARTICLE, article })
 
 export const makeArticle = (url) => dispatch => {
-
     return axios.post(`/api/article/url/${url}`)
         .then(response => {
+            window.localStorage.setItem('singleArticle', JSON.stringify(response.data))
             dispatch(createArticle(response.data))
             return response.data
         })
@@ -23,9 +21,14 @@ export const makeArticle = (url) => dispatch => {
 }
 
 export const fetchArticleData = (url) => dispatch => {
+    console.log('in store fetching article', url)
+    const obj = JSON.stringify({info: { url: url}})
     return axios.get(`/api/article/url/${url}`)
         .then(JSONData => {
-            return dispatch(getArticleData(JSONData.data))
+            window.localStorage.setItem('singleArticle', obj)
+            console.log('JSON:', JSONData.data)
+            dispatch(getArticleData(JSONData.data))
+            return JSONData.data
         })
         .catch(err => console.log(err))
 }
@@ -35,6 +38,8 @@ export default function (state = defaultArticle, action) {
         case GET_ARTICLE_DATA:
             return action.article
         case CREATE_ARTICLE:
+            // const history = JSON.parse(window.localStorage.getItem('history'));
+            // console.log('history: ', history)
             return action.article
         default:
             return state

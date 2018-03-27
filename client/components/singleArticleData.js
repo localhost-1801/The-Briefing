@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, BarChart } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form } from 'semantic-ui-react'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
+import { makeRelatedArticles, fetchRelatedArticles } from '../store/relatedArticles'
 
 class singleArticleData extends Component {
     constructor(props) {
         super(props)
+    }
+
+    componentWillMount() {
+        // console.log(window.location.href)
+        if (window.location.href.indexOf('=') > 0) {
+            const url = window.location.href.slice(window.location.href.indexOf('=') + 1)
+            // console.log('url from extension: ', url)
+            this.props.singleArticleAnalysis(url)
+        }
+
+        if (this.props.singleArticle.info === undefined) {
+            // console.log('fetching with localstorage info')
+            this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -18,12 +33,13 @@ class singleArticleData extends Component {
     }
 
     render() {
-        if (this.props.singleArticle.message){
+        if (this.props.singleArticle.message) {
             return <div>{this.props.singleArticle.message}</div>
         }
-        if (Object.keys(this.props.singleArticle).length === 0) {
+        if (this.props.singleArticle.info === undefined) {
             return (
-                <div>
+                <div className="singleArticleBackground">
+                    <br />
                     <br />
                     <Grid centered columns={4}>
                         <Grid.Column>
@@ -39,86 +55,44 @@ class singleArticleData extends Component {
                 </div>
             )
         } else {
-            //singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
+            // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
+            // const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
-                <div>
+                <div className="articleBackground">
+                    <br />
                     <div>
-                        <br />
                         <Header as='h2' icon textAlign='center'>
                             <Icon name='newspaper' circular />
-                            <Header.Content>
-                                {this.props.singleArticle.info.headline}
+                            <Header.Content>{this.props.singleArticle.info.headline}
                             </Header.Content>
                         </Header>
                     </div>
 
                     <div>
                         <br />
-                        <Grid>
-                            <Grid.Row centered columns={3} className="spacing">
+                        <Grid centered columns={3} className="spacing">
+                            <Grid.Row stretched>
                                 <Grid.Column>
                                     <Table color={'blue'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>KEYWORDS</Table.HeaderCell>
+                                                <Table.HeaderCell>KEYWORDS BY RELEVANCE</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
-
                                         <Table.Body>
                                             <Table.Row>
-                                                <Table.Cell><KeywordBoxWProps /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-                                </Grid.Column>
-                                <Grid.Column>
-
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
-
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><OverallSentimentAnalysisWithProps /></Table.Cell>
+                                                <Table.Cell><BubbleChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
 
 
-                                </Grid.Column>
-                                <Grid.Column>
-
                                     <Table color={'blue'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+                                                <Table.HeaderCell>LANGUAGE TONE ANALYSIS</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
-
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><Tweets /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-                                    </Table>
-
-
-                                </Grid.Column>
-                            </Grid.Row>
-
-                            <Grid.Row centered columns={3} className="spacing">
-                                <Grid.Column>
-
-                                    <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>BAR CHART</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
-
                                         <Table.Body>
                                             <Table.Row>
                                                 <Table.Cell><SingleBarChart /></Table.Cell>
@@ -127,12 +101,38 @@ class singleArticleData extends Component {
                                     </Table>
 
                                 </Grid.Column>
+
                                 <Grid.Column>
+                                    <Table color={'blue'} size='small'>
+                                        <Table.Header>
+                                            <Table.Row>
+                                                <Table.HeaderCell>OVERALL ARTICLE SENTIMENT ANALYSIS</Table.HeaderCell>
+                                            </Table.Row>
+                                        </Table.Header>
+                                        <Table.Body>
+                                            <Table.Row>
+                                                <Table.Cell><OverallSentimentAnalysisWithProps /></Table.Cell>
+                                            </Table.Row>
+                                        </Table.Body>
+                                    </Table>
+
+                                    <Table color={'blue'} size='small'>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        <Table.Row>
+                                            <Table.Cell><Categories /></Table.Cell>
+                                        </Table.Row>
+                                    </Table.Body>
+                                </Table>
 
                                     <Table color={'blue'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+                                                <Table.HeaderCell>EMOTIONAL ANALYSIS</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
 
@@ -143,14 +143,10 @@ class singleArticleData extends Component {
                                         </Table.Body>
                                     </Table>
 
-
-                                </Grid.Column>
-                                <Grid.Column>
-
                                     <Table color={'blue'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>COMPARATIVE BAR CHART</Table.HeaderCell>
+                                                <Table.HeaderCell>COMPARATIVE EMOTIONAL ANALYSIS</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
 
@@ -160,14 +156,35 @@ class singleArticleData extends Component {
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
+                                </Grid.Column>
 
+                                <Grid.Column>
+                                    <Table color={'blue'} size='small'>
+                                        <Table.Header>
+                                            <Table.Row>
+                                                <Table.HeaderCell>RELEVANT TWEETS</Table.HeaderCell>
+                                            </Table.Row>
+                                        </Table.Header>
+                                        <Table.Body>
+                                            <Table.Row>
+                                                <Table.Cell>
+                                                <div className="tweets">
+                                                <Tweets />
+                                                </div>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        </Table.Body>
+                                    </Table>
 
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row centered columns={1} className="spacing">
+                                <Grid.Column>
+                                    <RelatedArticlesSingle />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
                     </div>
-
-
                 </div>
             )
         }
@@ -176,12 +193,26 @@ class singleArticleData extends Component {
 
 
 const mapState = ({ singleArticle }) => ({ singleArticle })
-const mapDispatch = (dispatch, ownProps) => {
-    return {
-        loadData(url) {
-            dispatch(fetchArticleData(url))
-        }
+const mapDispatch = (dispatch, ownProps) => ({
+    fetchingArticleInfo(url) {
+        dispatch(fetchArticleData(url)).then(() => {
+            dispatch(fetchRelatedArticles(url))
+
+        })
+    },
+
+    singleArticleAnalysis(articleUrl) {
+        dispatch(makeArticle(articleUrl)).then((res) => {
+            if (!res.message) {
+                const keywords = res.nlu.entities[0].text
+                dispatch(makeRelatedArticles(keywords, articleUrl))
+            }
+            // console.log('in dispatch then', res);
+            // const keywords = res.nlu.keywords.map(obj => obj.text)
+            // console.log(keywords)
+        }).catch(err => console.log(err))
+        history.push('/singleArticleData')
     }
-}
+})
 
 export default connect(mapState, mapDispatch)(singleArticleData)

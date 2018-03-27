@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
+
 
 
 //replace these with tone data, radar chart will swap in between the two
@@ -14,7 +16,7 @@ class RadarChart extends Component {
             data: [],
             maxima: [],
             bool: true,
-            url: this.props.singleArticle.info.url
+            // url: this.props.singleArticle.info.url
         };
     }
 
@@ -30,7 +32,7 @@ class RadarChart extends Component {
         // }, 5000)
         setInterval(() => {
             this.setState({ bool: !this.state.bool })
-        }, 100000)
+        }, 3000)
     }
 
     parseData(data) {
@@ -67,7 +69,8 @@ class RadarChart extends Component {
     }
 
     render() {
-        if (this.props.singleArticle === undefined) {
+        if (this.props.singleArticle.info === undefined) { //does info need to be there?
+            // console.log(this.props.tone)
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
         let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
@@ -76,7 +79,6 @@ class RadarChart extends Component {
         let processedTones = this.processData(socialTones)
         let data = this.state.bool ? processedEmo : processedTones
         let maxima = this.state.bool ? this.getMaxima(emotionalTones) : this.getMaxima(socialTones)
-
         // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
         // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
         // let dataObj = {
@@ -102,48 +104,57 @@ class RadarChart extends Component {
         // }, 5000)
 
         return (
-            <VictoryChart polar
-                theme={VictoryTheme.material}
-                domain={{ y: [0, 1] }}
-                animate={{ duration: 1000 }}
-            >
-                <VictoryGroup colorScale={["gold", "orange", "tomato"]}
-                    style={{ data: { fillOpacity: 0.2, strokeWidth: 2 } }}
-                >
-                    {data.map((data, i) => {
-                        return <VictoryArea key={i} data={data} />;
-                    })}
-                </VictoryGroup>
-                {
-                    Object.keys(maxima).map((key, i) => {
-                        return (
-                            <VictoryPolarAxis key={i} dependentAxis
-                                style={{
-                                    axisLabel: { padding: 10 },
-                                    axis: { stroke: "none" },
-                                    grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 }
-                                }}
-                                tickLabelComponent={
-                                    <VictoryLabel labelPlacement="vertical" />
-                                }
-                                labelPlacement="perpendicular"
-                                axisValue={i + 1} label={key}
-                                tickFormat={(t) => Math.ceil(t * maxima[key])}
-                                tickValues={[0.25, 0.5, 0.75]}
-                            />
-                        );
-                    })
-                }
-                <VictoryPolarAxis
-                    labelPlacement="parallel"
-                    tickFormat={() => ""}
-                    style={{
-                        axis: { stroke: "none" },
-                        grid: { stroke: "grey", opacity: 0.5 }
-                    }}
-                />
+     
+                <Table.Cell>
+     
+                    <VictoryChart polar
+                        theme={VictoryTheme.material}
+                        domain={{ y: [0, 1] }}
+                        animate={{ duration: 1000 }}
+                    >
+                        <VictoryGroup colorScale={["gold", "orange", "tomato"]}
+                            style={{ data: { fillOpacity: 0.2 } }}
+                        >
+                            {data.map((data, i) => {
+                                return <VictoryArea key={i} data={data} />;
+                            })}
+                        </VictoryGroup>
+                        {
+                            Object.keys(maxima).map((key, i) => {
+                                return (
+                                    <VictoryPolarAxis key={i} dependentAxis
+                                        style={{
+                                            axisLabel: { padding: 10 },
+                                            axis: { stroke: "none" },
+                                            grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 }
+                                        }}
+                                        tickLabelComponent={
+                                            <VictoryLabel labelPlacement="vertical" />
+                                        }
+                                        labelPlacement="perpendicular"
+                                        axisValue={i + 1} label={key}
+                                        tickFormat={(t) => Math.ceil(t * maxima[key])}
+                                        tickValues={[0.25, 0.5, 0.75]}
+                                    />
+                                );
+                            })
+                        }
+                        <VictoryPolarAxis
+                            labelPlacement="parallel"
+                            tickFormat={() => ""}
+                            style={{
+                                axis: { stroke: "none" },
+                                grid: { stroke: "grey", opacity: 0.5 }
+                            }}
+                        />
 
-            </VictoryChart>
+
+                    </VictoryChart>
+                    <Segment>
+                        This is definitely a sentence
+                    </Segment>
+                </Table.Cell>
+         
         );
     }
 }
