@@ -1,4 +1,4 @@
-// import masterScrapper from '../scrappers/masterScrapper.js';
+// import masterScraper from '../scrapers/masterScraper.js';
 
 // var fs = require('fs');
 // var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const masterArticleScrapper = require('../../scrappers/masterScrapper.js');
+const masterArticleScraper = require('../../scrapers/masterScraper.js');
 const db = require('../db/firestore')
 const NewsAPI = require('newsapi')
 const newsapi = new NewsAPI(process.env.NEWS_KEY)
@@ -29,6 +29,7 @@ const Promise = require('bluebird')
 // nlu.analyzeAsync = Promise.promisify(nlu.analyze)
 
 //api/article/related/url/
+//should be based on ID
 router.get('/related/url/*', (req, res, next) => {
     const query = db.collection('articles').where('info.parent', '==', req.params[0])
     const related = [];
@@ -48,7 +49,7 @@ router.post('/related', async (req, res, next) => {
     const parentUrl = req.body.url
     // const query = keywords.slice(0, 2).join(' ')
     const query = keywords;
-    console.log('Query: ', query)
+    // console.log('Query: ', query)
     const newsResults = await newsapi.v2.everything({
         sources: 'the-new-york-times, bbc-news',
         q: query,
@@ -56,6 +57,9 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = await newsResults.articles.map(async (article) => {
+        if (article.url.includes('bbc') && parentUrl.includes('bbc')){
+            article.url = article.url.replace('bbc.co.uk', 'bbc.com')
+        }
         const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
         if (!scrapeObj.flag){
             const nlpResults = await nlp.analyze(scrapeObj.text);
@@ -73,8 +77,8 @@ router.post('/related', async (req, res, next) => {
     })
     Promise.all(promiseArray)
         .then(results => {
-            console.log('IN API SEND HELP', results.length)
-            console.log('something', results.indexOf(undefined))
+            // console.log('IN API SEND HELP', results.length)
+            // console.log('something', results.indexOf(undefined))
             res.send(results.filter(element => element !== undefined));
         })
     // res.send(articleArray)
@@ -88,7 +92,7 @@ router.post('/landing', async (req, res, next) => {
     // let promiseLandingArray = [];
     const promiseLandingArray = newsResult.articles.map(async (article) => {
 
-        const scrapeObj2 = await masterArticleScrapper(article.url)
+        const scrapeObj2 = await masterArticleScraper(article.url)
 
         if (scrapeObj2.text !== 0) {
             const nlpResults2 = await nlp.analyze(scrapeObj2.text);
@@ -113,6 +117,7 @@ router.post('/landing', async (req, res, next) => {
 router.post('/url/*', async (req, res, next) => {
     console.log(req.params[0])
     const scrapeObj = await masterArticleScrapper(req.params[0]);
+    console.log('wtf', scrapeObj.url)
     if (scrapeObj.flag){
         res.send({message: 'Could not process this article. Please try another link.'})
     } else {
@@ -137,7 +142,7 @@ router.post('/url/*', async (req, res, next) => {
 
 // router.post('/fromArticle?', async (req, res, next) => {
 //     let url = req.query.url
-//     const scrapeObj = await masterArticleScrapper(url);
+//     const scrapeObj = await masterArticleScraper(url);
 //     if (scrapeObj.flag){
 //         console.log('testing things')
 //         res.send({message: 'Could not process this article. Please try another link.'})
@@ -163,9 +168,10 @@ router.post('/url/*', async (req, res, next) => {
 
 
 router.get('/url/*', (req, res, next) => {
-    let articleRef = db.collection('articles').where('info.url', '==', req.params[0])
-    console.log(req.params[0])
-    articleRef.get().then(docu => {
+    let articleRef = db.collection('articles')
+    console.log('this is where i am',req.params[0])
+    articleRef.where('info.url', '==', req.params[0]).get().then(docu => {
+        console.log('test it all 1', docu)
         docu.forEach(d => {
             const data = d.data()
             console.log('data: ', data)

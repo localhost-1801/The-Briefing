@@ -1,17 +1,17 @@
 
-// //import masterArticleScrapper from '../scrappers/masterScrapper.js';
-// const masterArticleScrapper = require('../scrappers/masterScrapper.js')
+// //import masterArticleScraper from '../scrapers/masterScraper.js';
+// const masterArticleScraper = require('../scrapers/masterScraper.js')
 
 // var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
 // const url = 'http://www.bbc.com/news/world-us-canada-43402077'
 // //const url = 'http://www.foxnews.com/world/2018/03/14/23-russian-diplomats-to-be-expelled-from-britain-amid-probe-into-ex-spys-poisoning.html';
 
-// masterArticleScrapper(url)
+// masterArticleScraper(url)
 
-// //const object = await masterArticleScrapper(url);
+// //const object = await masterArticleScraper(url);
 // // const test = async () => {
-// //     const object = await masterArticleScrapper(url)
+// //     const object = await masterArticleScraper(url)
 // //     return object
 // // }
 // // //console.log('LOGsdfsdfsdfsfsd LOG', test());
@@ -19,7 +19,7 @@
 // // console.log(testresults)
 // // //console.log('LOG LOG LOG', test().then(result => result));
 
-// // // const wrapper = 
+// // // const wrapper =
 
 // // var toneAnalyzer = new ToneAnalyzerV3({
 // //     "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
@@ -44,20 +44,20 @@
 // //     }
 // // );
 
-// ///home/warren/Fullstack Academy/Headlines/scrappers/masterScrapper.js
-//import masterArticleScrapper from '../scrappers/masterScrapper.js';
-// const masterArticleScrapper = require('../scrappers/masterScrapper.js')
+// ///home/warren/Fullstack Academy/Headlines/scrapers/masterScraper.js
+//import masterArticleScraper from '../scrapers/masterScraper.js';
+// const masterArticleScraper = require('../scrapers/masterScraper.js')
 
 // var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
 // const url = 'http://www.bbc.com/news/world-us-canada-43402077'
 // //const url = 'http://www.foxnews.com/world/2018/03/14/23-russian-diplomats-to-be-expelled-from-britain-amid-probe-into-ex-spys-poisoning.html';
 
-// masterArticleScrapper(url)
+// masterArticleScraper(url)
 
-// //const object = await masterArticleScrapper(url);
+// //const object = await masterArticleScraper(url);
 // const test = async () => {
-//     const object = await masterArticleScrapper(url)
+//     const object = await masterArticleScraper(url)
 //     return object
 // }
 // //console.log('LOGsdfsdfsdfsfsd LOG', test());
@@ -65,7 +65,7 @@
 // console.log(testresults)
 // //console.log('LOG LOG LOG', test().then(result => result));
 
-// // const wrapper = 
+// // const wrapper =
 
 // var toneAnalyzer = new ToneAnalyzerV3({
 //     "url": "https://gateway.watsonplatform.net/tone-analyzer/api",
@@ -91,4 +91,4 @@
 //     }
 // );
 
-///home/warren/Fullstack Academy/Headlines/scrappers/masterScrapper.js
+///home/warren/Fullstack Academy/Headlines/scrapers/masterScraper.js

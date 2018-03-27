@@ -1,5 +1,5 @@
 import axios from 'axios';
-//const masterScrapper = require('../../scrappers/masterScrapper.js');
+//const master = require('../../scrapers/masterScraper.js');
 
 const GET_LANDING_ARTICLES = 'GET_LANDING_ARTICLES'
 const CREATE_LANDING_ARTICLES = 'CREATE_LANDING_ARTICLES'

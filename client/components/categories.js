@@ -1,31 +1,53 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Icon, Step } from 'semantic-ui-react'
+import ReactLoading from 'react-loading';
+import { connect } from 'react-redux';
+import { fetchArticleData } from '../store/singleArticle'
 
-const Categories = () => (
-  <Step.Group>
-    <Step>
-      <Icon name='truck' />
-      <Step.Content>
-        <Step.Title>Shipping</Step.Title>
-        <Step.Description>Choose your shipping options</Step.Description>
-      </Step.Content>
-    </Step>
+class Categories extends Component {
+  constructor() {
+    super()
+  }
 
-    <Step active>
-      <Icon name='payment' />
-      <Step.Content>
-        <Step.Title>Billing</Step.Title>
-        <Step.Description>Enter billing information</Step.Description>
-      </Step.Content>
-    </Step>
+  componentWillMount(){
+    this.props.loadData();
+  }
 
-    <Step disabled>
-      <Icon name='info' />
-      <Step.Content>
-        <Step.Title>Confirm Order</Step.Title>
-      </Step.Content>
-    </Step>
-  </Step.Group>
-)
 
-export default Categories
+  render() {
+    const singleArticle = this.props.singleArticle;
+
+    if (singleArticle.info === undefined) {
+      return (
+        <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+      )
+    } else {
+      return (
+        <div id="categories">
+        <Step.Group size='small'>
+        {singleArticle.nlu.categories.map(category =>
+        <Step key={category.label}>
+          <Step.Content>
+            <Step.Title>{category.label.slice(category.label.lastIndexOf('/')+ 1).toUpperCase()}
+            </Step.Title>
+          </Step.Content>
+        </Step>
+      )}
+      </Step.Group>
+        </div>
+      )
+    }
+  }
+}
+
+
+const mapState = ({ singleArticle }) => ({ singleArticle })
+const mapDispatch = dispatch => {
+  return {
+    loadData(url){
+      dispatch(fetchArticleData(url))
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Categories)
