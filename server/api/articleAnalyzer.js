@@ -60,7 +60,7 @@ router.post('/related', async (req, res, next) => {
         if (article.url.includes('bbc') && parentUrl.includes('bbc')){
             article.url = article.url.replace('bbc.co.uk', 'bbc.com')
         }
-        const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
+        const scrapeObj = await masterArticleScraper(article.url, parentUrl );
         if (!scrapeObj.flag){
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
@@ -116,7 +116,7 @@ router.post('/landing', async (req, res, next) => {
 
 router.post('/url/*', async (req, res, next) => {
     console.log(req.params[0])
-    const scrapeObj = await masterArticleScrapper(req.params[0]);
+    const scrapeObj = await masterArticleScraper(req.params[0]);
     console.log('wtf', scrapeObj.url)
     if (scrapeObj.flag){
         res.send({message: 'Could not process this article. Please try another link.'})
