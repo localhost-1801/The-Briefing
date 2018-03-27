@@ -210,5 +210,4 @@ const mapDispatch = (dispatch) => {
 }
 
 
-export default connect(mapState, mapDispatch)(BarChart)
-
+export default connect (mapState, mapDispatch)(BarChart)
