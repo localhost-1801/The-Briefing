@@ -73,13 +73,14 @@ class SingleBarChart extends Component {
               </button>
                 <VictoryChart height={400} width={400}
                     domainPadding={{ x: 100, y: [0, 100] }}
-                    animate={{ duration: 1000 }}
+                    animate={{ duration: 3000 }}
                 >
                   <VictoryStack
+                    animate={{duration: 3000}}
                     colorScale={["#61cdbb", "#e8a838", "#97e3d5", "e8c1a0", "#f5755f", "#f1e15b"]}
                   >
                     {dataset.map((data, i) => {
-                      return <VictoryBar data={data} key={i}/>;
+                      return <VictoryBar animate={{duration: 3000}} data={data} key={i}/>;
                     })}
                   </VictoryStack>
                   <VictoryAxis dependentAxis

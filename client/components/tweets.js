@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { fetchArticleData } from '../store/singleArticle'
-import { Feed } from 'semantic-ui-react'
+import { Feed, Divider } from 'semantic-ui-react'
 
 
 class Tweets extends Component {
@@ -22,25 +22,42 @@ class Tweets extends Component {
         return (
             <div>
                 <Feed>
-                    <div >
+                    <Feed.Event>
+                        <Feed.Label image='https://www.fillmurray.com/200/200' />
+                        <Feed.Content>
+                            <Feed.Date>3 days ago</Feed.Date>
+                            <Feed.Summary>
+                                <a>Laura Faucet</a> created a post
+        </Feed.Summary>
+                            <Feed.Extra text>
+                                Have you seen what's going on in Israel? Can you believe it.
+        </Feed.Extra>
+                        </Feed.Content>
+                    </Feed.Event>
+                </Feed>
+                <Feed>
+
                     {tweets.slice(0, 15).map((tweet) => {
                         return (
-                            <Feed.Event>
-                            <Feed.Label key={tweet.user.name} image={tweet.user.profilePic} />
-                            <Feed.Content>
-                                <Feed.Date>{tweet.timeStamp}</Feed.Date>
-                                <Feed.Summary>
-                                    {tweet.user.name}
-                          </Feed.Summary>
-                                <Feed.Extra text>
-                                    {tweet.text}
-                          </Feed.Extra>
-                            </Feed.Content>
-                        </Feed.Event>
+                            
+
+                                <Feed.Event>
+                                    <Feed.Label key={tweet.user.name} image={tweet.user.profilePic} />
+                                    <Feed.Content>
+                                        <Feed.Date>{tweet.timeStamp}</Feed.Date>
+                                        <Feed.Summary>
+                                            {tweet.user.name}
+                                        </Feed.Summary>
+                                        <Feed.Extra text>
+                                            {tweet.text}
+                                        </Feed.Extra>
+                                    <Divider />
+                                    </Feed.Content>
+                                </Feed.Event>
                         )
                     })}
-                    </div>
                 </Feed>
+
             </div>
         );
     }
