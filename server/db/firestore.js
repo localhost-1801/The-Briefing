@@ -1,4 +1,5 @@
 const admin = require('firebase-admin')
+const secrets = require('../../secrets')
 //this might all be working you just have to update watson certificate
 // uncomment the line below for running a server with webpack
 // const serviceAccount = require('../../googleKey.json')
@@ -6,6 +7,7 @@ const admin = require('firebase-admin')
 //when you want to deploy uncomment this
 let serviceAccount = '';
 try {
+  console.log(process.env.FIRESTORE)
   serviceAccount = JSON.parse(process.env.FIRESTORE)
 }
 catch (err){
@@ -14,10 +16,7 @@ catch (err){
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 })
-
-
 const db = admin.firestore();
-
 
 db.dropTable = function deleteCollection(db, collectionPath, batchSize) {
     var collectionRef = db.collection(collectionPath);
