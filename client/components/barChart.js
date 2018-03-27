@@ -91,11 +91,10 @@ class BarChart extends Component {
     let aggregateData = this.parseDataMultiple(relatedArticles)
 
     return (
-  
+
         <Table.Cell>
           <div className="chartBackground">
             <svg viewBox="0 0 500 500" width="100%" height="100%">
-              
         <VictoryStack horizontal
                 standalone={false}
                 /* setting a symmetric domain makes it much easier to center the axis  */
@@ -189,13 +188,15 @@ class BarChart extends Component {
             </svg>
 
           </div>
+
           <Segment textAlign={'center'} compact={true} attached='bottom'>
           <Header size='tiny'>{this.state.activeDescription}</Header> 
           {descriptions[this.state.activeDescription.toLowerCase()]}
+
         </Segment>
         </Table.Cell>
- 
-  
+
+
     );
   }
 }
