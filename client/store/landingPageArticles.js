@@ -8,7 +8,6 @@ const defaultArticles = [];
 const getLandingArticles = articles => ({ type: GET_LANDING_ARTICLES, articles })
 const createLandingArticles = articles => ({ type: CREATE_LANDING_ARTICLES, articles })
 
-
 export const fetchlandingArticles = () => dispatch => {
     return axios.get(`api/article/landing`)
         .then(response => {
@@ -25,6 +24,7 @@ export const makelandingArticles = () => dispatch => {
             // console.log('progress + +', response);
         })
 }
+
 
 export default function (state = defaultArticles, action) {
     switch (action.type) {

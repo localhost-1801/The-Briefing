@@ -6,8 +6,9 @@ import user from './user'
 import singleArticle from './singleArticle'
 import relatedArticles from './relatedArticles'
 import landingPageArticles from './landingPageArticles'
+import mapStore from './mapStore'
 
-const reducer = combineReducers({ user, singleArticle, relatedArticles, landingPageArticles })
+const reducer = combineReducers({ user, singleArticle, relatedArticles, landingPageArticles, mapStore })
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({ collapsed: true })

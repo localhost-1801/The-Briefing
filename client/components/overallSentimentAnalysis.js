@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { VictoryPie, VictoryAnimation, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
 import { getLandingArticles, createLandingArticles } from '../store/landingPageArticles'
-// import { currentId } from 'async_hooks';
+import ReactLoading from 'react-loading';
 
 
 // https://formidable.com/open-source/victory/gallery/animating-circular-progress-bar/
@@ -35,10 +35,14 @@ class OverallSentimentAnalysisWithProps extends Component {
   }
 
   render() {
-    let aggregateNumber = this.props.landingPageArticles.map(article => {
+    if (this.props.landingPageArticles.length === 0) {
+      return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+    }
+    let aggregateNumber = this.props.landingPageArticles.data.map(article => {
       return article.nlu.sentiment.document.score * 100
     }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    let isPositiveInt = aggregateNumber > 0 ? true : false;
+    let average = (aggregateNumber / this.props.landingPageArticles.data.length)
+    let isPositiveInt = average > 0 ? true : false;
 
     // let isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
     let data;
@@ -46,8 +50,8 @@ class OverallSentimentAnalysisWithProps extends Component {
     // data = { percent: 0, data: [{ x: 1, y: 0 }, { x: 2, y: 100 }] }
     // } else {
     data = {
-      percent: Math.abs(Math.floor(aggregateNumber)) || 50,
-      data: this.getData(Math.abs(Math.floor(aggregateNumber))) || 50
+      percent: Math.abs(Math.floor(average)) || 50,
+      data: this.getData(Math.abs(Math.floor(average))) || 50
       // }
     }
     //[{x:1, y:79}, {x:2, y:21}]
@@ -80,7 +84,7 @@ class OverallSentimentAnalysisWithProps extends Component {
                 <VictoryLabel
                   textAnchor="middle" verticalAnchor="middle"
                   x={200} y={200}
-                  text={`${Math.round(data.percent)}% ${this.props.landingPageArticles[0].nlu.sentiment.document.label}`}
+                  text={`${Math.round(data.percent)}% ${this.props.landingPageArticles.data[0].nlu.sentiment.document.label}`}
                   // ${isPositiveInt ? 'Positive' : 'Negative'}`} // should upate 'Positive' with the info from Watson
                   style={{ fontSize: 45 }}
                 />
@@ -90,17 +94,19 @@ class OverallSentimentAnalysisWithProps extends Component {
         </svg>
       </div>
     );
+
   }
 }
 
 
 const mapState = ({ landingPageArticles }) => ({ landingPageArticles })
-const mapDispatch = (dispatch) => {
-  return {
-    loadData(url) {
-      dispatch(getLandingArticles(url))
-    }
-  }
-}
+const mapDispatch = null;
+//  (dispatch) => {
+//   return {
+//     loadData(url) {
+//       dispatch(getLandingArticles(url))
+//     }
+//   }
+// }
 
 export default connect(mapState, mapDispatch)(OverallSentimentAnalysisWithProps)

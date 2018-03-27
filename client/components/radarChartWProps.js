@@ -21,16 +21,16 @@ class RadarChart extends Component {
     componentDidMount() {
         // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
         // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
-    //     setInterval(()=> {
-    //     this.setState({
-    //         bool: !this.state.bool,
-    //         data: this.processData(this.state.bool ? emotionalTones : socialTones),
-    //         maxima: this.getMaxima(this.state.bool ? emotionalTones : socialTones)
-    //     })
-    // }, 5000)
-        setInterval(()=>{
-            this.setState({bool: !this.state.bool})
-        }, 3000)
+        //     setInterval(()=> {
+        //     this.setState({
+        //         bool: !this.state.bool,
+        //         data: this.processData(this.state.bool ? emotionalTones : socialTones),
+        //         maxima: this.getMaxima(this.state.bool ? emotionalTones : socialTones)
+        //     })
+        // }, 5000)
+        setInterval(() => {
+            this.setState({ bool: !this.state.bool })
+        }, 100000)
     }
 
     parseData(data) {
@@ -67,8 +67,7 @@ class RadarChart extends Component {
     }
 
     render() {
-        if (this.props.singleArticle === undefined ) {
-            // console.log(this.props.tone)
+        if (this.props.singleArticle === undefined) {
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
         let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
@@ -76,11 +75,10 @@ class RadarChart extends Component {
         let processedEmo = this.processData(emotionalTones)
         let processedTones = this.processData(socialTones)
         let data = this.state.bool ? processedEmo : processedTones
-        let maxima = this.state.bool ? this.getMaxima(emotionalTones): this.getMaxima(socialTones)
-        // console.log(maxima)
+        let maxima = this.state.bool ? this.getMaxima(emotionalTones) : this.getMaxima(socialTones)
+
         // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
         // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
-
         // let dataObj = {
         //     data: this.processData(emotionalTones),
         //     maxima: this.getMaxima(emotionalTones)

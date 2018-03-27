@@ -23,9 +23,11 @@ class SingleBarChart extends Component {
         }
         let grabData = this.props.singleArticle.tone.document_tone.tone_categories[1].tones
         let setData = []
+        console.log('grabData', grabData)
         grabData.forEach(tone => {
-            setData.push({ x: tone.tone_name, y: Math.floor(tone.score *100)})
+            setData.push({ x: tone.tone_name, y: Math.floor(tone.score * 100) })
         })
+        console.log('setData', setData)
         const handleMouseOver = () => {
             const fillColor = this.state.clicked ? "blue" : "tomato";
             const clicked = !this.state.clicked;
