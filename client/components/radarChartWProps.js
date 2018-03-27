@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
+import { Header, Icon, Image, Table, Grid, Button, Checkbox, Menu, Form, Segment } from 'semantic-ui-react'
 
 
 
@@ -16,23 +16,18 @@ class RadarChart extends Component {
             data: [],
             maxima: [],
             bool: true,
+            active: 'emotion'
             // url: this.props.singleArticle.info.url
         };
     }
 
     componentDidMount() {
-        // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
-        // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
-        //     setInterval(()=> {
-        //     this.setState({
-        //         bool: !this.state.bool,
-        //         data: this.processData(this.state.bool ? emotionalTones : socialTones),
-        //         maxima: this.getMaxima(this.state.bool ? emotionalTones : socialTones)
-        //     })
-        // }, 5000)
-        setInterval(() => {
-            this.setState({ bool: !this.state.bool })
-        }, 3000)
+       this.setState({
+            interval: setInterval(() => {
+                this.setState({ bool: !this.state.bool, active: this.state.active === 'tone' ? 'emotion' : 'tone' })
+            }, 5000)
+       }) 
+       
     }
 
     parseData(data) {
@@ -55,7 +50,13 @@ class RadarChart extends Component {
             return memo;
         }, {});
     }
-
+    handleItemClick = (e, { name }) => {
+        clearInterval(this.state.interval)
+        this.setState({ active: name, bool: !this.state.bool, interval: setInterval(() => {
+            this.setState({ bool: !this.state.bool, active: this.state.active === 'tone' ? 'emotion' : 'tone' })
+        }, 5000)  })
+    }
+    
     //change data[tones] if not passsing an object tones with an array
     //make data array also modified, expects object with 'score' and 'tone_name'
     processData(data) {
@@ -106,57 +107,58 @@ class RadarChart extends Component {
         // }, 5000)
 
         return (
-     
-                <Table.Cell>
-     
-                    <VictoryChart polar
-                        theme={VictoryTheme.material}
-                        domain={{ y: [0, 1] }}
-                        animate={{ duration: 1000 }}
+            <div>
+               <Menu attached size={'mini'} tabular>
+                    <Menu.Item name='emotion' active={this.state.active === 'emotion'} onClick={this.handleItemClick} />
+                    <Menu.Item name='tone' active={this.state.active === 'tone'} onClick={this.handleItemClick} />
+                </Menu>
+            <Table.Cell>
+             
+                <VictoryChart polar
+                    theme={VictoryTheme.material}
+                    domain={{ y: [0, 1] }}
+                    animate={{ duration: 1000 }}
+                >
+                    <VictoryGroup colorScale={["gold", "orange", "tomato"]}
+                        style={{ data: { fillOpacity: 0.2 } }}
                     >
-                        <VictoryGroup colorScale={["gold", "orange", "tomato"]}
-                            style={{ data: { fillOpacity: 0.2 } }}
-                        >
-                            {data.map((data, i) => {
-                                return <VictoryArea key={i} data={data} />;
-                            })}
-                        </VictoryGroup>
-                        {
-                            Object.keys(maxima).map((key, i) => {
-                                return (
-                                    <VictoryPolarAxis key={i} dependentAxis
-                                        style={{
-                                            axisLabel: { padding: 10 },
-                                            axis: { stroke: "none" },
-                                            grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 }
-                                        }}
-                                        tickLabelComponent={
-                                            <VictoryLabel labelPlacement="vertical" />
-                                        }
-                                        labelPlacement="perpendicular"
-                                        axisValue={i + 1} label={key}
-                                        tickFormat={(t) => Math.ceil(t * maxima[key])}
-                                        tickValues={[0.25, 0.5, 0.75]}
-                                    />
-                                );
-                            })
-                        }
-                        <VictoryPolarAxis
-                            labelPlacement="parallel"
-                            tickFormat={() => ""}
-                            style={{
-                                axis: { stroke: "none" },
-                                grid: { stroke: "grey", opacity: 0.5 }
-                            }}
-                        />
+                        {data.map((data, i) => {
+                            return <VictoryArea key={i} data={data} />;
+                        })}
+                    </VictoryGroup>
+                    {
+                        Object.keys(maxima).map((key, i) => {
+                            return (
+                                <VictoryPolarAxis key={i} dependentAxis
+                                    style={{
+                                        axisLabel: { padding: 10 },
+                                        axis: { stroke: "none" },
+                                        grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.5 }
+                                    }}
+                                    tickLabelComponent={
+                                        <VictoryLabel labelPlacement="vertical" />
+                                    }
+                                    labelPlacement="perpendicular"
+                                    axisValue={i + 1} label={key}
+                                    tickFormat={(t) => Math.ceil(t * maxima[key])}
+                                    tickValues={[0.25, 0.5, 0.75]}
+                                />
+                            );
+                        })
+                    }
+                    <VictoryPolarAxis
+                        labelPlacement="parallel"
+                        tickFormat={() => ""}
+                        style={{
+                            axis: { stroke: "none" },
+                            grid: { stroke: "grey", opacity: 0.5 }
+                        }}
+                    />
 
 
-                    </VictoryChart>
-                    <Segment>
-                        This is definitely a sentence
-                    </Segment>
-                </Table.Cell>
-         
+                </VictoryChart>
+            </Table.Cell>
+                        </div>
         );
     }
 }

@@ -3,6 +3,7 @@ import { VictoryPie, VictoryAnimation, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { Menu, Segment, Header } from 'semantic-ui-react'
 
 // https://formidable.com/open-source/victory/gallery/animating-circular-progress-bar/
 
@@ -15,10 +16,10 @@ class OverallSentimentAnalysisWithProps extends Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    handleClick(){
-      this.setState({
-        aggregate: !this.state.aggregate
-      })
+    handleClick() {
+        this.setState({
+            aggregate: !this.state.aggregate
+        })
     }
 
 
@@ -27,47 +28,47 @@ class OverallSentimentAnalysisWithProps extends Component {
     }
 
     render() {
-        if(this.props.relatedArticles.length === 0){
-          return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
+        if (this.props.relatedArticles.length === 0) {
+            return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
         let data;
         let isPositiveInt;
         let label;
-        if(this.state.aggregate){
-          let aggregateNumber = this.props.relatedArticles.map(article => {
-            return article.nlu.sentiment.document.score * 100
-          }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-          let average = (aggregateNumber / this.props.relatedArticles.length)
-          isPositiveInt = average > 0 ? true : false;
-          data = {
-            percent: Math.abs(Math.floor(average)) || 0,
-            data: this.getData(Math.abs(Math.floor(average))) || 0
-            // }
-          }
-          if(average > 0){
-            label = 'Positive'
-          } else if(average < 0){
-            label = 'Negative'
-          } else {
-            label = 'Neutral'
-          }
+        if (this.state.aggregate) {
+            let aggregateNumber = this.props.relatedArticles.map(article => {
+                return article.nlu.sentiment.document.score * 100
+            }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+            let average = (aggregateNumber / this.props.relatedArticles.length)
+            isPositiveInt = average > 0 ? true : false;
+            data = {
+                percent: Math.abs(Math.floor(average)) || 0,
+                data: this.getData(Math.abs(Math.floor(average))) || 0
+                // }
+            }
+            if (average > 0) {
+                label = 'Positive'
+            } else if (average < 0) {
+                label = 'Negative'
+            } else {
+                label = 'Neutral'
+            }
         } else {
-          isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
-          data = {
-              percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score  * 100)) || 0,
-              data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100))) || 0
-          }
-          let evalScore = this.props.singleArticle.nlu.sentiment.document.score
-          if(evalScore > 0){
-            label = 'Positive'
-          } else if(evalScore < 0){
-            label = 'Negative'
-          } else {
-            label = 'Neutral'
-          }
+            isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
+            data = {
+                percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100)) || 0,
+                data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100))) || 0
+            }
+            let evalScore = this.props.singleArticle.nlu.sentiment.document.score
+            if (evalScore > 0) {
+                label = 'Positive'
+            } else if (evalScore < 0) {
+                label = 'Negative'
+            } else {
+                label = 'Neutral'
+            }
         }
-                // if (this.state.bool) {
-            // data = { percent: 0, data: [{ x: 1, y: 0 }, { x: 2, y: 100 }] }
+        // if (this.state.bool) {
+        // data = { percent: 0, data: [{ x: 1, y: 0 }, { x: 2, y: 100 }] }
         // } else {
         //     data = {
         //         percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score  * 100)) || 50,
@@ -80,9 +81,10 @@ class OverallSentimentAnalysisWithProps extends Component {
         // {percent: 70, data: [{x:1, y:70}, {x:2, y:30}]}
         return (
             <div className="chartBackground">
-              <button onClick={this.handleClick}>
-                {this.state.aggregate ? 'Your Article' : 'Aggregate'}
-              </button>
+                <Menu attached size={'mini'} tabular>
+                    <Menu.Item name='single' active={!this.state.aggregate} onClick={this.handleClick} />
+                    <Menu.Item name='aggregate' active={this.state.aggregate} onClick={this.handleClick} />
+                </Menu>
                 <svg viewBox="0 0 400 400" width="100%" height="100%">
                     <VictoryPie // can update the height and width on the line above
                         standalone={false}
@@ -95,7 +97,7 @@ class OverallSentimentAnalysisWithProps extends Component {
                         style={{
                             data: {
                                 fill: (d) => {
-                                    const color = isPositiveInt? 'green' : 'red'; // might want to reformat this to say if 'positive' from watson ? 'green' : 'red'
+                                    const color = isPositiveInt ? 'green' : 'red'; // might want to reformat this to say if 'positive' from watson ? 'green' : 'red'
                                     return d.x === 1 ? color : 'gray';
                                 }
                             }
@@ -108,8 +110,8 @@ class OverallSentimentAnalysisWithProps extends Component {
                                     textAnchor="middle" verticalAnchor="middle"
                                     x={200} y={200}
                                     text={`${Math.round(data.percent)}% ${label}`}
-                                   // ${isPositiveInt ? 'Positive' : 'Negative'}`}
-                                    style={{ fontSize: 45 }}
+                                    // ${isPositiveInt ? 'Positive' : 'Negative'}`}
+                                    style={{ fontSize: 30 }}
                                 />
                             );
                         }}

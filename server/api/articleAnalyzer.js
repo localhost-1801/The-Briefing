@@ -171,10 +171,10 @@ router.get('/url/*', (req, res, next) => {
     let articleRef = db.collection('articles')
     console.log('this is where i am',req.params[0])
     articleRef.where('info.url', '==', req.params[0]).get().then(docu => {
-        console.log('test it all 1', docu)
+        // console.log('test it all 1', docu)
         docu.forEach(d => {
             const data = d.data()
-            console.log('data: ', data)
+            console.log('in snapshot')
             res.send(data)
         })
     })
