@@ -47,15 +47,15 @@ class SingleBarChart extends Component {
     parseDataMultiple(data){
       let resultArr = []
       data.forEach(relatedArticle =>
-        resultArr.push(this.parseDataSingle(relatedArticle))
+        resultArr.push(...this.parseDataSingle(relatedArticle))
       )
       resultArr.map(arr => {
-        return arr.map( lowerArr => {
-          return lowerArr.map(obj =>{
+        // return arr.map( lowerArr => {
+          return arr.map(obj =>{
             obj.y = Math.floor((obj.y / resultArr.length))
             return obj
           })
-        })
+        // })
       })
       return resultArr;
     }
