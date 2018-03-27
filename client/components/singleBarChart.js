@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from 'victory';
+import { VictoryChart, VictoryAxis, VictoryBar, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel, VictoryStack } from 'victory';
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
@@ -18,58 +18,50 @@ class SingleBarChart extends Component {
         };
         this.parseDataSingle = this.parseDataSingle.bind(this)
         this.parseDataMultiple = this.parseDataMultiple.bind(this)
-        this.transformData = this.transformData.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
-    /*
-    DATAFORMAT
-    [
-      [
-        {x: Analytical y: 69}
-        {x: Confident y: 33}
-        {x: Tentative y: 104}
-      ],
-      [
-        {x: Analytical y: 22}
-        {x: Confident y: 129}
-        {x: Tentative y: 5}
-      ],
-    ]
-    */
+
+    handleClick(){
+      this.setState({
+        aggregate: !this.state.aggregate
+      })
+    }
 
     parseDataSingle(data){
       let resultArr = []
       let dataArr = data.tone.document_tone.tone_categories[1].tones
+      let toneScore = 0
       dataArr.forEach(tone => {
-        resultArr.push({x: tone.tone_name, y: Math.floor(tone.score *100)})
+        console.log('tone.score', tone.score)
+        console.log('tone.score type', typeof(tone.score))
+        if(tone.score > 0){
+          toneScore = Math.floor(tone.score * 100)
+          console.log(toneScore)
+        }
+        resultArr.push({x: tone.tone_name, y: toneScore })
+        toneScore = 0
       })
-      return resultArr;
+      return [resultArr];
     }
 
     parseDataMultiple(data){
       let resultArr = []
       data.forEach(relatedArticle =>
-        resultArr.push(parseDataSingle(data))
+        resultArr.push(this.parseDataSingle(relatedArticle))
       )
+      resultArr.map(arr => {
+        return arr.map( lowerArr => {
+          return lowerArr.map(obj =>{
+            obj.y = Math.floor((obj.y / resultArr.length))
+            return obj
+          })
+        })
+      })
       return resultArr;
     }
 
-    transformData(dataset) {
-      console.log(dataset)
-      const totals = dataset[0].map((data, i) => {
-        return dataset.reduce((memo, curr) => {
-          return memo + curr[i].y;
-        }, 0);
-      });
-      return dataset.map((data) => {
-        return data.map((datum, i) => {
-          return { x: datum.x, y: (datum.y / totals[i]) * 100 };
-        });
-      });
-    }
-
     render() {
-        let dataset = []
-        if (dataset.length === 0) {
+        if (this.props.relatedArticles.length === 0) {
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
         let dataParsed;
@@ -78,7 +70,9 @@ class SingleBarChart extends Component {
         } else {
           dataParsed = this.parseDataSingle(this.props.singleArticle)
         }
-        dataset = this.transformData(dataParsed);
+        let dataset = dataParsed
+        // let dataset = this.transformData(dataParsed);
+        console.log('dataset', dataParsed)
         // let grabData = this.props.singleArticle.tone.document_tone.tone_categories[1].tones
         // let setData = []
         // grabData.forEach(tone => {
@@ -99,17 +93,15 @@ class SingleBarChart extends Component {
               <button onClick={this.handleClick}>
                 {this.state.aggregate ? 'Your Article' : 'Aggregate'}
               </button>
-                <strong>Language Tone Analysis</strong>
                 <VictoryChart height={400} width={400}
                     domainPadding={{ x: 100, y: [0, 100] }}
                 >
                   <VictoryStack
-                    colorScale={["black", "blue", "tomato"]}
+                    colorScale={["orange", "blue", "tomato"]}
                   >
-                  {dataset.map((data, i) => {
-                    return <VictoryBar data={data} key={i}/>;
-                  })}
-                  //change these to 3 tones
+                    {dataset.map((data, i) => {
+                      return <VictoryBar data={data} key={i}/>;
+                    })}
                   </VictoryStack>
                   <VictoryAxis dependentAxis
                     tickFormat={(tick) => `${tick}%`}
