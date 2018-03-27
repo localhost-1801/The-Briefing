@@ -32,11 +32,8 @@ class SingleBarChart extends Component {
       let dataArr = data.tone.document_tone.tone_categories[1].tones
       let toneScore = 0
       dataArr.forEach(tone => {
-        console.log('tone.score', tone.score)
-        console.log('tone.score type', typeof(tone.score))
         if(tone.score > 0){
           toneScore = Math.floor(tone.score * 100)
-          console.log(toneScore)
         }
         resultArr.push({x: tone.tone_name, y: toneScore })
         toneScore = 0
@@ -50,12 +47,10 @@ class SingleBarChart extends Component {
         resultArr.push(...this.parseDataSingle(relatedArticle))
       )
       resultArr.map(arr => {
-        // return arr.map( lowerArr => {
-          return arr.map(obj =>{
-            obj.y = Math.floor((obj.y / resultArr.length))
-            return obj
-          })
-        // })
+        return arr.map(obj =>{
+          obj.y = Math.floor((obj.y / resultArr.length))
+          return obj
+        })
       })
       return resultArr;
     }
@@ -71,23 +66,6 @@ class SingleBarChart extends Component {
           dataParsed = this.parseDataSingle(this.props.singleArticle)
         }
         let dataset = dataParsed
-        // let dataset = this.transformData(dataParsed);
-        console.log('dataset', dataParsed)
-        // let grabData = this.props.singleArticle.tone.document_tone.tone_categories[1].tones
-        // let setData = []
-        // grabData.forEach(tone => {
-        //     setData.push({ x: tone.tone_name, y: Math.floor(tone.score *100)})
-        // })
-        // const handleMouseOver = () => {
-        //     const fillColor = this.state.clicked ? "blue" : "tomato";
-        //     const clicked = !this.state.clicked;
-        //     this.setState({
-        //         clicked,
-        //         style: {
-        //             data: { fill: fillColor }
-        //         }
-        //     });
-        // };
         return (
             <div>
               <button onClick={this.handleClick}>
@@ -95,16 +73,17 @@ class SingleBarChart extends Component {
               </button>
                 <VictoryChart height={400} width={400}
                     domainPadding={{ x: 100, y: [0, 100] }}
+                    animate={{ duration: 1000 }}
                 >
                   <VictoryStack
-                    colorScale={["orange", "blue", "tomato"]}
+                    colorScale={["#61cdbb", "#e8a838", "#97e3d5", "e8c1a0", "#f5755f", "#f1e15b"]}
                   >
                     {dataset.map((data, i) => {
                       return <VictoryBar data={data} key={i}/>;
                     })}
                   </VictoryStack>
                   <VictoryAxis dependentAxis
-                    tickFormat={(tick) => `${tick}%`}
+                    tickFormat={(tick) => {return (tick < 101 ? `${tick}%` : null)}}
                   />
                   <VictoryAxis
                     tickFormat={["Analytical", "Confident", "Tentative"]}
