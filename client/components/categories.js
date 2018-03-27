@@ -24,7 +24,7 @@ class Categories extends Component {
     } else {
       return (
         <div id="categories">
-        <Step.Group size='small'>
+        <Step.Group size='mini'>
         {singleArticle.nlu.categories.map(category =>
         <Step key={category.label}>
           <Step.Content>
