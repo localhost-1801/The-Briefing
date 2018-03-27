@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const masterArticleScrapper = require('../../scrappers/masterScrapper.js');
+const masterArticleScraper = require('../../scrapers/masterScraper.js');
 const db = require('../db/firestore')
 const NewsAPI = require('newsapi')
 const newsapi = new NewsAPI(process.env.NEWS_KEY)
@@ -49,7 +49,7 @@ router.post('/related', async (req, res, next) => {
     const parentUrl = req.body.url
     // const query = keywords.slice(0, 2).join(' ')
     const query = keywords;
-    console.log('Query: ', query)
+    // console.log('Query: ', query)
     const newsResults = await newsapi.v2.everything({
         sources: 'the-new-york-times, bbc-news',
         q: query,
@@ -77,7 +77,8 @@ router.post('/related', async (req, res, next) => {
     })
     Promise.all(promiseArray)
         .then(results => {
-            console.log('IN API SEND HELP', results.length)
+            // console.log('IN API SEND HELP', results.length)
+            // console.log('something', results.indexOf(undefined))
             res.send(results.filter(element => element !== undefined));
         })
     // res.send(articleArray)
@@ -91,7 +92,7 @@ router.post('/landing', async (req, res, next) => {
     // let promiseLandingArray = [];
     const promiseLandingArray = newsResult.articles.map(async (article) => {
 
-        const scrapeObj2 = await masterArticleScrapper(article.url)
+        const scrapeObj2 = await masterArticleScraper(article.url)
 
         if (scrapeObj2.text !== 0) {
             const nlpResults2 = await nlp.analyze(scrapeObj2.text);
@@ -141,7 +142,7 @@ router.post('/url/*', async (req, res, next) => {
 
 // router.post('/fromArticle?', async (req, res, next) => {
 //     let url = req.query.url
-//     const scrapeObj = await masterArticleScrapper(url);
+//     const scrapeObj = await masterArticleScraper(url);
 //     if (scrapeObj.flag){
 //         console.log('testing things')
 //         res.send({message: 'Could not process this article. Please try another link.'})

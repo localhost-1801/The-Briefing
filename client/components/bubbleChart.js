@@ -68,7 +68,7 @@ class BubbleChart extends React.Component {
   }
 
   resizeChart(){
-    console.log('resizing')
+    // console.log('resizing')
     let computedHeight = 0.28 * +window.innerWidth
     this.bubbleWrapper.style.height = computedHeight + 'px'
     this.bubbleWrapper.style.width = computedHeight + 'px'

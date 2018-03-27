@@ -16,7 +16,7 @@ class RelatedArticlesSingle extends Component {
     for (let i = 0; i < max; i++){
       console.log('relatedArticles', this.props.relatedArticles)
       let article = this.props.relatedArticles[i];
-      console.log('article', article)
+      // console.log('article', article)
       resultArr.push(
 
           <Card fluid centered color='blue'>
