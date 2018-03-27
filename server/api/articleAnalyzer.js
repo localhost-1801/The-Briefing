@@ -29,6 +29,7 @@ const Promise = require('bluebird')
 // nlu.analyzeAsync = Promise.promisify(nlu.analyze)
 
 //api/article/related/url/
+//should be based on ID
 router.get('/related/url/*', (req, res, next) => {
     const query = db.collection('articles').where('info.parent', '==', req.params[0])
     const related = [];
@@ -56,7 +57,10 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = await newsResults.articles.map(async (article) => {
-        const scrapeObj = await masterArticleScraper(article.url, parentUrl );
+        if (article.url.includes('bbc') && parentUrl.includes('bbc')){
+            article.url = article.url.replace('bbc.co.uk', 'bbc.com')
+        }
+        const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
         if (!scrapeObj.flag){
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
@@ -111,8 +115,9 @@ router.post('/landing', async (req, res, next) => {
 })
 
 router.post('/url/*', async (req, res, next) => {
-    // console.log(req.params[0])
-    const scrapeObj = await masterArticleScraper(req.params[0]);
+    console.log(req.params[0])
+    const scrapeObj = await masterArticleScrapper(req.params[0]);
+    console.log('wtf', scrapeObj.url)
     if (scrapeObj.flag){
         res.send({message: 'Could not process this article. Please try another link.'})
     } else {
@@ -163,9 +168,10 @@ router.post('/url/*', async (req, res, next) => {
 
 
 router.get('/url/*', (req, res, next) => {
-    let articleRef = db.collection('articles').where('info.url', '==', req.params[0])
-    // console.log(req.params[0])
-    articleRef.get().then(docu => {
+    let articleRef = db.collection('articles')
+    console.log('this is where i am',req.params[0])
+    articleRef.where('info.url', '==', req.params[0]).get().then(docu => {
+        console.log('test it all 1', docu)
         docu.forEach(d => {
             const data = d.data()
             console.log('data: ', data)
