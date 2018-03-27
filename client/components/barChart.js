@@ -116,7 +116,7 @@ class BarChart extends Component {
                               console.log('state', this.state.activeDescription)
                               this.setState({ activeDescription: props.datum.x })
                               return {
-                                style: Object.assign({}, props.style, { fill: 'tomato' })
+                                style: Object.assign({}, props.style, { fill: '#61cdbb' })
                               }
                             }
                           }]
@@ -131,7 +131,7 @@ class BarChart extends Component {
                       }
                     }
                   ]}
-                  style={{ data: { fill: "#3399ff" } }}
+                  style={{ data: { fill: "#f5755f" } }}
                   data={singleArticleData}
                   y={(data) => (-Math.abs(data.y))} // tomato numbers
                   labels={(data) => (`${data.x}: ${Math.abs(data.y)}%`)} // number label
@@ -147,7 +147,7 @@ class BarChart extends Component {
                               console.log('state', this.state.activeDescription)
                               this.setState({ activeDescription: props.datum.x })
                               return {
-                                style: Object.assign({}, props.style, { fill: 'tomato' })
+                                style: Object.assign({}, props.style, { fill: '#61cdbb' })
                               }
                             }
                           }]
@@ -162,7 +162,7 @@ class BarChart extends Component {
                       }
                     }
                   ]}
-                  style={{ data: { fill: "#004d99" } }}
+                  style={{ data: { fill: "#e8a838"} }}
                   data={aggregateData}
                   labels={(data) => (`${Math.abs(data.y)}%`)} // number
                 />
@@ -189,8 +189,9 @@ class BarChart extends Component {
             </svg>
 
           </div>
-          <Segment compact={true} attached='bottom'>
-          {`${this.state.activeDescription}: ${descriptions[this.state.activeDescription.toLowerCase()]}`}
+          <Segment textAlign={'center'} compact={true} attached='bottom'>
+          <Header size='tiny'>{this.state.activeDescription}</Header> 
+          {descriptions[this.state.activeDescription.toLowerCase()]}
         </Segment>
         </Table.Cell>
  

@@ -107,12 +107,13 @@ class RadarChart extends Component {
         // }, 5000)
 
         return (
-
-            <Table.Cell>
-                <Menu secondary>
+            <div>
+               <Menu attached size={'mini'} tabular>
                     <Menu.Item name='emotion' active={this.state.active === 'emotion'} onClick={this.handleItemClick} />
                     <Menu.Item name='tone' active={this.state.active === 'tone'} onClick={this.handleItemClick} />
                 </Menu>
+            <Table.Cell>
+             
                 <VictoryChart polar
                     theme={VictoryTheme.material}
                     domain={{ y: [0, 1] }}
@@ -156,11 +157,8 @@ class RadarChart extends Component {
 
 
                 </VictoryChart>
-                <Segment>
-                    This is definitely a sentence
-                    </Segment>
             </Table.Cell>
-
+                        </div>
         );
     }
 }
