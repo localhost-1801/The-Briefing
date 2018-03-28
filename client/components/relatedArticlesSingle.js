@@ -20,7 +20,7 @@ class RelatedArticlesSingle extends Component {
       let score = Math.abs(Math.floor(article.nlu.sentiment.document.score * 100))
       score = score === 0 ? 50 : score;
       let color = (labelName === 'neutral' ? 'gray' : labelName === 'positive' ? 'green' : 'red')
-      console.log('article', article)
+      // console.log('article', article)
       resultArr.push(
 
           <Card fluid centered color='blue'>
