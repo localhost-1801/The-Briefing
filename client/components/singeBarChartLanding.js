@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { fetchlandingArticles } from '../store/landingPageArticles'
+import { Menu, Segment, Header } from 'semantic-ui-react'
+import descriptions from '../../descriptions'
+
 
 
 class SingleBarChartLanding extends Component {
@@ -12,8 +15,9 @@ class SingleBarChartLanding extends Component {
         this.state = {
             clicked: false,
             style: {
-                data: { fill: "tomato" }
-            }
+                data: { fill: "#61cdbb" }
+            },
+            activeDescription: 'Analytical'
         };
     }
 
@@ -55,16 +59,46 @@ class SingleBarChartLanding extends Component {
         return (
             <div>
                 <strong>Language Tone Analysis</strong>
-                <VictoryChart height={400} width={400}
+                <VictoryChart color='#61cdbb' height={400} width={400}
                     domainPadding={{ x: 100, y: [0, 100] }}
                 >
                     <VictoryBar
+                        color='#61cdbb'
                         alignment="middle"
                         labels={(d) => `${d.y}/100`}
                         style={this.state.style}
                         data={setData}
+                        events={[
+                            {
+                              target: "data",
+                              eventHandlers: {
+                                onMouseOver: () => {
+                                  return [{
+                                    mutation: (props) => {
+                                      console.log('state', this.state.activeDescription)
+                                      this.setState({ activeDescription: props.datum.x })
+                                      return {
+                                        style: Object.assign({}, props.style, { fill: 'tomato' })
+                                      }
+                                    }
+                                  }]
+                                },
+                                onMouseOut: () => {
+                                  return [{
+                                    mutation: (props) => {
+                                      return null
+                                    }
+                                  }]
+                                }
+                              }
+                            }
+                          ]}
                     />
                 </VictoryChart>
+                <Segment textAlign={'center'} compact={true} attached='bottom'>
+                    <Header size='tiny'>{this.state.activeDescription}</Header>
+                    {descriptions[this.state.activeDescription.toLowerCase()]}
+                </Segment>
             </div>
         );
     }

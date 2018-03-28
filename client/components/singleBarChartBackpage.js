@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { Menu, Segment, Header } from 'semantic-ui-react'
+import descriptions from '../../descriptions'
+
 
 
 class SingleBarChartBackPage extends Component {
@@ -13,8 +16,9 @@ class SingleBarChartBackPage extends Component {
             clicked: false,
             aggregate: false,
             style: {
-                data: { fill: "tomato" }
-            }
+                data: { fill: "#61cdbb" }
+            },
+            activeDescription: 'Analytical'
         };
         this.parseDataSingle = this.parseDataSingle.bind(this)
         this.parseDataMultiple = this.parseDataMultiple.bind(this)
@@ -70,9 +74,10 @@ class SingleBarChartBackPage extends Component {
 
         return (
             <div>
-              <button onClick={this.handleClick}>
-                {this.state.aggregate ? 'Your Article' : 'Aggregate'}
-              </button>
+            <Menu size={'mini'} attached tabular>
+            <Menu.Item name='single' active={!this.state.aggregate } onClick={this.handleClick} />
+            <Menu.Item name='aggregate' active={this.state.aggregate} onClick={this.handleClick} />
+          </Menu>
                 <VictoryChart height={400} width={400}
                     domainPadding={{ x: 100, y: [0, 100] }}
                     animate={{ duration: 1000 }}
@@ -81,7 +86,33 @@ class SingleBarChartBackPage extends Component {
                     colorScale={["#61cdbb", "#e8a838", "#97e3d5", "e8c1a0", "#f5755f", "#f1e15b"]}
                   >
                     {dataset.map((data, i) => {
-                      return <VictoryBar data={data} key={i}/>;
+                      return <VictoryBar 
+                      events={[
+                        {
+                          target: "data",
+                          eventHandlers: {
+                            onMouseOver: () => {
+                              return [{
+                                mutation: (props) => {
+                                  console.log('state', this.state.activeDescription)
+                                  this.setState({ activeDescription: props.datum.x })
+                                  return {
+                                    style: Object.assign({}, props.style, { fill: 'tomato' })
+                                  }
+                                }
+                              }]
+                            },
+                            onMouseOut: () => {
+                              return [{
+                                mutation: (props) => {
+                                  return null
+                                }
+                              }]
+                            }
+                          }
+                        }
+                      ]}
+                      data={data} key={i}/>;
                     })}
                   </VictoryStack>
                   <VictoryAxis dependentAxis
