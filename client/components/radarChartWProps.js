@@ -107,8 +107,8 @@ class RadarChart extends Component {
         return (
             <div >
                <Menu attached size={'mini'} tabular>
-                    <Menu.Item name='emotion' active={this.state.active === 'emotion'} onClick={this.handleItemClick} />
-                    <Menu.Item name='tone' active={this.state.active === 'tone'} onClick={this.handleItemClick} />
+                    <Menu.Item name='emotion' active={this.state.bool} onClick={this.handleItemClick} />
+                    <Menu.Item name='tone' active={!this.state.bool} onClick={this.handleItemClick} />
                 </Menu>
             <Table.Cell>
 <div className="radarChart">
