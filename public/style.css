@@ -119,6 +119,14 @@ form div {
 	z-index: 100;
 }
 
+.storyCard{
+  max-height: 480px !important;
+}
+
+.storyCardBackPage{
+  max-height: 480px !important;
+}
+
 #bubbleWrapperWrapper {
   position: relative;
   margin-left: auto;

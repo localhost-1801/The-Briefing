@@ -12,7 +12,7 @@ class RelatedArticlesSingle extends Component {
 
   createCards(){
     let resultArr = []
-    let max = this.props.relatedArticles.length >= 3 ? 3 : this.props.relatedArticles.length
+    let max = this.props.relatedArticles.length >= 5 ? 5 : this.props.relatedArticles.length
     for (let i = 0; i < max; i++){
       console.log('relatedArticles', this.props.relatedArticles)
       let article = this.props.relatedArticles[i];
@@ -20,13 +20,13 @@ class RelatedArticlesSingle extends Component {
       resultArr.push(
 
           <Card fluid centered color='blue'>
-            <Image width={100} height={100} href={article.info.url} src={article.info.imageUrl} />
+            <Image href={article.info.url} src={article.info.imageUrl} />
             <Card.Content>
               <Card.Header href={article.info.url}>
                 {article.info.headline}
           </Card.Header>
               <Card.Description href={article.info.url}>
-                {article.info.text.slice(0, 47) + '...'}
+                {article.info.text.slice(0, 147) + '...'}
           </Card.Description>
             </Card.Content>
           </Card>

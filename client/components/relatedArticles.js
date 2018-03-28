@@ -19,17 +19,19 @@ class RelatedArticles extends Component {
         <Table.Row>
           <Table.Cell>
             <Card.Group itemsPerRow={1} stackable={false}>
+                            <div className='storyCard'>
           <Card fluid centered color='blue'>
-            <Image width={100} height={100} href={article.info.url} src={article.info.imageUrl} />
+            <Image href={article.info.url} src={article.info.imageUrl} />
             <Card.Content>
               <Card.Header href={article.info.url}>
                 {article.info.headline}
           </Card.Header>
               <Card.Description href={article.info.url}>
-                {article.info.text.slice(0, 47) + '...'}
+                {article.info.text.slice(0, 147) + '...'}
           </Card.Description>
             </Card.Content>
           </Card>
+        </div>
           </Card.Group>
         </Table.Cell>
       </Table.Row>
