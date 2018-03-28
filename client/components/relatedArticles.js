@@ -66,9 +66,9 @@ class RelatedArticles extends Component {
     return resultArr;
   }
 
-  render() {
-    console.log('articles', this.props.landingPageArticles)
-    if (this.props.landingPageArticles === undefined) {
+  render(){
+    //console.log('articles', this.props.landingPageArticles)
+    if (this.props.landingPageArticles === undefined){
       return (
         <Table color={'blue'} size='small'>
           <Table.Header>
@@ -89,11 +89,17 @@ class RelatedArticles extends Component {
         <Table color={'blue'} size='small'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>
+              <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
+          <Table.Row>
+          <Table.Cell>
+          <Card.Group itemsPerRow={3} stackable={false}>
             {this.createCards()}
+            </Card.Group>
+            </Table.Cell>
+            </Table.Row>
           </Table.Body>
         </Table>
       </div>

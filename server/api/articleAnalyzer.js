@@ -43,17 +43,16 @@ router.get('/related/url/*', (req, res, next) => {
 
 })
 
-
 router.get('/stateData', (req, res, next) => {
-    console.log('before the query')
+    //console.log('before the query')
     const query = db.collection('stateData')
-    console.log('in the api')
+    //console.log('in the api')
     const stateData = [];
     query.get().then(docu => {
         docu.forEach(d => {
             stateData.push(d.data())
         })
-        console.log('STATE DATA', stateData)
+        //console.log('STATE DATA', stateData)
         res.send(stateData)
 
         // router.post('/related', async (req, res, next) => {
@@ -164,9 +163,9 @@ router.get('/landing', (req, res, next) => {
 // })
 
 router.post('/url/*', async (req, res, next) => {
-    console.log(req.params[0])
+    //console.log(req.params[0])
     const scrapeObj = await masterArticleScraper(req.params[0]);
-    console.log('wtf', scrapeObj.url)
+    //console.log('wtf', scrapeObj.url)
     if (scrapeObj.flag) {
         res.send({ message: 'Could not process this article. Please try another link.' })
     } else {
@@ -218,12 +217,12 @@ router.post('/url/*', async (req, res, next) => {
 
 router.get('/url/*', (req, res, next) => {
     let articleRef = db.collection('articles')
-    console.log('this is where i am', req.params[0])
+    //console.log('this is where i am', req.params[0])
     articleRef.where('info.url', '==', req.params[0]).get().then(docu => {
         // console.log('test it all 1', docu)
         docu.forEach(d => {
             const data = d.data()
-            console.log('in snapshot')
+            //console.log('in snapshot')
             res.send(data)
         })
     })
@@ -241,7 +240,7 @@ router.post('/related', async (req, res, next) => {
     const parentUrl = req.body.url
     // const query = keywords.slice(0, 2).join(' ')
     const query = keywords;
-    console.log('Query: ', query)
+    //console.log('Query: ', query)
     const newsResults = await newsapi.v2.everything({
         sources: 'the-new-york-times, bbc-news',
         q: query,

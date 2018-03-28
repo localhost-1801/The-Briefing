@@ -12,10 +12,9 @@ class RelatedArticlesSingle extends Component {
 
   createCards(){
     let resultArr = []
-    let max = this.props.relatedArticles.length >= 3 ? 3 : this.props.relatedArticles.length
-    
+    let max = this.props.relatedArticles.length >= 5 ? 5 : this.props.relatedArticles.length
     for (let i = 0; i < max; i++){
-      console.log('relatedArticles', this.props.relatedArticles)
+      //console.log('relatedArticles', this.props.relatedArticles)
       let article = this.props.relatedArticles[i];
       let labelName = article.nlu.sentiment.document.label
       let score = Math.abs(Math.floor(article.nlu.sentiment.document.score * 100))
@@ -41,7 +40,7 @@ class RelatedArticlesSingle extends Component {
                 {article.info.headline}
           </Card.Header>
               <Card.Description href={article.info.url}>
-                {article.info.text.slice(0, 47) + '...'}
+                {article.info.text.slice(0, 147) + '...'}
           </Card.Description>
             </Card.Content>
           </Card>
@@ -78,7 +77,7 @@ class RelatedArticlesSingle extends Component {
           <Table.Body>
             <Table.Row>
               <Table.Cell>
-                <Card.Group itemsPerRow={3} stackable={false}>
+                <Card.Group itemsPerRow={5} stackable={false}>
                   {this.createCards()}
                 </Card.Group>
               </Table.Cell>

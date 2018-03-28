@@ -89,8 +89,10 @@ form div {
   height: 90vh;
   /* background-color: rgb(241, 239, 239); */
   background-image: url('img/background.png');
-  margin: auto 0;
+  /* margin: auto 0; */
   padding-top: 60px;
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 .todaysBriefing {
@@ -119,19 +121,71 @@ form div {
 	z-index: 100;
 }
 
+.storyCard{
+  max-height: 480px !important;
+}
+
+.storyCardBackPage{
+  max-height: 480px !important;
+}
+
 #bubbleWrapperWrapper {
   position: relative;
   margin-left: auto;
   margin-right: auto;
 }
 
-#categories {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
 .tweets {
   position: relative;
   max-height: 100%;
   overflow: auto;
-  height: 940px;
+  height: 800px;
+}
+
+.map {
+  padding: 0 !important;
+  margin: 0 !important;
+
+}
+
+svg.datamap {
+  /* margin-left: 50px; */
+  height: 50rem;
+  /* margin-top: 120px; */
+  /* padding-bottom: 50px; */
+}
+
+.categories {
+ font-size: 1.2rem;
+}
+
+.radarChart {
+  padding-left: 10px;
+}
+
+@media (min-width: 1600px){
+  .arrow {
+    padding-top: 300px;
+  }
+
+  .landingPageSearch {
+    height: 90vh;
+    /* background-color: rgb(241, 239, 239); */
+    background-image: url('img/background.png');
+    /* margin: auto 0; */
+    padding-top: 180px;
+    /* background-repeat: no-repeat; */
+    background-size: 1891px 1000px
+  }
+
+  .radarChart {
+    padding-left: 80px;
+  }
+
+  .tweets {
+    position: relative;
+    max-height: 100%;
+    overflow: auto;
+    height: 1050px;
+  }
 }

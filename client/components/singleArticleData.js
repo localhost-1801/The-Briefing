@@ -22,7 +22,7 @@ class singleArticleData extends Component {
 
         if (this.props.singleArticle.info === undefined) {
             // console.log('fetching with localstorage info')
-            console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
+            //console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
             if (JSON.parse(window.localStorage.getItem('singleArticle')) !== null){
                 this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
             }
@@ -87,13 +87,7 @@ class singleArticleData extends Component {
                                                 <Table.Cell><BubbleChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
-                                        <Table.Body>
-                                        <Table.Row>
-                                            <Table.Cell><Categories /></Table.Cell>
-                                        </Table.Row>
-                                    </Table.Body>
                                     </Table>
-
 
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
@@ -173,6 +167,20 @@ class singleArticleData extends Component {
                                 </Grid.Column>
 
                                 <Grid.Column>
+
+                                <Table color={'teal'} size='small'>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        <Table.Row>
+                                            <Table.Cell><Categories /></Table.Cell>
+                                        </Table.Row>
+                                    </Table.Body>
+                                </Table>
+
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>

@@ -13,7 +13,7 @@ import { getStateArticleData } from '../../store/mapStore'
 // https://caspg.github.io/simple-data-table-map/
 //https://github.com/caspg/simple-data-table-map/blob/master/app/components/DataMap.jsx
 
-class MapIndex extends React.Component {
+class MapIndexTest extends React.Component {
     constructor(props) {
         super(props);
         this.datamap = null;
@@ -21,7 +21,7 @@ class MapIndex extends React.Component {
     }
 
     linearPalleteScale(value) {
-        console.log('linearPalleteScale')
+        //console.log('linearPalleteScale')
         const dataValues = this.props.mapStore.map(function (data) { return data.value });
         const minVal = Math.min(...dataValues);
         const maxVal = Math.max(...dataValues);
@@ -31,25 +31,25 @@ class MapIndex extends React.Component {
         const third = second + fraction;
         const fourth = third + fraction;
 
-        if (value < 5) return "#dee3f6"
-        else if (value >= 5 && value < 10) return '#9aafcd'
-        else if (value >= 10 & value < 15) return '#5778a2'
-        else if (value >= 15 & value < 20) return '#325c8b'
-        else if (value >= 20) return "#06386e"
+        if (value < 1) return "#dee3f6"
+        else if (value >= 1 && value < 4) return '#9aafcd'
+        else if (value >= 4 & value < 10) return '#5778a2'
+        else if (value >= 10 & value < 25) return '#325c8b'
+        else if (value >= 15) return "#06386e"
     }
 
     redducedData() {
-        console.log('redducedData')
+        //console.log('redducedData')
         const newData = this.props.mapStore.reduce((object, data) => {
             object[data.code] = { value: data.value, fillColor: this.linearPalleteScale(data.value) };
             return object;
         }, {});
-        console.log('newData', newData)
+        //console.log('newData', newData)
         return Object.assign({}, statesDefaults, newData);
     }
 
     renderMap() {
-        console.log('renderMap')
+        //console.log('renderMap')
         return new Datamap({
             element: ReactDOM.findDOMNode(this),
             //   fills: { defaultFill: '#bbe4f9' },
@@ -89,13 +89,13 @@ class MapIndex extends React.Component {
                 <Table color={'blue'} size='small'>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>NUMBER OF TRENDING STORIES AROUND THE US</Table.HeaderCell>
+                            <Table.HeaderCell textAlign='center'>NUMBER OF TRENDING STORIES AROUND THE US</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
 
                     <Table.Body>
                         <Table.Row>
-                            <Table.Cell><div id="datamap-container" /></Table.Cell>
+                            <Table.Cell className="map"></Table.Cell>
                         </Table.Row>
                     </Table.Body>
                 </Table>
@@ -113,4 +113,4 @@ const mapDispatch = (dispatch) => {
     }
 }
 
-export default connect(mapState, mapDispatch)(MapIndex)
+export default connect(mapState, mapDispatch)(MapIndexTest)

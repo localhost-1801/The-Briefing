@@ -82,8 +82,8 @@ class LandingPage extends Component {
           <br />
           <br />
           <div className="extension">
-            <Button as='div' labelPosition='right'>
-              <Button icon color='blue'>
+            <Button href='/The-Briefing-Extension.zip' labelPosition='right'>
+              <Button href='/The-Briefing-Extension.zip' icon color='blue'>
                 <Icon name='newspaper' />
               </Button>
               <Label as='a' basic color='blue' pointing='left'>Download Our Chrome Extension</Label>
@@ -107,9 +107,34 @@ class LandingPage extends Component {
             <p className="date spacing">{date.toUpperCase()}</p>
           </Header>
 
-          <Grid columns={3}>
-            <Grid.Row stretched>
+          <Grid columns='equal'>
+            <Grid.Row>
               <Grid.Column>
+              </Grid.Column>
+              <Grid.Column width={11}>
+                <MapIndexTest />
+              </Grid.Column>
+              <Grid.Column>
+              </Grid.Column>
+            </Grid.Row>
+
+            <Grid.Row>
+              <Grid.Column>
+                <Table color={'blue'} size='small'>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>LANGUAGE TONE ANALYSIS</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell><SingleBarChartLanding /></Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+                </Grid.Column>
+
+                <Grid.Column>
                 <Table color={'blue'} size="small">
                   <Table.Header>
                     <Table.Row>
@@ -122,8 +147,9 @@ class LandingPage extends Component {
                     </Table.Row>
                   </Table.Body>
                 </Table>
+              </Grid.Column>
 
-
+                <Grid.Column>
                 <Table color={'blue'} size='small'>
                   <Table.Header>
                     <Table.Row>
@@ -136,31 +162,13 @@ class LandingPage extends Component {
                     </Table.Row>
                   </Table.Body>
                 </Table>
-
               </Grid.Column>
+
               <Grid.Column>
-                <MapIndexTest />
-
-                <Table color={'blue'} size='small'>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell><SingleBarChartLanding /></Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell><BarChart /></Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
-
-
+                <div className="tweets">
+                  <RelatedArticles />
+                </div>
               </Grid.Column>
-                <Grid.Row centered columns={1} className="spacing">
-                    <Grid.Column>
-                      <RelatedArticles />
-                    </Grid.Column>
-                </Grid.Row>
             </Grid.Row>
           </Grid>
         </div>

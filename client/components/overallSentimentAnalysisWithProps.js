@@ -55,8 +55,8 @@ class OverallSentimentAnalysisWithProps extends Component {
         } else {
             isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
             data = {
-                percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100)) || 0,
-                data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100))) || 0
+                percent: Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100)) || 50,
+                data: this.getData(Math.abs(Math.floor(this.props.singleArticle.nlu.sentiment.document.score * 100))) || 50
             }
             let evalScore = this.props.singleArticle.nlu.sentiment.document.score
             if (evalScore > 0) {
