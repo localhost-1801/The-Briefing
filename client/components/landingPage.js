@@ -163,11 +163,10 @@ class LandingPage extends Component {
                   </Table.Body>
                 </Table>
               </Grid.Column>
-
+              </Grid.Row>
+<Grid.Row>
               <Grid.Column>
-                <div className="tweets">
                   <RelatedArticles />
-                </div>
               </Grid.Column>
             </Grid.Row>
           </Grid>

@@ -15,7 +15,7 @@ class RelatedArticles extends Component {
   }
   createCards() {
     let resultArr = []
-    let max = this.props.landingPageArticles.length >= 3 ? 3 : this.props.landingPageArticles.length
+    let max = this.props.landingPageArticles.length >= 5 ? 5 : this.props.landingPageArticles.length
     for (let i = 0; i < max; i++) {
       let article = this.props.landingPageArticles[i];
       let labelName = article.nlu.sentiment.document.label
@@ -31,9 +31,6 @@ class RelatedArticles extends Component {
         onClick: this.handleClick
       }
       resultArr.push(
-        <Table.Row>
-          <Table.Cell>
-            <Card.Group itemsPerRow={1} stackable={false}>
               <Card fluid centered color='blue'>
 
                 <Image width={100} height={100} href={article.info.url} src={article.info.imageUrl} label={
@@ -58,17 +55,14 @@ class RelatedArticles extends Component {
                   </Card.Description>
                 </Card.Content>
               </Card>
-            </Card.Group>
-          </Table.Cell>
-        </Table.Row>
       )
     }
     return resultArr;
   }
 
-  render(){
+  render() {
     //console.log('articles', this.props.landingPageArticles)
-    if (this.props.landingPageArticles === undefined){
+    if (this.props.landingPageArticles === undefined) {
       return (
         <Table color={'blue'} size='small'>
           <Table.Header>
@@ -93,12 +87,12 @@ class RelatedArticles extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-          <Table.Row>
-          <Table.Cell>
-          <Card.Group itemsPerRow={3} stackable={false}>
-            {this.createCards()}
-            </Card.Group>
-            </Table.Cell>
+            <Table.Row>
+              <Table.Cell>
+                <Card.Group itemsPerRow={5} stackable={false}>
+                  {this.createCards()}
+                </Card.Group>
+              </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
