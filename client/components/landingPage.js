@@ -8,7 +8,7 @@ import { Grid, Image, Table, Icon, Label, Button, Segment, Form, Header } from '
 import { Link, NavLink } from "react-router-dom";
 import history from '../history';
 
-
+//<SingleBarChartLanding />
 class LandingPage extends Component {
   constructor() {
     super()
@@ -116,16 +116,14 @@ class LandingPage extends Component {
                       <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
-
                   <Table.Body>
                     <Table.Row>
-                      <Table.Cell><OverallSentimentAnalysis />
-                      </Table.Cell>
+                      <Table.Cell><OverallSentimentAnalysis /></Table.Cell>
                     </Table.Row>
                   </Table.Body>
                 </Table>
-              </Grid.Column>
-              <Grid.Column>
+
+
                 <Table color={'blue'} size='small'>
                   <Table.Header>
                     <Table.Row>
@@ -140,17 +138,13 @@ class LandingPage extends Component {
                 </Table>
 
               </Grid.Column>
-            </Grid.Row>
-            <Grid.Row centered columns={2} className="spacing">
-              <Grid.Column>
-              </Grid.Column>
               <Grid.Column>
                 <MapIndexTest />
 
                 <Table color={'blue'} size='small'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>BAR CHART</Table.HeaderCell>
+                      <Table.HeaderCell><SingleBarChartLanding /></Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
@@ -159,6 +153,8 @@ class LandingPage extends Component {
                     </Table.Row>
                   </Table.Body>
                 </Table>
+
+
               </Grid.Column>
               <Grid.Column>
                 <Table color={'blue'} size='small'>
@@ -170,19 +166,10 @@ class LandingPage extends Component {
 
                   <Table.Body>
                     <Table.Row>
-
-                      <Table.Cell><SingleBarChartLanding /></Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
-                <Table>
-                  <Table.Body>
-                    <Table.Row>
                       <Table.Cell><RelatedArticles /></Table.Cell>
                     </Table.Row>
                   </Table.Body>
                 </Table>
-
               </Grid.Column>
             </Grid.Row>
           </Grid>

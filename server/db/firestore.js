@@ -7,7 +7,6 @@ const secrets = require('../../secrets')
 //when you want to deploy uncomment this
 let serviceAccount = '';
 try {
-  console.log(process.env.FIRESTORE)
   serviceAccount = JSON.parse(process.env.FIRESTORE)
 }
 catch (err){

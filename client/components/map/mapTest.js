@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import statesDefaults from './states-defaults';
 import collection from './states-data';
-import { Header } from 'semantic-ui-react'
+import { Header, Grid, Image, Table } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { getStateArticleData } from '../../store/mapStore'
@@ -85,8 +85,20 @@ class MapIndex extends React.Component {
         if (!this.props.mapStore.length) {
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         } else {
-            console.log('MOre Noodles')
-            return ( <div/>
+            return (
+                <Table color={'blue'} size='small'>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>NUMBER OF TRENDING STORIES AROUND THE US</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        <Table.Row>
+                            <Table.Cell><div id="datamap-container" /></Table.Cell>
+                        </Table.Row>
+                    </Table.Body>
+                </Table>
             );
         }
     }

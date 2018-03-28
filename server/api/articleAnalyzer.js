@@ -249,7 +249,7 @@ router.post('/related', async (req, res, next) => {
         // country: 'us'
     })
     const promiseArray = await newsResults.articles.map(async (article) => {
-        const scrapeObj = await masterArticleScrapper(article.url, parentUrl);
+        const scrapeObj = await masterArticleScraper(article.url, parentUrl);
         if (!scrapeObj.flag) {
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
