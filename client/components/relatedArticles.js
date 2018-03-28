@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Table, Card, Image} from 'semantic-ui-react';
 import ReactLoading from 'react-loading';
 
-class RelatedArticlesSingle extends Component {
+class RelatedArticles extends Component {
   constructor(){
     super()
 
