@@ -63,7 +63,7 @@ class RelatedArticlesSingle extends Component {
           <Table.Body>
             <Table.Row>
               <Table.Cell>
-                <Card.Group itemsPerRow={3} stackable={false}>
+                <Card.Group itemsPerRow={5} stackable={false}>
                   {this.createCards()}
                 </Card.Group>
               </Table.Cell>
