@@ -54,13 +54,12 @@ class SingleBarChartLanding extends Component {
         };
         return (
             <div>
-                <strong>Language Tone Analysis</strong>
                 <VictoryChart height={400} width={400}
                     domainPadding={{ x: 100, y: [0, 100] }}
                 >
                     <VictoryBar
                         alignment="middle"
-                        labels={(d) => `${d.y}/100`}
+                        labels={(d) => `${d.y}%`}
                         style={this.state.style}
                         data={setData}
                     />

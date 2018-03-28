@@ -26,8 +26,8 @@ class RadarChart extends Component {
             interval: setInterval(() => {
                 this.setState({ bool: !this.state.bool, active: this.state.active === 'tone' ? 'emotion' : 'tone' })
             }, 5000)
-       }) 
-       
+       })
+
     }
 
     parseData(data) {
@@ -56,7 +56,7 @@ class RadarChart extends Component {
             this.setState({ bool: !this.state.bool, active: this.state.active === 'tone' ? 'emotion' : 'tone' })
         }, 5000)  })
     }
-    
+
     //change data[tones] if not passsing an object tones with an array
     //make data array also modified, expects object with 'score' and 'tone_name'
     processData(data) {
@@ -105,13 +105,13 @@ class RadarChart extends Component {
         // }, 5000)
 
         return (
-            <div>
+            <div >
                <Menu attached size={'mini'} tabular>
                     <Menu.Item name='emotion' active={this.state.active === 'emotion'} onClick={this.handleItemClick} />
                     <Menu.Item name='tone' active={this.state.active === 'tone'} onClick={this.handleItemClick} />
                 </Menu>
             <Table.Cell>
-             
+<div className="radarChart">
                 <VictoryChart polar
                     theme={VictoryTheme.material}
                     domain={{ y: [0, 1] }}
@@ -155,6 +155,7 @@ class RadarChart extends Component {
 
 
                 </VictoryChart>
+                </div>
             </Table.Cell>
                         </div>
         );
