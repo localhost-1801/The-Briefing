@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle, SingleBarChartBackPage } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
@@ -24,7 +24,7 @@ class singleArticleData extends Component {
             // console.log('fetching with localstorage info')
             console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
             if (JSON.parse(window.localStorage.getItem('singleArticle')) !== null){
-                this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);                
+                this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
             }
         }
     }
@@ -98,7 +98,7 @@ class singleArticleData extends Component {
                                         </Table.Header>
                                         <Table.Body>
                                             <Table.Row>
-                                                <Table.Cell><SingleBarChart /></Table.Cell>
+                                                <Table.Cell><SingleBarChartBackPage /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
@@ -163,7 +163,7 @@ class singleArticleData extends Component {
                                                 <Table.Cell><BarChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
-                                        
+
                                     </Table> */}
                                 </Grid.Column>
 
