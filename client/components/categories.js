@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Step } from 'semantic-ui-react'
+import { Icon, Breadcrumb, List } from 'semantic-ui-react'
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { fetchArticleData } from '../store/singleArticle'
@@ -9,7 +9,7 @@ class Categories extends Component {
     super()
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.loadData();
   }
 
@@ -23,28 +23,25 @@ class Categories extends Component {
       )
     } else {
       return (
-        <div id="categories">
-        <Step.Group size='mini'>
-        {singleArticle.nlu.categories.map(category =>
-        <Step key={category.label}>
-          <Step.Content>
-            <Step.Title>{category.label.slice(category.label.lastIndexOf('/')+ 1).toUpperCase()}
-            </Step.Title>
-          </Step.Content>
-        </Step>
-      )}
-      </Step.Group>
-        </div>
+          <List>
+            {singleArticle.nlu.categories.map(category =>
+              <List.Item key={category.label}>
+                <Icon name='chevron right' color='teal' />
+                <List.Content>
+                  <List.Header>{category.label.slice(category.label.lastIndexOf('/') + 1).toUpperCase()}</List.Header>
+                </List.Content>
+              </List.Item>
+            )}
+          </List>
       )
     }
   }
 }
 
-
 const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = dispatch => {
   return {
-    loadData(url){
+    loadData(url) {
       dispatch(fetchArticleData(url))
     }
   }

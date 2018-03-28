@@ -43,7 +43,6 @@ router.get('/related/url/*', (req, res, next) => {
 
 })
 
-
 router.get('/stateData', (req, res, next) => {
     console.log('before the query')
     const query = db.collection('stateData')
