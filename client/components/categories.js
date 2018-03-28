@@ -28,7 +28,7 @@ class Categories extends Component {
               <List.Item key={category.label}>
                 <Icon name='chevron right' color='teal' />
                 <List.Content>
-                  <List.Header>{category.label.slice(category.label.lastIndexOf('/') + 1).toUpperCase()}</List.Header>
+                  <List.Header className="categories">{category.label.slice(category.label.lastIndexOf('/') + 1).toUpperCase()}</List.Header>
                 </List.Content>
               </List.Item>
             )}

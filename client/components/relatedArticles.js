@@ -65,7 +65,13 @@ class RelatedArticles extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
+          <Table.Row>
+          <Table.Cell>
+          <Card.Group itemsPerRow={3} stackable={false}>
             {this.createCards()}
+            </Card.Group>
+            </Table.Cell>
+            </Table.Row>
           </Table.Body>
         </Table>
       </div>

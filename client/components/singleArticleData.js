@@ -87,13 +87,7 @@ class singleArticleData extends Component {
                                                 <Table.Cell><BubbleChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
-                                        <Table.Body>
-                                        <Table.Row>
-                                            <Table.Cell><Categories /></Table.Cell>
-                                        </Table.Row>
-                                    </Table.Body>
                                     </Table>
-
 
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
@@ -173,6 +167,20 @@ class singleArticleData extends Component {
                                 </Grid.Column>
 
                                 <Grid.Column>
+
+                                <Table color={'teal'} size='small'>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        <Table.Row>
+                                            <Table.Cell><Categories /></Table.Cell>
+                                        </Table.Row>
+                                    </Table.Body>
+                                </Table>
+
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
