@@ -41,7 +41,7 @@ class RelatedArticles extends Component {
   }
 
   render(){
-    console.log('articles', this.props.landingPageArticles)
+    //console.log('articles', this.props.landingPageArticles)
     if (this.props.landingPageArticles === undefined){
       return (
         <Table color={'blue'} size='small'>

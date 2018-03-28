@@ -233,10 +233,11 @@ const heatMapData = async () => {
     return stateData
   })
   Promise.all(promiseStateData)
-    .then(results => {
-      console.log(results)
-    })
 }
+setInterval(() => {
+  createLanding();
+  heatMapData();
+}, 86400000)
 
 const syncDb = () => db.sync()
 
@@ -246,11 +247,9 @@ const syncDb = () => db.sync()
 // if we wanted to require our app in a test spec
 if (require.main === module) {
   sessionStore.sync()
-    .then(createLanding)
     .then(syncDb)
     .then(createApp)
     .then(startListening)
-    .then(heatMapData)
 } else {
   createApp()
 }

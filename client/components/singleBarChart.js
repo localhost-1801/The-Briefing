@@ -57,7 +57,7 @@ class SingleBarChart extends Component {
         return obj
       })
     })
-    console.log(resultArr)
+    //console.log(resultArr)
     return resultArr;
   }
 
@@ -96,7 +96,7 @@ class SingleBarChart extends Component {
                       onMouseOver: () => {
                         return [{
                           mutation: (props) => {
-                            console.log('state', this.state.activeDescription)
+                            //console.log('state', this.state.activeDescription)
                             this.setState({ activeDescription: props.datum.x })
                             return {
                               style: Object.assign({}, props.style, { fill: 'tomato' })

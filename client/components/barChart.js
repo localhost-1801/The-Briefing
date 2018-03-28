@@ -112,7 +112,7 @@ class BarChart extends Component {
                         onMouseOver: () => {
                           return [{
                             mutation: (props) => {
-                              console.log('state', this.state.activeDescription)
+                              //console.log('state', this.state.activeDescription)
                               this.setState({ activeDescription: props.datum.x })
                               return {
                                 style: Object.assign({}, props.style, { fill: '#61cdbb' })
@@ -143,7 +143,7 @@ class BarChart extends Component {
                         onMouseOver: () => {
                           return [{
                             mutation: (props) => {
-                              console.log('state', this.state.activeDescription)
+                              //console.log('state', this.state.activeDescription)
                               this.setState({ activeDescription: props.datum.x })
                               return {
                                 style: Object.assign({}, props.style, { fill: '#61cdbb' })

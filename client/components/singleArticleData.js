@@ -22,7 +22,7 @@ class singleArticleData extends Component {
 
         if (this.props.singleArticle.info === undefined) {
             // console.log('fetching with localstorage info')
-            console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
+            //console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
             if (JSON.parse(window.localStorage.getItem('singleArticle')) !== null){
                 this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
             }
