@@ -97,4 +97,4 @@ class SingleBarChartBackPage extends Component {
 }
 
 const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
-export default connect(mapState)(SingleBarChartBackpage)
+export default connect(mapState)(SingleBarChartBackPage)
