@@ -38,10 +38,10 @@ class OverallSentimentAnalysisWithProps extends Component {
     if (this.props.landingPageArticles.length === 0) {
       return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
     }
-    let aggregateNumber = this.props.landingPageArticles.data.map(article => {
+    let aggregateNumber = this.props.landingPageArticles.map(article => {
       return article.nlu.sentiment.document.score * 100
     }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    let average = (aggregateNumber / this.props.landingPageArticles.data.length)
+    let average = (aggregateNumber / this.props.landingPageArticles.length)
     let isPositiveInt = average > 0 ? true : false;
 
     // let isPositiveInt = (this.props.singleArticle.nlu.sentiment.document.score * 100) > 0 ? true : false;
@@ -84,7 +84,7 @@ class OverallSentimentAnalysisWithProps extends Component {
                 <VictoryLabel
                   textAnchor="middle" verticalAnchor="middle"
                   x={200} y={200}
-                  text={`${Math.round(data.percent)}% ${this.props.landingPageArticles.data[0].nlu.sentiment.document.label}`}
+                  text={`${Math.round(data.percent)}% ${this.props.landingPageArticles[0].nlu.sentiment.document.label}`}
                   // ${isPositiveInt ? 'Positive' : 'Negative'}`} // should upate 'Positive' with the info from Watson
                   style={{ fontSize: 45 }}
                 />

@@ -21,19 +21,19 @@ class SingleBarChartLanding extends Component {
         if (this.props.landingPageArticles.length === 0) {
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
-        let aggregateAnalyticalToneValue = this.props.landingPageArticles.data.map(article => {
+        let aggregateAnalyticalToneValue = this.props.landingPageArticles.map(article => {
             return article.tone.document_tone.tone_categories[1].tones[0].score
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
 
-        let aggregateConfidentToneValue = this.props.landingPageArticles.data.map(article => {
+        let aggregateConfidentToneValue = this.props.landingPageArticles.map(article => {
             return article.tone.document_tone.tone_categories[1].tones[1].score
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
 
-        let aggregateTentativeToneValue = this.props.landingPageArticles.data.map(article => {
+        let aggregateTentativeToneValue = this.props.landingPageArticles.map(article => {
             return article.tone.document_tone.tone_categories[1].tones[2].score
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
         let averageData = [aggregateAnalyticalToneValue, aggregateConfidentToneValue, aggregateTentativeToneValue].map(el => {
-            return (Math.floor(el / this.props.landingPageArticles.data.length * 100))
+            return (Math.floor(el / this.props.landingPageArticles.length * 100))
         })
         let setData = [
             { x: 'Analytical', y: averageData[0] },

@@ -156,21 +156,11 @@ class LandingPage extends Component {
 
 
               </Grid.Column>
-              <Grid.Column>
-                <Table color={'blue'} size='small'>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell><RelatedArticles /></Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
-              </Grid.Column>
+                <Grid.Row centered columns={1} className="spacing">
+                    <Grid.Column>
+                      <RelatedArticles />
+                    </Grid.Column>
+                </Grid.Row>
             </Grid.Row>
           </Grid>
         </div>

@@ -62,7 +62,7 @@ class RadarChart extends Component {
     if (this.props.landingPageArticles.length === 0) {
       return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
     }
-    let emotionalTones = this.props.landingPageArticles.data.map(article => {
+    let emotionalTones = this.props.landingPageArticles.map(article => {
       return article.tone.document_tone.tone_categories[0].tones
     })
 
@@ -87,7 +87,7 @@ class RadarChart extends Component {
       emotionsObject[key] = Math.floor((emotionsObject[key] / emotionalTones.length) * 100)
     }
     //---------------------------------------------------------------------------------------
-    let socialTones = this.props.landingPageArticles.data.map(article => {
+    let socialTones = this.props.landingPageArticles.map(article => {
       return article.tone.document_tone.tone_categories[2].tones
     })
 
