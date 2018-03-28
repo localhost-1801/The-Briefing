@@ -69,9 +69,9 @@ router.get('/stateData', (req, res, next) => {
         //         // country: 'us'
         //     })
         //     const promiseArray = await newsResults.articles.map(async (article) => {
-        //         if (article.url.includes('bbc') && parentUrl.includes('bbc')){
-        //             article.url = article.url.replace('bbc.co.uk', 'bbc.com')
-        //         }
+                // if (article.url.includes('bbc') && parentUrl.includes('bbc')){
+                //     article.url = article.url.replace('bbc.co.uk', 'bbc.com')
+                // }
         //         const scrapeObj = await masterArticleScraper(article.url, parentUrl );
         //         if (!scrapeObj.flag){
         //             const nlpResults = await nlp.analyze(scrapeObj.text);
@@ -249,6 +249,9 @@ router.post('/related', async (req, res, next) => {
     })
     const promiseArray = await newsResults.articles.map(async (article) => {
         const scrapeObj = await masterArticleScraper(article.url, parentUrl);
+        if (article.url.includes('bbc') && parentUrl.includes('bbc')){
+            article.url = article.url.replace('bbc.co.uk', 'bbc.com')
+        }
         if (!scrapeObj.flag) {
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
