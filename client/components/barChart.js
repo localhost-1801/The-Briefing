@@ -93,7 +93,7 @@ class BarChart extends Component {
     return (
 
         <Table.Cell>
-          <div className="chartBackground">
+          <div className="chartBackground barChartPadding">
             <svg viewBox="0 0 500 500" width="100%" height="100%">
         <VictoryStack horizontal
                 standalone={false}
@@ -188,12 +188,13 @@ class BarChart extends Component {
             </svg>
 
           </div>
-
-          <Segment textAlign={'center'} compact={true} attached='bottom'>
+                <div className='segmentPadding' style={{width: '40em'}}>
+          <Segment flo textAlign={'center'} compact={true} attached='bottom'>
           <Header size='tiny'>{this.state.activeDescription}</Header> 
           {descriptions[this.state.activeDescription.toLowerCase()]}
 
         </Segment>
+        </div>
         </Table.Cell>
 
 

@@ -24,13 +24,16 @@ class Categories extends Component {
     } else {
       return (
           <List>
-            {singleArticle.nlu.categories.map(category =>
-              <List.Item key={category.label}>
-                <Icon name='chevron right' color='teal' />
-                <List.Content>
-                  <List.Header className="categories">{category.label.slice(category.label.lastIndexOf('/') + 1).toUpperCase()}</List.Header>
-                </List.Content>
-              </List.Item>
+            {singleArticle.nlu.categories.map(category => {
+                return (
+                  <List.Item key={category.label}>
+                  
+                  <List.Content>
+                    <List.Header className="categories">{category.label.slice(category.label.lastIndexOf('/') + 1).toUpperCase()}</List.Header>
+                  </List.Content>
+                </List.Item>
+                )
+            }
             )}
           </List>
       )
