@@ -117,11 +117,11 @@ class RadarChart extends Component {
                     domain={{ y: [0, 1] }}
                     animate={{ duration: 1000 }}
                 >
-                    <VictoryGroup colorScale={["gold", "orange", "tomato"]}
+                    <VictoryGroup 
                         style={{ data: { fillOpacity: 0.2 } }}
                     >
                         {data.map((data, i) => {
-                            return <VictoryArea key={i} data={data} />;
+                            return <VictoryArea color='#61cdbb' key={i} data={data} />;
                         })}
                     </VictoryGroup>
                     {

@@ -16,11 +16,25 @@ class RelatedArticlesSingle extends Component {
     for (let i = 0; i < max; i++){
       //console.log('relatedArticles', this.props.relatedArticles)
       let article = this.props.relatedArticles[i];
-      //console.log('article', article)
+      let labelName = article.nlu.sentiment.document.label
+      let score = Math.abs(Math.floor(article.nlu.sentiment.document.score * 100))
+      score = score === 0 ? 50 : score;
+      let color = (labelName === 'neutral' ? 'gray' : labelName === 'positive' ? 'green' : 'red')
+      console.log('article', article)
       resultArr.push(
 
           <Card fluid centered color='blue'>
-            <Image href={article.info.url} src={article.info.imageUrl} />
+            <Image width={100} height={100} href={article.info.url} src={article.info.imageUrl} label={
+                  {
+                    content: `${labelName.toUpperCase()} ${score}%`,
+                    as: 'a',
+                    href: `/singleArticleData?=${article.info.url}`,
+                    color: color,
+                    ribbon: 'true',
+                    url: article.info.url,
+                    // onClick: () => this.handleClick(article.info.url)
+                  }
+                }/>
             <Card.Content>
               <Card.Header href={article.info.url}>
                 {article.info.headline}

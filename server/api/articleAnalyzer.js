@@ -275,6 +275,9 @@ router.post('/related', async (req, res, next) => {
     db.collection('articles').doc(infoObj.headline).update(data).then(() => {
         console.log('updated')
     }).catch(err => {
+        if(err){
+            console.log('Error: ', err)
+        }
         console.log('', infoObj.headline)
         db.collection('articles').doc(infoObj.headline).set(data)
     })
