@@ -125,10 +125,6 @@ form div {
   margin-right: auto;
 }
 
-#categories {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
 .tweets {
   position: relative;
   max-height: 100%;

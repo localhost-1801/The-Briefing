@@ -78,8 +78,8 @@ class LandingPage extends Component {
           <br />
           <br />
           <div className="extension">
-          <Button as='div' labelPosition='right'>
-          <Button icon color='blue'>
+          <Button as={Link} to='/The-Briefing-Extension.zip' labelPosition='right'>
+          <Button as={Link} to='/The-Briefing-Extension.zip' icon color='blue'>
             <Icon name='newspaper' />
           </Button>
           <Label as='a' basic color='blue' pointing='left'>Download Our Chrome Extension</Label>

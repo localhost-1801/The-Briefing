@@ -60,7 +60,7 @@ router.post('/related', async (req, res, next) => {
         if (article.url.includes('bbc') && parentUrl.includes('bbc')){
             article.url = article.url.replace('bbc.co.uk', 'bbc.com')
         }
-        const scrapeObj = await masterArticleScrapper(article.url, parentUrl );
+        const scrapeObj = await masterArticleScraper(article.url, parentUrl );
         if (!scrapeObj.flag){
             const nlpResults = await nlp.analyze(scrapeObj.text);
             nlpResults.info = scrapeObj
