@@ -11,7 +11,7 @@ const createLandingArticles = articles => ({ type: CREATE_LANDING_ARTICLES, arti
 export const fetchlandingArticles = () => dispatch => {
     return axios.get(`api/article/landing`)
         .then(response => {
-            dispatch(getLandingArticles(response))
+            dispatch(getLandingArticles(response.data))
             return response.data
         })
 }

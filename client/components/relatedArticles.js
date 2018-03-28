@@ -14,11 +14,11 @@ class RelatedArticles extends Component {
     let resultArr = []
     let max = this.props.landingPageArticles.length >= 3 ? 3 : this.props.landingPageArticles.length
     for (let i = 0; i < max; i++){
-      console.log('landingPageArticles', this.props.landingPageArticles)
       let article = this.props.landingPageArticles[i];
-      console.log('article', article)
       resultArr.push(
-
+        <Table.Row>
+          <Table.Cell>
+            <Card.Group itemsPerRow={1} stackable={false}>
           <Card fluid centered color='blue'>
             <Image width={100} height={100} href={article.info.url} src={article.info.imageUrl} />
             <Card.Content>
@@ -30,18 +30,22 @@ class RelatedArticles extends Component {
           </Card.Description>
             </Card.Content>
           </Card>
+          </Card.Group>
+        </Table.Cell>
+      </Table.Row>
       )
     }
     return resultArr;
   }
 
   render(){
-    if(this.props.landingPageArticles.length === 0){
+    console.log('articles', this.props.landingPageArticles)
+    if (this.props.landingPageArticles === undefined){
       return (
         <Table color={'blue'} size='small'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>
+              <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -61,13 +65,7 @@ class RelatedArticles extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Card.Group itemsPerRow={3} stackable={false}>
-                  {this.createCards()}
-                </Card.Group>
-              </Table.Cell>
-            </Table.Row>
+            {this.createCards()}
           </Table.Body>
         </Table>
       </div>
