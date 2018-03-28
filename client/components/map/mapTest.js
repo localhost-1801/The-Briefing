@@ -21,7 +21,7 @@ class MapIndex extends React.Component {
     }
 
     linearPalleteScale(value) {
-        console.log('linearPalleteScale')
+        //console.log('linearPalleteScale')
         const dataValues = this.props.mapStore.map(function (data) { return data.value });
         const minVal = Math.min(...dataValues);
         const maxVal = Math.max(...dataValues);
@@ -39,17 +39,17 @@ class MapIndex extends React.Component {
     }
 
     redducedData() {
-        console.log('redducedData')
+        //console.log('redducedData')
         const newData = this.props.mapStore.reduce((object, data) => {
             object[data.code] = { value: data.value, fillColor: this.linearPalleteScale(data.value) };
             return object;
         }, {});
-        console.log('newData', newData)
+        //console.log('newData', newData)
         return Object.assign({}, statesDefaults, newData);
     }
 
     renderMap() {
-        console.log('renderMap')
+        //console.log('renderMap')
         return new Datamap({
             element: ReactDOM.findDOMNode(this),
             //   fills: { defaultFill: '#bbe4f9' },
