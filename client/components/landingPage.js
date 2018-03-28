@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer, RelatedArticles } from '../components';
+import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer, SingleBarChartLanding, MapIndexTest, RelatedArticles } from '../components';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
+import { fetchlandingArticles, makelandingArticles } from '../store/landingPageArticles'
 import { Grid, Image, Table, Icon, Label, Button, Segment, Form, Header } from 'semantic-ui-react'
-import { makelandingArticles } from '../store/landingPageArticles.js'
 import { Link, NavLink } from "react-router-dom";
 import history from '../history';
 
-
+//<SingleBarChartLanding />
 class LandingPage extends Component {
   constructor() {
     super()
@@ -25,20 +25,18 @@ class LandingPage extends Component {
   }
 
 
-
-
-
   componentWillMount() {
-    // console.log(this.props)
-    // this.props.loadData()
+    this.props.loadData()
   }
+
+
   onSubmitHandler(e) {
     e.preventDefault();
     this.props.singleArticleAnalysis(this.state.articleUrl);
     this.setState({ articleUrl: '' })
   }
 
-  
+
 
   render() {
     function formatDate(date) {
@@ -84,97 +82,97 @@ class LandingPage extends Component {
           <br />
           <br />
           <div className="extension">
-          <Button as='div' labelPosition='right'>
-          <Button icon color='blue'>
-            <Icon name='newspaper' />
-          </Button>
-          <Label as='a' basic color='blue' pointing='left'>Download Our Chrome Extension</Label>
-        </Button>
-        </div>
+            <Button as='div' labelPosition='right'>
+              <Button icon color='blue'>
+                <Icon name='newspaper' />
+              </Button>
+              <Label as='a' basic color='blue' pointing='left'>Download Our Chrome Extension</Label>
+            </Button>
+          </div>
           <a href='#todaysBriefing'>
-          <Image
-            centered
-            className="animated bounce arrow"
-            src="img/arrow.png"
-            size="tiny"
-             />
-            </a>
+            <Image
+              centered
+              className="animated bounce arrow"
+              src="img/arrow.png"
+              size="tiny"
+            />
+          </a>
 
         </div>
         <div className="todaysBriefing articleBackground">
-        <Header as="h2" icon textAlign="center" id="todaysBriefing">
-          <Icon name="newspaper" circular />
-          <Header.Content>Today's Briefing
+          <Header as="h2" icon textAlign="center" id="todaysBriefing">
+            <Icon name="newspaper" circular />
+            <Header.Content>Today's Briefing
                             </Header.Content>
-          <p className="date spacing">{date.toUpperCase()}</p>
-        </Header>
+            <p className="date spacing">{date.toUpperCase()}</p>
+          </Header>
 
-        <Grid columns={3}>
-          <Grid.Row stretched>
-            <Grid.Column>
-              <Table color={'blue'} size="small">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><OverallSentimentAnalysis /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-
-
-              <Table color={'blue'} size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><RadarChart /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-
-            </Grid.Column>
-            <Grid.Column>
-              <MapIndex />
-
-              <Table color={'blue'} size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>BAR CHART</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><BarChart /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
+          <Grid columns={3}>
+            <Grid.Row stretched>
+              <Grid.Column>
+                <Table color={'blue'} size="small">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell><OverallSentimentAnalysis /></Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
 
 
-            </Grid.Column>
-            <Grid.Column>
-              <Table color={'blue'} size='small'>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
+                <Table color={'blue'} size='small'>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell><RadarChart /></Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
 
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell><RelatedArticles /></Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+              </Grid.Column>
+              <Grid.Column>
+                <MapIndexTest />
+
+                <Table color={'blue'} size='small'>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell><SingleBarChartLanding /></Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell><BarChart /></Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+
+
+              </Grid.Column>
+              <Grid.Column>
+                <Table color={'blue'} size='small'>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell><RelatedArticles /></Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                </Table>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </div>
       </div>
     )
@@ -187,9 +185,8 @@ const mapState = ({ singleArticle, relatedArticles, landingPageArticles }) => ({
 //const mapDispatch = ({ makeArticle, makeRelatedArticles })
 const mapDispatch = (dispatch) => ({
   loadData() {
-    dispatch(makelandingArticles())
+    dispatch(fetchlandingArticles())
   },
-
   singleArticleAnalysis(articleUrl) {
     dispatch(makeArticle(articleUrl)).then((res) => {
       if (!res.message) {

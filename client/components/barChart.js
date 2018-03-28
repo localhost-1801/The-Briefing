@@ -81,7 +81,7 @@ class BarChart extends Component {
 
   render() {
     if (this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined) {
-      return (<div>No Related Articles</div>)
+      return (<div></div>)//No Related Articles
     }
 
     let singleArticle = this.props.singleArticle.tone

@@ -70,7 +70,7 @@ class RadarChart extends Component {
     }
 
     render() {
-        if (this.props.singleArticle.info === undefined) {
+        if (this.props.singleArticle.info === undefined) { //does info need to be there?
             // console.log(this.props.tone)
             return <ReactLoading type={'spin'} color={'#708090'} height='100px' width='100px' />
         }
@@ -80,10 +80,8 @@ class RadarChart extends Component {
         let processedTones = this.processData(socialTones)
         let data = this.state.bool ? processedEmo : processedTones
         let maxima = this.state.bool ? this.getMaxima(emotionalTones) : this.getMaxima(socialTones)
-        // console.log(maxima)
         // let emotionalTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[0].tones)
         // let socialTones = this.parseData(this.props.singleArticle.tone.document_tone.tone_categories[2].tones)
-
         // let dataObj = {
         //     data: this.processData(emotionalTones),
         //     maxima: this.getMaxima(emotionalTones)
