@@ -63,7 +63,7 @@ class RelatedArticles extends Component {
         <Table color={'blue'} size='small'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>
+              <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
