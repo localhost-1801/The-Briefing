@@ -78,7 +78,8 @@ class Navbar extends Component {
   }
 }
 
-const mapState = ({ singleArticle }) => ({ singleArticle })
+
+const mapState = ({ singleArticle, relatedArticles, landingPageArticle }) => ({ singleArticle, relatedArticles, landingPageArticle })
 const mapDispatch = (dispatch, ownProps) => ({
   singleArticleAnalysis(articleUrl) {
     dispatch(makeArticle(articleUrl)).then((res) => {

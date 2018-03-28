@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle } from '../components'
+import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle, SingleBarChartBackPage } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
 import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
@@ -22,7 +22,10 @@ class singleArticleData extends Component {
 
         if (this.props.singleArticle.info === undefined) {
             // console.log('fetching with localstorage info')
-            this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
+            console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
+            if (JSON.parse(window.localStorage.getItem('singleArticle')) !== null){
+                this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
+            }
         }
     }
 
@@ -73,7 +76,7 @@ class singleArticleData extends Component {
                         <Grid centered columns={3} className="spacing">
                             <Grid.Row stretched>
                                 <Grid.Column>
-                                    <Table color={'blue'} size='small'>
+                                    <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
                                                 <Table.HeaderCell>KEYWORDS BY RELEVANCE</Table.HeaderCell>
@@ -84,10 +87,15 @@ class singleArticleData extends Component {
                                                 <Table.Cell><BubbleChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
+                                        <Table.Body>
+                                        <Table.Row>
+                                            <Table.Cell><Categories /></Table.Cell>
+                                        </Table.Row>
+                                    </Table.Body>
                                     </Table>
 
 
-                                    <Table color={'blue'} size='small'>
+                                    <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
                                                 <Table.HeaderCell>LANGUAGE TONE ANALYSIS</Table.HeaderCell>
@@ -95,7 +103,7 @@ class singleArticleData extends Component {
                                         </Table.Header>
                                         <Table.Body>
                                             <Table.Row>
-                                                <Table.Cell><SingleBarChart /></Table.Cell>
+                                                <Table.Cell><SingleBarChartBackPage /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
@@ -103,7 +111,7 @@ class singleArticleData extends Component {
                                 </Grid.Column>
 
                                 <Grid.Column>
-                                    <Table color={'blue'} size='small'>
+                                    <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
                                                 <Table.HeaderCell>OVERALL ARTICLE SENTIMENT ANALYSIS</Table.HeaderCell>
@@ -112,11 +120,12 @@ class singleArticleData extends Component {
                                         <Table.Body>
                                             <Table.Row>
                                                 <Table.Cell><OverallSentimentAnalysisWithProps /></Table.Cell>
+                                                <br />
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
 
-                                    <Table color={'blue'} size='small'>
+                                    {/* <Table color={'teal'} size='small'>
                                     <Table.Header>
                                         <Table.Row>
                                             <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
@@ -127,15 +136,19 @@ class singleArticleData extends Component {
                                             <Table.Cell><Categories /></Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
-                                </Table>
+                                </Table> */}
 
-                                    <Table color={'blue'} size='small'>
+                                    <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
                                                 <Table.HeaderCell>EMOTIONAL ANALYSIS</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
-
+                                        <Table.Body>
+                                            <Table.Row>
+                                                <Table.Cell><BarChart /></Table.Cell>
+                                            </Table.Row>
+                                        </Table.Body>
                                         <Table.Body>
                                             <Table.Row>
                                                 <Table.Cell><RadarChartWProps /></Table.Cell>
@@ -143,7 +156,7 @@ class singleArticleData extends Component {
                                         </Table.Body>
                                     </Table>
 
-                                    <Table color={'blue'} size='small'>
+                                    {/* <Table color={'blue'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
                                                 <Table.HeaderCell>COMPARATIVE EMOTIONAL ANALYSIS</Table.HeaderCell>
@@ -155,14 +168,15 @@ class singleArticleData extends Component {
                                                 <Table.Cell><BarChart /></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
-                                    </Table>
+
+                                    </Table> */}
                                 </Grid.Column>
 
                                 <Grid.Column>
-                                    <Table color={'blue'} size='small'>
+                                    <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>RELEVANT TWEETS</Table.HeaderCell>
+                                                <Table.HeaderCell><Icon name='twitter'/>RELEVANT TWEETS</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
                                         <Table.Body>

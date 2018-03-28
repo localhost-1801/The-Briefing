@@ -66,13 +66,14 @@ export default class MapIndex extends React.Component {
   }
 
   componentDidMount(){
-    this.datamap = this.renderMap();
+    //this.datamap = this.renderMap();
   }
 
-  componentDidUpdate(){
-    this.datamap.updateChoropleth(this.redducedData());
-  }
+  // componentDidUpdate(){
+  //   this.datamap.updateChoropleth(this.redducedData());
+  // }
 
+  //<div id="datamap-container" className="chartBackground" ><h1>Noodles</h1></div>
   render(){
     return (
       <Table color={'blue'} size='small'>

@@ -43,83 +43,131 @@ router.get('/related/url/*', (req, res, next) => {
 
 })
 
-router.post('/related', async (req, res, next) => {
-    const keywords = req.body.keywords
-    // console.log(keywords)
-    const parentUrl = req.body.url
-    // const query = keywords.slice(0, 2).join(' ')
-    const query = keywords;
-    // console.log('Query: ', query)
-    const newsResults = await newsapi.v2.everything({
-        sources: 'the-new-york-times, bbc-news',
-        q: query,
-        language: 'en',
-        // country: 'us'
-    })
-    const promiseArray = await newsResults.articles.map(async (article) => {
-        if (article.url.includes('bbc') && parentUrl.includes('bbc')){
-            article.url = article.url.replace('bbc.co.uk', 'bbc.com')
-        }
-        const scrapeObj = await masterArticleScraper(article.url, parentUrl );
-        if (!scrapeObj.flag){
-            const nlpResults = await nlp.analyze(scrapeObj.text);
-            nlpResults.info = scrapeObj
-
-            //Add document to Firestore
-            const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
-            if (documentSnap.data() === undefined) {
-                const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(nlpResults)
-            } else {
-                const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
-            }
-            return nlpResults
-        }
-    })
-    Promise.all(promiseArray)
-        .then(results => {
-            // console.log('IN API SEND HELP', results.length)
-            // console.log('something', results.indexOf(undefined))
-            res.send(results.filter(element => element !== undefined));
+router.get('/stateData', (req, res, next) => {
+    console.log('before the query')
+    const query = db.collection('stateData')
+    console.log('in the api')
+    const stateData = [];
+    query.get().then(docu => {
+        docu.forEach(d => {
+            stateData.push(d.data())
         })
-    // res.send(articleArray)
+        console.log('STATE DATA', stateData)
+        res.send(stateData)
+
+        // router.post('/related', async (req, res, next) => {
+        //     const keywords = req.body.keywords
+        //     // console.log(keywords)
+        //     const parentUrl = req.body.url
+        //     // const query = keywords.slice(0, 2).join(' ')
+        //     const query = keywords;
+        //     // console.log('Query: ', query)
+        //     const newsResults = await newsapi.v2.everything({
+        //         sources: 'the-new-york-times, bbc-news',
+        //         q: query,
+        //         language: 'en',
+        //         // country: 'us'
+        //     })
+        //     const promiseArray = await newsResults.articles.map(async (article) => {
+        //         if (article.url.includes('bbc') && parentUrl.includes('bbc')){
+        //             article.url = article.url.replace('bbc.co.uk', 'bbc.com')
+        //         }
+        //         const scrapeObj = await masterArticleScraper(article.url, parentUrl );
+        //         if (!scrapeObj.flag){
+        //             const nlpResults = await nlp.analyze(scrapeObj.text);
+        //             nlpResults.info = scrapeObj
+
+        //             //Add document to Firestore
+        //             const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
+        //             if (documentSnap.data() === undefined) {
+        //                 const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(nlpResults)
+        //             } else {
+        //                 const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
+        //             }
+        //             return nlpResults
+        //         }
+        //     })
+        //     Promise.all(promiseArray)
+        //         .then(results => {
+        //             // console.log('IN API SEND HELP', results.length)
+        //             // console.log('something', results.indexOf(undefined))
+        //             res.send(results.filter(element => element !== undefined));
+        //         })
+        //     // res.send(articleArray)
+        // })
+
+        // router.post('/landing', async (req, res, next) => {
+        //     const newsResult = await newsapi.v2.topHeadlines({
+        //         sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal',
+        //         pageSize: 100
+        //     })
+        //     // let promiseLandingArray = [];
+        //     const promiseLandingArray = newsResult.articles.map(async (article) => {
+
+        //         const scrapeObj2 = await masterArticleScraper(article.url)
+
+        //         if (scrapeObj2.text !== 0) {
+        //             const nlpResults2 = await nlp.analyze(scrapeObj2.text);
+        //             nlpResults2.info = scrapeObj2
+
+        //             const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
+        //             if (documentSnap.data() === undefined) {
+        //                 const documentCreate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).set(nlpResults2)
+        //             } else {
+        //                 const documentUpdate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).update(nlpResults2)
+        //             }
+        //             return nlpResults2
+        //         }
+
+    })
 })
 
-router.post('/landing', async (req, res, next) => {
-    const newsResult = await newsapi.v2.topHeadlines({
-        sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal',
-        pageSize: 100
-    })
-    // let promiseLandingArray = [];
-    const promiseLandingArray = newsResult.articles.map(async (article) => {
-
-        const scrapeObj2 = await masterArticleScraper(article.url)
-
-        if (scrapeObj2.text !== 0) {
-            const nlpResults2 = await nlp.analyze(scrapeObj2.text);
-            nlpResults2.info = scrapeObj2
-
-            const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
-            if (documentSnap.data() === undefined) {
-                const documentCreate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).set(nlpResults2)
-            } else {
-                const documentUpdate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).update(nlpResults2)
-            }
-            return nlpResults2
-        }
-    })
-
-    Promise.all(promiseLandingArray)
-        .then(results => {
-            res.send(results)
+router.get('/landing', (req, res, next) => {
+    let allLandingPageArticles = db.collection('landingArticles')
+    const allLandingrticles = [];
+    allLandingPageArticles.get().then(docu => {
+        docu.forEach(d => {
+            allLandingrticles.push(d.data())
         })
+        res.send(allLandingrticles)
+    })
 })
+
+// router.post('/landing', async (req, res, next) => {
+//     const newsResult = await newsapi.v2.topHeadlines({
+//         sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal,the-washington-post',
+//         pageSize: 100
+//     })
+//     // let promiseLandingArray = [];
+//     const promiseLandingArray = newsResult.articles.map(async (article) => {
+
+//         const scrapeObj2 = await masterArticleScrapper(article.url)
+//         if (!scrapeObj2.flag) {
+//             const nlpResults2 = await nlp.analyze(scrapeObj2.text);
+//             nlpResults2.info = scrapeObj2
+
+//             const documentSnap = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
+//             if (documentSnap.data() === undefined) {
+//                 const documentCreate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).set(nlpResults2)
+//             } else {
+//                 const documentUpdate = await db.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).update(nlpResults2)
+//             }
+//             return nlpResults2
+//         }
+//     })
+
+//     Promise.all(promiseLandingArray)
+//         .then(results => {
+//             res.send(results.filter(element => element !== undefined));
+//         })
+// })
 
 router.post('/url/*', async (req, res, next) => {
     console.log(req.params[0])
-    const scrapeObj = await masterArticleScrapper(req.params[0]);
+    const scrapeObj = await masterArticleScraper(req.params[0]);
     console.log('wtf', scrapeObj.url)
-    if (scrapeObj.flag){
-        res.send({message: 'Could not process this article. Please try another link.'})
+    if (scrapeObj.flag) {
+        res.send({ message: 'Could not process this article. Please try another link.' })
     } else {
         const nlpResults = await nlp.analyze(scrapeObj.text);
         nlpResults.info = scrapeObj
@@ -169,12 +217,12 @@ router.post('/url/*', async (req, res, next) => {
 
 router.get('/url/*', (req, res, next) => {
     let articleRef = db.collection('articles')
-    console.log('this is where i am',req.params[0])
+    console.log('this is where i am', req.params[0])
     articleRef.where('info.url', '==', req.params[0]).get().then(docu => {
-        console.log('test it all 1', docu)
+        // console.log('test it all 1', docu)
         docu.forEach(d => {
             const data = d.data()
-            console.log('data: ', data)
+            console.log('in snapshot')
             res.send(data)
         })
     })
@@ -186,13 +234,51 @@ module.exports = router;
 
 
 
-    // if (parentUrl) {
-    //     infoObj.parent = parentUrl;
-    // }
-    // data = { tone: tone, emotion: response, info: infoObj }
-    // db.collection('articles').doc(infoObj.headline).update(data).then(() => {
-    //     console.log('updated')
+router.post('/related', async (req, res, next) => {
+    const keywords = req.body.keywords
+    // console.log(keywords)
+    const parentUrl = req.body.url
+    // const query = keywords.slice(0, 2).join(' ')
+    const query = keywords;
+    console.log('Query: ', query)
+    const newsResults = await newsapi.v2.everything({
+        sources: 'the-new-york-times, bbc-news',
+        q: query,
+        language: 'en',
+        // country: 'us'
+    })
+    const promiseArray = await newsResults.articles.map(async (article) => {
+        const scrapeObj = await masterArticleScraper(article.url, parentUrl);
+        if (!scrapeObj.flag) {
+            const nlpResults = await nlp.analyze(scrapeObj.text);
+            nlpResults.info = scrapeObj
 
-    // }).catch(err => {
-    //     console.log('', infoObj.headline)
-    //     db.collection('articles').doc(infoObj.headline).set(data)
+            //Add document to Firestore
+            const documentSnap = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).get()
+            if (documentSnap.data() === undefined) {
+                const documentCreate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).set(nlpResults)
+            } else {
+                const documentUpdate = await db.collection('articles').doc(scrapeObj.headline.replace(/,/ig, ' ')).update(nlpResults)
+            }
+            return nlpResults
+        }
+    })
+    Promise.all(promiseArray)
+        .then(results => {
+            res.send(results.filter(element => element !== undefined));
+        })
+    // res.send(articleArray)
+    if (parentUrl) {
+        infoObj.parent = parentUrl;
+    }
+    data = { tone: tone, emotion: response, info: infoObj }
+    db.collection('articles').doc(infoObj.headline).update(data).then(() => {
+        console.log('updated')
+    }).catch(err => {
+        console.log('', infoObj.headline)
+        db.collection('articles').doc(infoObj.headline).set(data)
+    })
+})
+
+
+
