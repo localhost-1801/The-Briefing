@@ -51,7 +51,7 @@ class RelatedArticles extends Component {
                     {article.info.headline}
                   </Card.Header>
                   <Card.Description href={article.info.url}>
-                    {article.info.text.slice(0, 47) + '...'}
+                    {article.info.text.slice(0, 147) + '...'}
                   </Card.Description>
                 </Card.Content>
               </Card>
