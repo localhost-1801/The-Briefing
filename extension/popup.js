@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const index = tab.url.indexOf('?') >= 0 ? tab.url.slice(0, tab.url.indexOf('?')) : tab.url
       console.log(index)
-      const newURL = `http://localhost:8080/singleArticleData?url=${index}`;
+      const newURL = `http://www.thebriefing.news/singleArticleData?url=${index}`;
       chrome.tabs.create({url: newURL})
     });
   }, false);

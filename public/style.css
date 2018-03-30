@@ -194,4 +194,9 @@ svg.datamap {
     overflow: auto;
     height: 1050px;
   }
+
+  .extension {
+    padding-left: 43%;
+    padding-right: 40%;
+  }
 }
