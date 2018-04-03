@@ -98,7 +98,7 @@ form div {
   /* margin: auto 0; */
   padding-top: 60px;
   background-repeat: no-repeat;
-  background-size: auto;
+  /* background-size: 100vw; */
 }
 
 .todaysBriefing {
@@ -175,13 +175,13 @@ svg.datamap {
   }
 
   .landingPageSearch {
-    height: 90vh;
+    /* height: 100vh; */
     /* background-color: rgb(241, 239, 239); */
     background-image: url('img/background.png');
     /* margin: auto 0; */
     padding-top: 180px;
     /* background-repeat: no-repeat; */
-    background-size: 1891px 1000px
+    background-size: 100vw 100vh;
   }
 
   .radarChart {
@@ -193,5 +193,10 @@ svg.datamap {
     max-height: 100%;
     overflow: auto;
     height: 1050px;
+  }
+
+  .extension {
+    padding-left: 43%;
+    padding-right: 40%;
   }
 }
