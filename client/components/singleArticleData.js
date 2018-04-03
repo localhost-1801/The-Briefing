@@ -4,7 +4,7 @@ import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle, SingleBarChartBackPage } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
+import { Header, Icon, Image, Table, Grid, Button, Container, Checkbox, Form, Segment } from 'semantic-ui-react'
 import { makeRelatedArticles, fetchRelatedArticles } from '../store/relatedArticles'
 
 class singleArticleData extends Component {
@@ -78,8 +78,7 @@ class singleArticleData extends Component {
                                 <Grid.Column>
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>KEYWORDS BY RELEVANCE</Table.HeaderCell>
+                                            <Table.Row><Table.HeaderCell><Container textAlign='left'>TESTING</Container><Container textAlign='right'>TESTING</Container></Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
                                         <Table.Body>
