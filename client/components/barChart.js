@@ -15,9 +15,9 @@ class BarChart extends Component {
     this.state = {
       activeDescription: 'Emotional Range'
     }
-    this.resizeChart = this.resizeChart.bind(this);
     this.parseData = this.parseData.bind(this);
     this.parseDataMultiple = this.parseDataMultiple.bind(this);
+    this.resizeSegment =  this.resizeSegment.bind(this);
   }
 
   // shouldComponentUpdate(nextProps, nextState){
@@ -79,21 +79,44 @@ class BarChart extends Component {
     return resultArr;
   }
   
-  componentDidMount() {
-    this.resizeChart();
-    window.addEventListener('resize', this.resizeChart);
+  // componentDidMount() {
+  //   window.addEventListener('resize', this.resizeChart);
+  //   window.addEventListener('resize', this.resizeSegment);
+  // }
+  // 
+  // componentDidUpdate() {
+  //   this.resizeChart();
+  //   this.resizeSegment();
+  // }
+  // 
+  // componentWillUnmount() {
+  //   window.removeEventListener('resize', this.resizeChart);
+  //   window.removeEventListener('resize', this.resizeSegment);
+  // }
+  
+  // resizeChartHeight(){
+  //   if(this.barChartWrapper){
+  //     let computedHeight = 0.45 * +window.innerHeight
+  //     let computedWidth = 0.29 * +window.innerWidth
+  //     this.barChartWrapper.style.height = computedHeight + 'px'
+  //     this.barChartWrapper.style.width = computedWidth + 'px'
+  //   }
+  // }
+  resizeChartHeight(){
+    let computedHeight = 0.35 * +window.innerHeight
+    return computedHeight
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeChart);
+  resizeChartWidth() {
+    let computedWidth = 0.3 * +window.innerWidth
+    return computedWidth
   }
   
-  resizeChart(){
-    if(this.barChartWrapper){
-      let computedHeight = 0.28 * +window.innerHeight
+  resizeSegment(){
+    if(this.segmentWrapper){
+      let computedHeight = 0.25 * +window.innerHeight
       let computedWidth = 0.28 * +window.innerWidth
-      this.barChartWrapper.style.height = computedHeight + 'px'
-      this.barChartWrapper.style.width = computedWidth + 'px'
+      this.segmentWrapper.style.height = computedHeight + 'px'
+      this.segmentWrapper.style.width = computedWidth + 'px'
     }
   }
 
@@ -109,17 +132,16 @@ class BarChart extends Component {
     let aggregateData = this.parseDataMultiple(relatedArticles)
 
     return (
-
         <Table.Cell>
-          <div className="chartBackground barChartPadding barChartWrapper" ref={(node) => { this.barChartWrapper = node; }}>
+          <div className="barChartWrapper" ref={(node) => { this.barChartWrapper = node; }}>
             <svg viewBox="0 0 500 500" width="100%" height="100%">
         <VictoryStack horizontal
                 standalone={false}
                 /* setting a symmetric domain makes it much easier to center the axis  */
                 domain={{ x: [-70, 70] }}
-                padding={{ top: 10, bottom: 10, left: 210 }}
-                height={600}
-                width={500}
+                padding={{ top: 10, bottom: 10, left: 210}}
+                height={this.resizeChartHeight()}
+                width={this.resizeChartWidth()}
                 style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
               >
                 <VictoryBar
@@ -204,9 +226,8 @@ class BarChart extends Component {
               />
 
             </svg>
-
           </div>
-          <div className='segmentPadding' style={{width: '40em'}}>
+            <div ref={(node) => { this.segmentWrapper = node; }}>
             <Segment flo textAlign={'center'} compact={true} attached='bottom'>
             <Header size='tiny'>{this.state.activeDescription}</Header> 
             {descriptions[this.state.activeDescription.toLowerCase()]}

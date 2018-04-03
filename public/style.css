@@ -47,7 +47,7 @@ form div {
 
 .chartBackground {
   /* background-color: white; */
-  height: 30vh;
+  /* height: 30vh; */
 }
 
 .spacing {
@@ -125,6 +125,9 @@ form div {
   height: 500px;
 	width: 100%;
 	z-index: 100;
+}
+
+.barChartWrapper{
 }
 
 .storyCard{
