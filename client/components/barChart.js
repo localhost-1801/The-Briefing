@@ -15,7 +15,7 @@ class BarChart extends Component {
     this.state = {
       activeDescription: 'Emotional Range'
     }
-
+    this.resizeChart = this.resizeChart.bind(this);
     this.parseData = this.parseData.bind(this);
     this.parseDataMultiple = this.parseDataMultiple.bind(this);
   }
@@ -78,6 +78,24 @@ class BarChart extends Component {
     }))
     return resultArr;
   }
+  
+  componentDidMount() {
+    this.resizeChart();
+    window.addEventListener('resize', this.resizeChart);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeChart);
+  }
+  
+  resizeChart(){
+    if(this.barChartWrapper){
+      let computedHeight = 0.28 * +window.innerHeight
+      let computedWidth = 0.28 * +window.innerWidth
+      this.barChartWrapper.style.height = computedHeight + 'px'
+      this.barChartWrapper.style.width = computedWidth + 'px'
+    }
+  }
 
   render() {
     if (this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined) {
@@ -93,7 +111,7 @@ class BarChart extends Component {
     return (
 
         <Table.Cell>
-          <div className="chartBackground barChartPadding">
+          <div className="chartBackground barChartPadding barChartWrapper" ref={(node) => { this.barChartWrapper = node; }}>
             <svg viewBox="0 0 500 500" width="100%" height="100%">
         <VictoryStack horizontal
                 standalone={false}
@@ -188,13 +206,13 @@ class BarChart extends Component {
             </svg>
 
           </div>
-                <div className='segmentPadding' style={{width: '40em'}}>
-          <Segment flo textAlign={'center'} compact={true} attached='bottom'>
-          <Header size='tiny'>{this.state.activeDescription}</Header> 
-          {descriptions[this.state.activeDescription.toLowerCase()]}
+          <div className='segmentPadding' style={{width: '40em'}}>
+            <Segment flo textAlign={'center'} compact={true} attached='bottom'>
+            <Header size='tiny'>{this.state.activeDescription}</Header> 
+            {descriptions[this.state.activeDescription.toLowerCase()]}
 
-        </Segment>
-        </div>
+            </Segment>
+          </div>
         </Table.Cell>
 
 
