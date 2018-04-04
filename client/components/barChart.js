@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryBar, VictoryStack, VictoryTooltip, VictoryAxis, VictoryLabel } from 'victory';
+import { VictoryBar, VictoryStack, VictoryTooltip, VictoryLegend, VictoryChart, VictoryAxis, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
 import { fetchArticleData } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
@@ -104,6 +104,7 @@ class BarChart extends Component {
                 width={300}
                 style={{ data: { width: 20 }, labels: { fontSize: 10 } }}
               >
+                   
                 <VictoryBar
                   events={[
                     {

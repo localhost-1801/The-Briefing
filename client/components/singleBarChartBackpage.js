@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { VictoryChart, VictoryAxis, VictoryBar, VictoryStack } from 'victory';
+import { VictoryChart, VictoryAxis, VictoryLegend, VictoryBar, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel, VictoryStack } from 'victory';
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { Menu, Segment, Header } from 'semantic-ui-react'
@@ -80,6 +81,7 @@ class SingleBarChartBackPage extends Component {
           domainPadding={{ x: 100, y: [0, 100] }}
           animate={{ duration: 1000 }}
         >
+   
           <VictoryStack
             colorScale={["#61cdbb", "#e8a838", "#97e3d5", "e8c1a0", "#f5755f", "#f1e15b"]}
           >

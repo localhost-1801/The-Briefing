@@ -3,9 +3,9 @@ import { RadarChart, OverallSentimentAnalysis, SingleBarChartLanding, MapIndexTe
 import { connect } from 'react-redux'
 import { makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
-import { fetchlandingArticles } from '../store/landingPageArticles'
-import { Grid, Image, Table, Icon, Label, Button, Form, Header } from 'semantic-ui-react'
-import { NavLink } from "react-router-dom";
+import { fetchlandingArticles, makelandingArticles } from '../store/landingPageArticles'
+import { Grid, Image, Popup, Table, Icon, Label, Button, Segment, Form, Header } from 'semantic-ui-react'
+import { Link, NavLink } from "react-router-dom";
 import history from '../history';
 
 //<SingleBarChartLanding />
@@ -53,7 +53,10 @@ class LandingPage extends Component {
     }
 
     let date = formatDate(new Date());
-
+    const style = {
+      borderRadius: 0,
+      opacity: 0.7,
+    }
     return (
       <div className="articleBackground">
         <div className="landingPageSearch">
@@ -81,10 +84,10 @@ class LandingPage extends Component {
           <br />
           <div className="extension">
             <Button href='/The-Briefing-Extension.zip' labelPosition='right'>
-              <Button href='/The-Briefing-Extension.zip' icon color='blue'>
+              <Button href='/The-Briefing-Extension.zip' icon color='teal'>
                 <Icon name='newspaper' />
               </Button>
-              <Label as='a' basic color='blue' pointing='left'>Download Our Chrome Extension</Label>
+              <Label as='a' basic color='teal' pointing='left'>Download Our Chrome Extension</Label>
             </Button>
           </div>
           <a href='#todaysBriefing'>
@@ -118,10 +121,15 @@ class LandingPage extends Component {
 
             <Grid.Row>
               <Grid.Column>
-                <Table color={'blue'} size='small'>
+                <Table color={'teal'} size='small'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>LANGUAGE TONE ANALYSIS</Table.HeaderCell>
+                      <Table.HeaderCell>LANGUAGE TONE ANALYSIS  <Popup
+                        content='Provides comparative levels of language tones. Aggregate tab displays the relative percentage of each related article towards that particular tone. Ex: High levels of confidence with low levels of analytical tones could represent poorly supported arguments.'
+                        style={style}
+                        trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                        inverted
+                      /></Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
@@ -130,13 +138,18 @@ class LandingPage extends Component {
                     </Table.Row>
                   </Table.Body>
                 </Table>
-                </Grid.Column>
+              </Grid.Column>
 
-                <Grid.Column>
-                <Table color={'blue'} size="small">
+              <Grid.Column>
+                <Table color={'teal'} size="small">
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS</Table.HeaderCell>
+                      <Table.HeaderCell>OVERALL SENTIMENT ANALYSIS  <Popup
+                        content='Provides a general indication for the portrayal of the topic. Significant differences between single and aggregate may represent potential author biases.'
+                        style={style}
+                        trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                        inverted
+                      /></Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
@@ -147,11 +160,16 @@ class LandingPage extends Component {
                 </Table>
               </Grid.Column>
 
-                <Grid.Column>
-                <Table color={'blue'} size='small'>
+              <Grid.Column>
+                <Table color={'teal'} size='small'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>RADAR CHART</Table.HeaderCell>
+                      <Table.HeaderCell>RADAR CHART  <Popup
+                        content='Provides insight into the levels of emotions present in the article. Ex: High levels of fear and disgust, or low levels of conscientiousness and emotional range can be representative of fear mongering.'
+                        style={style}
+                        trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                        inverted
+                      /></Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
@@ -161,10 +179,10 @@ class LandingPage extends Component {
                   </Table.Body>
                 </Table>
               </Grid.Column>
-              </Grid.Row>
-<Grid.Row>
+            </Grid.Row>
+            <Grid.Row>
               <Grid.Column>
-                  <RelatedArticles />
+                <RelatedArticles />
               </Grid.Column>
             </Grid.Row>
           </Grid>

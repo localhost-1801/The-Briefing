@@ -61,7 +61,7 @@ class RelatedArticles extends Component {
   render() {
     if (this.props.landingPageArticles === undefined) {
       return (
-        <Table color={'blue'} size='small'>
+        <Table color={'teal'} size='small'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>
@@ -77,7 +77,7 @@ class RelatedArticles extends Component {
     }
     return (
       <div>
-        <Table color={'blue'} size='small'>
+        <Table color={'teal'} size='small'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>TRENDING ARTICLES</Table.HeaderCell>

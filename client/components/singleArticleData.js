@@ -4,7 +4,7 @@ import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { ArticleAnalyzer, RadarChart, Tweets, StackedBar, SingleBarChart, OverallSentimentAnalysisWithProps, KeywordBoxWProps, RadarChartWProps, Categories, Tabs, BarChart, BubbleChart, RelatedArticlesSingle, SingleBarChartBackPage } from '../components'
 import ReactLoading from 'react-loading';
 import history from '../history';
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
+import { Header, Icon, Image, Popup, Table, Grid, Button, Container, Checkbox, Form, Segment } from 'semantic-ui-react'
 import { makeRelatedArticles, fetchRelatedArticles } from '../store/relatedArticles'
 
 class singleArticleData extends Component {
@@ -54,6 +54,12 @@ class singleArticleData extends Component {
                 </div>
             )
         } else {
+            const style = {
+                borderRadius: 0,
+                opacity: 0.7,
+            }
+            // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
+            // const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
                 <div className="articleBackground">
                     <br />
@@ -72,9 +78,14 @@ class singleArticleData extends Component {
                                 <Grid.Column>
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>KEYWORDS BY RELEVANCE</Table.HeaderCell>
+                                            <Table.Row><Table.HeaderCell >KEYWORDS BY RELEVANCE  <Popup
+                                                content='Bubble chart displaying keywords from the article. The bubble size is correlated to the relevance of that keyword. '
+                                                style={style}
+                                                trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                                                inverted
+                                            /></Table.HeaderCell>
                                             </Table.Row>
+                                       
                                         </Table.Header>
                                         <Table.Body>
                                             <Table.Row>
@@ -86,7 +97,12 @@ class singleArticleData extends Component {
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>LANGUAGE TONE ANALYSIS</Table.HeaderCell>
+                                                <Table.HeaderCell>LANGUAGE TONE ANALYSIS  <Popup
+                                                content='Provides comparative levels of language tones. Aggregate tab displays the relative percentage of each related article towards that particular tone. Ex: High levels of confidence with low levels of analytical tones could represent poorly supported arguments.'
+                                                style={style}
+                                                trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                                                inverted
+                                            /></Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
                                         <Table.Body>
@@ -102,7 +118,12 @@ class singleArticleData extends Component {
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>OVERALL ARTICLE SENTIMENT ANALYSIS</Table.HeaderCell>
+                                                <Table.HeaderCell>OVERALL ARTICLE SENTIMENT ANALYSIS  <Popup
+                                                content='Provides a general indication for the portrayal of the topic. Significant differences between single and aggregate may represent potential author biases.'
+                                                style={style}
+                                                trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                                                inverted
+                                            /></Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
                                         <Table.Body>
@@ -116,7 +137,13 @@ class singleArticleData extends Component {
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell>EMOTIONAL ANALYSIS</Table.HeaderCell>
+                                                <Table.HeaderCell>EMOTIONAL ANALYSIS  <Popup
+                                                content='These two visualizations provide insight into the levels of emotions present in the article. Ex: High levels of fear and disgust, or low levels of conscientiousness and emotional range can be representative of fear mongering.'
+                                                style={style}
+                                                trigger={<Icon name='help circle' size='large' textAlign='right' color='teal' />}
+                                                position='right center'
+                                                inverted
+                                            /></Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
                                         <Table.Body>
@@ -135,31 +162,31 @@ class singleArticleData extends Component {
 
                                 <Grid.Column>
 
-                                <Table color={'teal'} size='small'>
-                                    <Table.Header>
-                                        <Table.Row>
-                                            <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
-                                        </Table.Row>
-                                    </Table.Header>
-                                    <Table.Body>
-                                        <Table.Row>
-                                            <Table.Cell><Categories /></Table.Cell>
-                                        </Table.Row>
-                                    </Table.Body>
-                                </Table>
+                                    <Table color={'teal'} size='small'>
+                                        <Table.Header>
+                                            <Table.Row>
+                                                <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
+                                            </Table.Row>
+                                        </Table.Header>
+                                        <Table.Body>
+                                            <Table.Row>
+                                                <Table.Cell><Categories /></Table.Cell>
+                                            </Table.Row>
+                                        </Table.Body>
+                                    </Table>
 
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
-                                                <Table.HeaderCell><Icon name='twitter'/>RELEVANT TWEETS</Table.HeaderCell>
+                                                <Table.HeaderCell><Icon name='twitter' />RELEVANT TWEETS</Table.HeaderCell>
                                             </Table.Row>
                                         </Table.Header>
                                         <Table.Body>
                                             <Table.Row>
                                                 <Table.Cell>
-                                                <div className="tweets">
-                                                <Tweets />
-                                                </div>
+                                                    <div className="tweets">
+                                                        <Tweets />
+                                                    </div>
                                                 </Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
