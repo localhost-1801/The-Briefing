@@ -235,8 +235,8 @@ const heatMapData = async () => {
   Promise.all(promiseStateData)
 }
 setInterval(() => {
-  createLanding();
-  heatMapData();
+  // createLanding();
+  // heatMapData();
 }, 86400000)
 
 const syncDb = () => db.sync()

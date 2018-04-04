@@ -52,7 +52,7 @@ class RelatedArticlesSingle extends Component {
   render(){
     if(this.props.relatedArticles.length === 0){
       return (
-        <Table color={'blue'} size='small'>
+        <Table color={'teal'} size='small'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>
@@ -68,7 +68,7 @@ class RelatedArticlesSingle extends Component {
     }
     return (
       <div>
-        <Table color={'blue'} size='small'>
+        <Table color={'teal'} size='small'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>RELATED ARTICLES</Table.HeaderCell>

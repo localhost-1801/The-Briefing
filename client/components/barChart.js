@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VictoryBar, VictoryStack, VictoryTooltip, VictoryAxis, VictoryLabel } from 'victory';
+import { VictoryBar, VictoryStack, VictoryTooltip, VictoryLegend, VictoryChart, VictoryAxis, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
 import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
@@ -95,6 +95,12 @@ class BarChart extends Component {
         <Table.Cell>
           <div className="chartBackground barChartPadding">
             <svg viewBox="0 0 500 500" width="100%" height="100%">
+
+        <VictoryLegend x={123} y={50}
+        data={[
+          {name: 'Test', symbol: { fill: 'tomato', type: 'star'}}
+        ]}
+        />
         <VictoryStack horizontal
                 standalone={false}
                 /* setting a symmetric domain makes it much easier to center the axis  */
@@ -104,6 +110,7 @@ class BarChart extends Component {
                 width={500}
                 style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
               >
+                   
                 <VictoryBar
                   events={[
                     {
