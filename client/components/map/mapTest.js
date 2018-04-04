@@ -4,7 +4,6 @@ import Datamap from 'datamaps/dist/datamaps.usa.min'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import statesDefaults from './states-defaults';
-import collection from './states-data';
 import { Header, Grid, Image, Table, Icon, Popup } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
