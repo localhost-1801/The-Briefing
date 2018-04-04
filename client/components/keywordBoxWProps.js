@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchArticleData } from '../store/singleArticle'
 import ReactLoading from 'react-loading';
-import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 class KeywordBox extends Component {
   constructor() {
@@ -17,7 +17,6 @@ class KeywordBox extends Component {
   }
 
   parseData(data) {
-    // console.log(data)
     let resultArr = []
     for (var i = 0; i < data.keywords.length; i++) {
       let greatestEmotionScore = 0;
@@ -46,9 +45,6 @@ class KeywordBox extends Component {
       let data = this.parseData(this.props.singleArticle.nlu).filter(word => {
         return word.word.includes('.') === false
       })
-      // data = data.filter(word => {
-      //   return word.word[0] === word.word[0].toUpperCase();
-      // })
       return (
         <Table celled>
           <Table.Header>

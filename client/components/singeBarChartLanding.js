@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { VictoryChart, VictoryBar, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from 'victory';
-import ReactDOM from 'react-dom'
+import { VictoryChart, VictoryBar } from 'victory';
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
-import { fetchlandingArticles } from '../store/landingPageArticles'
-import { Menu, Segment, Header } from 'semantic-ui-react'
+import { Segment, Header } from 'semantic-ui-react'
 import descriptions from '../../descriptions'
 
 
@@ -74,7 +72,6 @@ class SingleBarChartLanding extends Component {
                                 onMouseOver: () => {
                                   return [{
                                     mutation: (props) => {
-                                      console.log('state', this.state.activeDescription)
                                       this.setState({ activeDescription: props.datum.x })
                                       return {
                                         style: Object.assign({}, props.style, { fill: 'tomato' })

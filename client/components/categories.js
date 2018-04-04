@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Breadcrumb, List } from 'semantic-ui-react'
+import { Icon, List } from 'semantic-ui-react'
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { fetchArticleData } from '../store/singleArticle'

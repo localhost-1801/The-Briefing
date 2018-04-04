@@ -4,24 +4,18 @@ import Datamap from 'datamaps/dist/datamaps.usa.min'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import statesDefaults from './states-defaults';
-import collection from './states-data';
-import { Header, Grid, Image, Table } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
 import { getStateArticleData } from '../../store/mapStore'
-
-// https://caspg.github.io/simple-data-table-map/
-//https://github.com/caspg/simple-data-table-map/blob/master/app/components/DataMap.jsx
 
 class MapIndexTest extends React.Component {
     constructor(props) {
         super(props);
         this.datamap = null;
-        // this.renderMap = this.renderMap.bind(this)
     }
 
     linearPalleteScale(value) {
-        //console.log('linearPalleteScale')
         const dataValues = this.props.mapStore.map(function (data) { return data.value });
         const minVal = Math.min(...dataValues);
         const maxVal = Math.max(...dataValues);
@@ -39,20 +33,16 @@ class MapIndexTest extends React.Component {
     }
 
     redducedData() {
-        //console.log('redducedData')
         const newData = this.props.mapStore.reduce((object, data) => {
             object[data.code] = { value: data.value, fillColor: this.linearPalleteScale(data.value) };
             return object;
         }, {});
-        //console.log('newData', newData)
         return Object.assign({}, statesDefaults, newData);
     }
 
     renderMap() {
-        //console.log('renderMap')
         return new Datamap({
             element: ReactDOM.findDOMNode(this),
-            //   fills: { defaultFill: '#bbe4f9' },
             scope: 'usa',
             data: this.redducedData(),
             geographyConfig: {

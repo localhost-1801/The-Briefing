@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { VictoryChart, VictoryTheme, VictoryGroup, VictoryArea, VictoryBar, VictoryPolarAxis, VictoryLabel } from 'victory';
-import ReactDOM from 'react-dom'
+import { VictoryChart, VictoryTheme, VictoryGroup, VictoryBar } from 'victory';
 import { connect } from 'react-redux'
-import { fetchArticleData } from '../store/singleArticle'
 
 
 class StackedBar extends Component {
@@ -22,9 +20,6 @@ class StackedBar extends Component {
         if (this.props.singleArticle.info === undefined || this.props.relatedArticles.length === 0){
             return <div/>
         }
-        // console.log('smello', this.props.singleArticle)
-        // console.log('1', this.props.singleArticle.tone.document_tone.tone_categories)
-        // console.log('jello', this.props.relatedArticles)
         const data1 = this.props.singleArticle.tone.document_tone.tone_categories[0].tones.map((obj, index )=> {
             return {
                 x: obj.tone_name,
@@ -50,7 +45,6 @@ class StackedBar extends Component {
             }
         })
         const useThis = this.state.dataSet1 ? [data1, data2] : [data3, data4]
-        // console.log(useThis[0][0], useThis[1][0])
         return (
           <div>
             <VictoryChart
@@ -69,7 +63,7 @@ class StackedBar extends Component {
                     data={useThis[1]}
                   />
               </VictoryGroup>
-              
+
             </VictoryChart>
           </div>
         );
@@ -77,12 +71,5 @@ class StackedBar extends Component {
 }
 
 const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
-// const mapDispatch = (dispatch) => {
-//     return {
-//         loadData(url) {
-//             dispatch(fetchArticleData(url))
-//         }
-//     }
-// }
 const mapDispatch = null
 export default connect(mapState, mapDispatch)(StackedBar)
