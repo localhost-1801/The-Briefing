@@ -13,16 +13,12 @@ class singleArticleData extends Component {
     }
 
     componentWillMount() {
-        // console.log(window.location.href)
         if (window.location.href.indexOf('=') > 0) {
             const url = window.location.href.slice(window.location.href.indexOf('=') + 1)
-            // console.log('url from extension: ', url)
             this.props.singleArticleAnalysis(url)
         }
 
         if (this.props.singleArticle.info === undefined) {
-            // console.log('fetching with localstorage info')
-            //console.log(JSON.parse(window.localStorage.getItem('singleArticle')))
             if (JSON.parse(window.localStorage.getItem('singleArticle')) !== null){
                 this.props.fetchingArticleInfo(JSON.parse(window.localStorage.getItem('singleArticle')).info.url);
             }
@@ -58,8 +54,6 @@ class singleArticleData extends Component {
                 </div>
             )
         } else {
-            // singleArticleData={this.props.singleArticle.tone.document_tone.tone_categories}
-            // const singleArticle = Object.keys(this.props.singleArticle).length === 0 ? JSON.parse(window.localStorage.getItem('singleArticle')) : this.props.singleArticle
             return (
                 <div className="articleBackground">
                     <br />
@@ -118,19 +112,6 @@ class singleArticleData extends Component {
                                         </Table.Body>
                                     </Table>
 
-                                    {/* <Table color={'teal'} size='small'>
-                                    <Table.Header>
-                                        <Table.Row>
-                                            <Table.HeaderCell>TOP CATEGORIES</Table.HeaderCell>
-                                        </Table.Row>
-                                    </Table.Header>
-                                    <Table.Body>
-                                        <Table.Row>
-                                            <Table.Cell><Categories /></Table.Cell>
-                                        </Table.Row>
-                                    </Table.Body>
-                                </Table> */}
-
                                     <Table color={'teal'} size='small'>
                                         <Table.Header>
                                             <Table.Row>
@@ -149,20 +130,6 @@ class singleArticleData extends Component {
                                         </Table.Body>
                                     </Table>
 
-                                    {/* <Table color={'blue'} size='small'>
-                                        <Table.Header>
-                                            <Table.Row>
-                                                <Table.HeaderCell>COMPARATIVE EMOTIONAL ANALYSIS</Table.HeaderCell>
-                                            </Table.Row>
-                                        </Table.Header>
-
-                                        <Table.Body>
-                                            <Table.Row>
-                                                <Table.Cell><BarChart /></Table.Cell>
-                                            </Table.Row>
-                                        </Table.Body>
-
-                                    </Table> */}
                                 </Grid.Column>
 
                                 <Grid.Column>
@@ -228,9 +195,6 @@ const mapDispatch = (dispatch, ownProps) => ({
                 const keywords = res.nlu.entities[0].text
                 dispatch(makeRelatedArticles(keywords, articleUrl))
             }
-            // console.log('in dispatch then', res);
-            // const keywords = res.nlu.keywords.map(obj => obj.text)
-            // console.log(keywords)
         }).catch(err => console.log(err))
         history.push('/singleArticleData')
     }

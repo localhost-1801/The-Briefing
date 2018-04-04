@@ -9,15 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
       i.value = tab.url.slice(0, tab.url.indexOf('?'));
 
       const index = tab.url.indexOf('?') >= 0 ? tab.url.slice(0, tab.url.indexOf('?')) : tab.url
-      console.log(index)
       const newURL = `http://www.thebriefing.news/singleArticleData?url=${index}`;
       chrome.tabs.create({url: newURL})
     });
   }, false);
 }, false);
-
-// $(".hover").mouseleave(
-//   function () {
-//     $(this).removeClass("hover");
-//   }
-// );

@@ -14,13 +14,11 @@ class RelatedArticlesSingle extends Component {
     let resultArr = []
     let max = this.props.relatedArticles.length >= 5 ? 5 : this.props.relatedArticles.length
     for (let i = 0; i < max; i++){
-      //console.log('relatedArticles', this.props.relatedArticles)
       let article = this.props.relatedArticles[i];
       let labelName = article.nlu.sentiment.document.label
       let score = Math.abs(Math.floor(article.nlu.sentiment.document.score * 100))
       score = score === 0 ? 50 : score;
       let color = (labelName === 'neutral' ? 'gray' : labelName === 'positive' ? 'green' : 'red')
-      // console.log('article', article)
       resultArr.push(
 
           <Card fluid centered color='blue'>
@@ -32,7 +30,6 @@ class RelatedArticlesSingle extends Component {
                     color: color,
                     ribbon: 'true',
                     url: article.info.url,
-                    // onClick: () => this.handleClick(article.info.url)
                   }
                 }/>
             <Card.Content>

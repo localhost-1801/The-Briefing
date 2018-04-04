@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryTheme, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from 'victory';
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
-// import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { fetchlandingArticles } from '../store/landingPageArticles'
 
 
-//replace these with tone data, radar chart will swap in between the two
+
 class RadarChart extends Component {
   constructor(props) {
     super(props);
@@ -46,8 +43,6 @@ class RadarChart extends Component {
     }, {});
   }
 
-  //change data[tones] if not passsing an object tones with an array
-  //make data array also modified, expects object with 'score' and 'tone_name'
   processData(data) {
     const maxByGroup = this.getMaxima(data);
     const makeDataArray = (d) => {
@@ -86,7 +81,7 @@ class RadarChart extends Component {
     for (var key in emotionsObject) {
       emotionsObject[key] = Math.floor((emotionsObject[key] / emotionalTones.length) * 100)
     }
-    //---------------------------------------------------------------------------------------
+
     let socialTones = this.props.landingPageArticles.map(article => {
       return article.tone.document_tone.tone_categories[2].tones
     })
