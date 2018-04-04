@@ -74,20 +74,9 @@ class BarChart extends Component {
     window.removeEventListener('resize', this.resizeSegment);
   }
 
-  resizeChartHeight(){
-    let computedHeight = 0.35 * +window.innerHeight
-    return computedHeight
-  }
-  resizeChartWidth() {
-    let computedWidth = 0.3 * +window.innerWidth
-    return computedWidth
-  }
-
   resizeSegment(){
     if(this.segmentWrapper){
-      let computedHeight = 0.25 * +window.innerHeight
-      let computedWidth = 0.25 * +window.innerWidth
-      this.segmentWrapper.style.height = computedHeight + 'px'
+      let computedWidth = 0.26 * +window.innerWidth
       this.segmentWrapper.style.width = computedWidth + 'px'
     }
   }
@@ -106,14 +95,14 @@ class BarChart extends Component {
     return (
         <Table.Cell>
           <div className="barChartWrapper" ref={(node) => { this.barChartWrapper = node; }}>
-            <svg viewBox="0 0 500 500" width="100%" height="100%">
+            <svg viewBox={"0 0 350 350"} width="100%" height="auto">
         <VictoryStack horizontal
                 standalone={false}
                 domain={{ x: [-70, 70] }}
-                padding={{ top: 10, bottom: 10, left: 210}}
-                height={this.resizeChartHeight()}
-                width={this.resizeChartWidth()}
-                style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
+                padding={{ top: 10, bottom: 10, left: 170}}
+                height={350}
+                width={300}
+                style={{ data: { width: 20 }, labels: { fontSize: 10 } }}
               >
                 <VictoryBar
                   events={[
@@ -189,13 +178,13 @@ class BarChart extends Component {
               />
 
             </svg>
-          </div>
             <div ref={(node) => { this.segmentWrapper = node; }}>
-            <Segment flo textAlign={'center'} compact={false} attached='bottom'>
-            <Header size='tiny'>{this.state.activeDescription}</Header>
-            {descriptions[this.state.activeDescription.toLowerCase()]}
-            </Segment>
-          </div>
+              <Segment flo textAlign={'center'} compact={false} attached='bottom'>
+              <Header size='tiny'>{this.state.activeDescription}</Header>
+              {descriptions[this.state.activeDescription.toLowerCase()]}
+              </Segment>
+            </div>
+            </div>
         </Table.Cell>
 
 
