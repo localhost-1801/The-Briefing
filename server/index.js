@@ -68,11 +68,11 @@ if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 
 const createLanding = async () => {
-  const collection = dbFirestore.collection('landingArticles')
+  const collection = await dbFirestore.collection('landingArticles')
   const deleted = await dbFirestore.dropTable(dbFirestore, 'landingArticles')
 
 
-  const otherCollection = dbFirestore.collection('stateData')
+  const otherCollection = await dbFirestore.collection('stateData')
   const otherDeleted = await dbFirestore.dropTable(dbFirestore, 'stateData')
 
 
@@ -177,9 +177,10 @@ const heatMapData = async () => {
   })
   Promise.all(promiseStateData)
 }
-setInterval(() => {
-  createLanding();
-  heatMapData();
+setInterval(async () => {
+  await createLanding()
+  await heatMapData();
 }, 86400000)
+
 
 module.exports = app
