@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ResponsiveBubble } from '@nivo/circle-packing';
-import { Header, Icon, Image, Table, Grid, Button, Menu, Checkbox, Form, Segment } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 
 
 class BubbleChart extends React.Component {
@@ -69,17 +69,12 @@ class BubbleChart extends React.Component {
   }
 
   resizeChart() {
-    // console.log('resizing')
     let computedHeight = 0.28 * +window.innerWidth
     this.bubbleWrapper.style.height = computedHeight + 'px'
     this.bubbleWrapper.style.width = computedHeight + 'px'
   }
 
   render() {
-    // if(this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined){
-    //   return (<div>no related articles</div>)
-    // }
-
     let bubbleData = [];
     if (this.state.aggregate) {
       bubbleData = this.parseDataMultiple(this.props.relatedArticles)
@@ -98,8 +93,6 @@ class BubbleChart extends React.Component {
       )
     }
 
-    //window resize
-    //function that resizes window
     return (
       <div id='bubbleWrapperWrapper'>
         <div className='bubbleWrapper' ref={(node) => { this.bubbleWrapper = node; }}>
