@@ -18,7 +18,6 @@ function Tweet () {
             this.params.q = queryString
             this.params.lang = 'en'
             const tweets = await client.get('search/tweets', this.params)
-            // console.log(tweets.statuses[0])
             const prunedTweets = tweets.statuses.map((tweet) => {
                 let pruned = {}
                 pruned.text = tweet.text
@@ -29,13 +28,9 @@ function Tweet () {
                 pruned.timeStamp = tweet.created_at
                 return pruned
             })
-            // console.log(prunedTweets)
             return prunedTweets
         }
     }
 }
-// client.get('search/tweets', {q: 'Dapchi'})
-//     .then(res => {
-//         console.log(res.statuses.length)
-//     })
+
 module.exports = Tweet

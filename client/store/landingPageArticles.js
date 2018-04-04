@@ -1,5 +1,4 @@
 import axios from 'axios';
-//const master = require('../../scrapers/masterScraper.js');
 
 const GET_LANDING_ARTICLES = 'GET_LANDING_ARTICLES'
 const CREATE_LANDING_ARTICLES = 'CREATE_LANDING_ARTICLES'
@@ -21,7 +20,6 @@ export const makelandingArticles = () => dispatch => {
         .then(response => {
             dispatch(createLandingArticles(response.data))
             return response.data
-            // console.log('progress + +', response);
         })
 }
 

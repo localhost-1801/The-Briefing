@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { KeywordBox, RadarChart, OverallSentimentAnalysis, BarChart, MapIndex, ArticleAnalyzer, SingleBarChartLanding, MapIndexTest, RelatedArticles } from '../components';
+import { RadarChart, OverallSentimentAnalysis, SingleBarChartLanding, MapIndexTest, RelatedArticles } from '../components';
 import { connect } from 'react-redux'
-import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
 import { fetchlandingArticles, makelandingArticles } from '../store/landingPageArticles'
 import { Grid, Image, Popup, Table, Icon, Label, Button, Segment, Form, Header } from 'semantic-ui-react'
@@ -35,8 +35,6 @@ class LandingPage extends Component {
     this.props.singleArticleAnalysis(this.state.articleUrl);
     this.setState({ articleUrl: '' })
   }
-
-
 
   render() {
     function formatDate(date) {
@@ -196,8 +194,6 @@ class LandingPage extends Component {
 
 const mapState = ({ singleArticle, relatedArticles, landingPageArticles }) => ({ singleArticle, relatedArticles, landingPageArticles })
 
-
-//const mapDispatch = ({ makeArticle, makeRelatedArticles })
 const mapDispatch = (dispatch) => ({
   loadData() {
     dispatch(fetchlandingArticles())

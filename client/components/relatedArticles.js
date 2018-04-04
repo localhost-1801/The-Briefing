@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Card, Label, Image } from 'semantic-ui-react';
+import { Table, Card, Image } from 'semantic-ui-react';
 import ReactLoading from 'react-loading';
 
 class RelatedArticles extends Component {
@@ -10,7 +10,6 @@ class RelatedArticles extends Component {
     this.createCards = this.createCards.bind(this);
   }
   handleClick = (url) => {
-    console.log('hihihihi')
     window.location.href = `/singleArticleData?url=${url}`
   }
   createCards() {
@@ -41,7 +40,6 @@ class RelatedArticles extends Component {
                     color: color,
                     ribbon: 'true',
                     url: article.info.url,
-                    // onClick: () => this.handleClick(article.info.url)
                   }
                 } />
 
@@ -61,7 +59,6 @@ class RelatedArticles extends Component {
   }
 
   render() {
-    //console.log('articles', this.props.landingPageArticles)
     if (this.props.landingPageArticles === undefined) {
       return (
         <Table color={'teal'} size='small'>

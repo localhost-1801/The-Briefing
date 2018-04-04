@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
-import { fetchArticleData, makeArticle } from '../store/singleArticle'
-import { makeRelatedArticles } from '../store/relatedArticles'
+import { Button, Form } from 'semantic-ui-react'
+import { makeArticle } from '../store/singleArticle'
 import history from '../history';
 import { NavLink } from 'react-router-dom'
 
@@ -15,8 +14,6 @@ class ArticleAnalyzer extends Component {
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
-
-
 
     onChangeHandler(e) {
         e.preventDefault();
@@ -50,17 +47,8 @@ const mapState = ({ singleArticle }) => ({ singleArticle })
 const mapDispatch = (dispatch, ownProps) => ({
     singleArticleAnalysis(articleUrl) {
         dispatch(makeArticle(articleUrl))
-            // .then((res) =>{
-            //     // console.log(res.nlu.keywords)
-            //     dispatch(makeRelatedArticles(articleUrl))
-            // }
-                
-            // )
-        // dispatch(makeRelatedArticles(articleUrl))
         history.push('/singleArticleData')
     }
 })
 
 export default connect(mapState, mapDispatch)(ArticleAnalyzer)
-
-

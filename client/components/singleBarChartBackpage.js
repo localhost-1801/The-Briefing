@@ -3,7 +3,6 @@ import { VictoryChart, VictoryAxis, VictoryLegend, VictoryBar, VictoryTheme, Vic
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading';
-import { fetchArticleData, makeArticle } from '../store/singleArticle'
 import { Menu, Segment, Header } from 'semantic-ui-react'
 import descriptions from '../../descriptions'
 
@@ -95,7 +94,6 @@ class SingleBarChartBackPage extends Component {
                       onMouseOver: () => {
                         return [{
                           mutation: (props) => {
-                            console.log('state', this.state.activeDescription)
                             this.setState({ activeDescription: props.datum.x })
                             return {
                               style: Object.assign({}, props.style, { fill: 'tomato' })

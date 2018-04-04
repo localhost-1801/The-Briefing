@@ -4,9 +4,9 @@
 
 ### Instructions for running site
 * Fork and clone repo
-* To install libraries, in the terminal, run `npm install`
+* To install libraries, run `npm install`
 * Include your own keys/secrets from IBM Watson Natural Language Understanding, IBM Watson Tone Analyzer, Firestore, Twitter, News API
-* To start running the server, in the terminal run `npm run start-dev`
+* To start running the server, run `npm run start-dev`
 * Navigate to localhost:8080 to view website
 
 ### Instructions for running Chrome Extension

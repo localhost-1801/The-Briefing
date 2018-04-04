@@ -1,10 +1,6 @@
 const admin = require('firebase-admin')
 const secrets = require('../../secrets')
-//this might all be working you just have to update watson certificate
-// uncomment the line below for running a server with webpack
-// const serviceAccount = require('../../googleKey.json')
 
-//when you want to deploy uncomment this
 let serviceAccount = '';
 try {
   serviceAccount = JSON.parse(process.env.FIRESTORE)
@@ -31,7 +27,6 @@ function deleteQueryBatch(db, query, batchSize, resolve, reject) {
             if (snapshot.size == 0) {
                 return 0;
             }
-
             // Delete documents in a batch
             var batch = db.batch();
             snapshot.docs.forEach((doc) => {
@@ -51,7 +46,7 @@ function deleteQueryBatch(db, query, batchSize, resolve, reject) {
             process.nextTick(() => {
                 deleteQueryBatch(db, query, batchSize, resolve, reject);
             });
-        }).then(console.log('DELETING - Landing Page Articles have been dropped from Firestore'))
+        }).then(console.log('Deleting - Landing Page Articles have been dropped from Firestore'))
         .catch(reject);
 }
 
