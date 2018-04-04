@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { VictoryChart, VictoryTheme, VictoryGroup, VictoryArea, VictoryBar, VictoryPolarAxis, VictoryLabel } from 'victory';
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { fetchArticleData } from '../store/singleArticle'
@@ -25,7 +24,7 @@ class Tweets extends Component {
 
                     {tweets.slice(0, 15).map((tweet) => {
                         return (
-                            
+
 
                                 <Feed.Event>
                                     <Feed.Label key={tweet.user.name} image={tweet.user.profilePic} />
@@ -50,12 +49,5 @@ class Tweets extends Component {
 }
 
 const mapState = ({ singleArticle, relatedArticles }) => ({ singleArticle, relatedArticles })
-// const mapDispatch = (dispatch) => {
-//     return {
-//         loadData(url) {
-//             dispatch(fetchArticleData(url))
-//         }
-//     }
-// }
 const mapDispatch = null
 export default connect(mapState, mapDispatch)(Tweets)

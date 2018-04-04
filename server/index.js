@@ -3,46 +3,21 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const compression = require('compression')
-const session = require('express-session')
-const passport = require('passport')
-const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const db = require('./db')
 const dbFirestore = require('./db/firestore')
-const sessionStore = new SequelizeStore({ db })
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 const masterArticleScrapper = require('./../scrapers/masterScraper')
-//--------------------------------------------------
 const secrets = require('../secrets')
 const NewsAPI = require('newsapi')
 const newsapi = new NewsAPI(process.env.NEWS_KEY)
-var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 const NLP = require('./services/watson/nlp');
 const nlp = new NLP
 const Promise = require('bluebird')
 
-module.exports = app
 
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
-// passport registration
-passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>
-  db.models.user.findById(id)
-    .then(user => done(null, user))
-    .catch(done))
-
-const createApp = () => {
   // logging middleware
   app.use(morgan('dev'))
 
@@ -53,18 +28,8 @@ const createApp = () => {
   // compression middleware
   app.use(compression())
 
-  // session middleware with passport
-  app.use(session({
-    secret: process.env.SESSION_SECRET || 'my best friend is Cody',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false
-  }))
-  app.use(passport.initialize())
-  app.use(passport.session())
 
-  // auth and api routes
-  app.use('/auth', require('./auth'))
+  // api routes
   app.use('/api', require('./api'))
 
   // static file-serving middleware
@@ -86,57 +51,36 @@ const createApp = () => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
   })
 
-
-
   // error handling endware
   app.use((err, req, res, next) => {
     console.error(err)
     console.error(err.stack)
     res.status(err.status || 500).send(err.message || 'Internal server error.')
   })
-}
 
-
-
-const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () => {
-
     console.log(`Mixing it up on port ${PORT}`)
   })
-  // set up our socket control center
+
   const io = socketio(server)
   require('./socket')(io)
 
-}
 
 const createLanding = async () => {
   const collection = dbFirestore.collection('landingArticles')
   const deleted = await dbFirestore.dropTable(dbFirestore, 'landingArticles')
 
-  // const dropKickTables = await dbFirestore.collection("landingArticles").delete()
-  // .then(function () {
-  //   console.log("Collection successfully deleted!");
-  // }).catch(function (error) {
-  //   console.error("Error removing landingArticles collection: ", error);
-  // });
 
   const otherCollection = dbFirestore.collection('stateData')
   const otherDeleted = await dbFirestore.dropTable(dbFirestore, 'stateData')
-
-  // const otherDropKickTables = await dbFirestore.collection("stateData").delete()
-  // .then(function () {
-  //   console.log("Collection successfully deleted!");
-  // }).catch(function (error) {
-  //   console.error("Error removing stateData collection: ", error);
-  // });
 
 
   const newsResult = await newsapi.v2.topHeadlines({
     sources: 'bbc-news,the-new-york-times,fox-news,the-wall-street-journal,the-washington-post',
     pageSize: 100
   })
-  // let promiseLandingArray = [];
+
   const promiseLandingArray = await newsResult.articles.map(async (article) => {
 
     const scrapeObj2 = await masterArticleScrapper(article.url)
@@ -153,7 +97,7 @@ const createLanding = async () => {
       return nlpResults2
     }
   })
-  console.log('CREATING - Landing Page Articles have been created and added to Firestore')
+  console.log('Creating - Landing Page Articles have been created and added to Firestore')
 }
 
 const heatMapData = async () => {
@@ -223,7 +167,6 @@ const heatMapData = async () => {
       to: date
     })
     let stateData = { 'regionName': state.regionName, 'code': state.code, 'value': newsResultByState.totalResults };
-    //     const documentSnap = await dbFirestore.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
     const documentSnap = await dbFirestore.collection('stateData').doc(stateData.regionName).get()
     if (documentSnap.data() === undefined) {
       const documentCreate = await dbFirestore.collection('stateData').doc().set(stateData)
@@ -239,17 +182,4 @@ setInterval(() => {
   heatMapData();
 }, 86400000)
 
-const syncDb = () => db.sync()
-
-// This evaluates as true when this file is run directly from the command line,
-// i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
-// It will evaluate false when this module is required by another module - for example,
-// if we wanted to require our app in a test spec
-if (require.main === module) {
-  sessionStore.sync()
-    .then(syncDb)
-    .then(createApp)
-    .then(startListening)
-} else {
-  createApp()
-}
+module.exports = app
