@@ -111,7 +111,7 @@ const startListening = () => {
 }
 
 const createLanding = async () => {
-  const collection = dbFirestore.collection('landingArticles')
+  const collection = await dbFirestore.collection('landingArticles')
   const deleted = await dbFirestore.dropTable(dbFirestore, 'landingArticles')
 
   // const dropKickTables = await dbFirestore.collection("landingArticles").delete()
@@ -121,7 +121,7 @@ const createLanding = async () => {
   //   console.error("Error removing landingArticles collection: ", error);
   // });
 
-  const otherCollection = dbFirestore.collection('stateData')
+  const otherCollection = await dbFirestore.collection('stateData')
   const otherDeleted = await dbFirestore.dropTable(dbFirestore, 'stateData')
 
   // const otherDropKickTables = await dbFirestore.collection("stateData").delete()
@@ -223,7 +223,6 @@ const heatMapData = async () => {
       to: date
     })
     let stateData = { 'regionName': state.regionName, 'code': state.code, 'value': newsResultByState.totalResults };
-    //     const documentSnap = await dbFirestore.collection('landingArticles').doc(scrapeObj2.headline.replace(/,/ig, ' ')).get()
     const documentSnap = await dbFirestore.collection('stateData').doc(stateData.regionName).get()
     if (documentSnap.data() === undefined) {
       const documentCreate = await dbFirestore.collection('stateData').doc().set(stateData)
@@ -234,9 +233,9 @@ const heatMapData = async () => {
   })
   Promise.all(promiseStateData)
 }
-setInterval(() => {
-  createLanding();
-  heatMapData();
+setInterval(async () => {
+  await createLanding()
+  await heatMapData();
 }, 86400000)
 
 const syncDb = () => db.sync()
@@ -250,6 +249,8 @@ if (require.main === module) {
     .then(syncDb)
     .then(createApp)
     .then(startListening)
+    .then(createLanding)
+    .then(heatMapData)
 } else {
   createApp()
 }
