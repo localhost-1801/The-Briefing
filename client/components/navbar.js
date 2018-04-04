@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Menu, Header, Form, Button, Icon, Segment, Search, Grid } from 'semantic-ui-react'
-import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { Menu, Form, Button } from 'semantic-ui-react'
+import { makeArticle } from '../store/singleArticle'
 import { makeRelatedArticles } from '../store/relatedArticles'
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import history from '../history';
-
-// TODO: Update <Search> usage after its will be implemented
 
 class Navbar extends Component {
   constructor(props) {
@@ -87,26 +85,9 @@ const mapDispatch = (dispatch, ownProps) => ({
         const keywords = res.nlu.entities[0].text
         dispatch(makeRelatedArticles(keywords, articleUrl))
       }
-      // console.log('in dispatch then', res);
-      // const keywords = res.nlu.keywords.map(obj => obj.text)
-      // console.log(keywords)
     }).catch(err => console.log(err))
     history.push('/singleArticleData')
   }
 })
 
 export default connect(mapState, mapDispatch)(Navbar)
-
-
-// <Form>
-// <Form.Field >
-//   <input
-//   placeholder='Search via Article URL'
-//     onChange={this.onChangeHandler}
-//     value={this.state.articleUrl}
-//   />
-//   <NavLink to='/singleArticleData'>
-//   <Button type='submit' onClick={this.onSubmitHandler} >Submit</Button>
-// </NavLink>
-// </Form.Field>
-// </Form>

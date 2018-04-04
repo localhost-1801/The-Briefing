@@ -10,7 +10,6 @@ export const getStateArticleData = () => dispatch => {
     axios.get('api/article/stateData')
         .then(response => {
             dispatch(getStateData(response.data))
-            // return response.data
         })
 }
 

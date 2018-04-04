@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { VictoryBar, VictoryStack, VictoryTooltip, VictoryAxis, VictoryLabel } from 'victory';
 import { connect } from 'react-redux'
-import { fetchArticleData, makeArticle } from '../store/singleArticle'
+import { fetchArticleData } from '../store/singleArticle'
 import { fetchRelatedArticles } from '../store/relatedArticles'
 import ReactLoading from 'react-loading';
 import descriptions from '../../descriptions'
-import { Header, Icon, Image, Table, Grid, Button, Checkbox, Form, Segment } from 'semantic-ui-react'
-
-// https://formidable.com/open-source/victory/gallery/stacked-bars-central-axis/
+import { Header, Table, Segment } from 'semantic-ui-react'
 
 class BarChart extends Component {
   constructor() {
@@ -20,19 +18,6 @@ class BarChart extends Component {
     this.resizeSegment =  this.resizeSegment.bind(this);
   }
 
-  // shouldComponentUpdate(nextProps, nextState){
-  //   // console.log('nextProps',nextProps)
-  //   // if(this.props !== nextProps){
-  //   //   return true
-  //   // }
-  // }
-  // //change singleArticle to this.props.whatever
-  // //change aggregateData to this.props.whatever
-  // componentDidMount(){
-  //   // this.props.loadData('https://www.nytimes.com/2018/03/15/world/europe/corbyn-labour-russian-spy-poisoning.html')
-  //   // console.log('props',this.props)
-  //
-  // }
 
   parseData(data) {
     let resultArr = [];
@@ -51,7 +36,6 @@ class BarChart extends Component {
   }
 
   parseDataMultiple(dataArr) {
-    // console.log(dataArr)
     let transitionArr = [];
     let resultArr = [];
     dataArr.forEach(article => {
@@ -73,24 +57,23 @@ class BarChart extends Component {
     }
     Object.keys(resultObj).forEach(key => resultArr.push({
       x: key,
-      // y: Math.floor(resultObj[key] * 100)
       y: Math.floor(resultObj[key])
     }))
     return resultArr;
   }
-  
+
   componentDidMount() {
     window.addEventListener('resize', this.resizeSegment);
   }
-  
+
   componentDidUpdate() {
     this.resizeSegment();
   }
-  
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.resizeSegment);
   }
-  
+
   resizeChartHeight(){
     let computedHeight = 0.35 * +window.innerHeight
     return computedHeight
@@ -99,7 +82,7 @@ class BarChart extends Component {
     let computedWidth = 0.3 * +window.innerWidth
     return computedWidth
   }
-  
+
   resizeSegment(){
     if(this.segmentWrapper){
       let computedHeight = 0.25 * +window.innerHeight
@@ -111,7 +94,7 @@ class BarChart extends Component {
 
   render() {
     if (this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined) {
-      return (<div></div>)//No Related Articles
+      return (<div></div>) //No Related Articles
     }
 
     let singleArticle = this.props.singleArticle.tone
@@ -126,7 +109,6 @@ class BarChart extends Component {
             <svg viewBox="0 0 500 500" width="100%" height="100%">
         <VictoryStack horizontal
                 standalone={false}
-                /* setting a symmetric domain makes it much easier to center the axis  */
                 domain={{ x: [-70, 70] }}
                 padding={{ top: 10, bottom: 10, left: 210}}
                 height={this.resizeChartHeight()}
@@ -141,7 +123,6 @@ class BarChart extends Component {
                         onMouseOver: () => {
                           return [{
                             mutation: (props) => {
-                              //console.log('state', this.state.activeDescription)
                               this.setState({ activeDescription: props.datum.x })
                               return {
                                 style: Object.assign({}, props.style, { fill: '#61cdbb' })
@@ -161,8 +142,8 @@ class BarChart extends Component {
                   ]}
                   style={{ data: { fill: "#f5755f" } }}
                   data={singleArticleData}
-                  y={(data) => (-Math.abs(data.y))} // tomato numbers
-                  labels={(data) => (`${data.x}: ${Math.abs(data.y)}%`)} // number label
+                  y={(data) => (-Math.abs(data.y))}
+                  labels={(data) => (`${data.x}: ${Math.abs(data.y)}%`)}
                 />
                 <VictoryBar
                   events={[
@@ -172,7 +153,6 @@ class BarChart extends Component {
                         onMouseOver: () => {
                           return [{
                             mutation: (props) => {
-                              //console.log('state', this.state.activeDescription)
                               this.setState({ activeDescription: props.datum.x })
                               return {
                                 style: Object.assign({}, props.style, { fill: '#61cdbb' })
@@ -192,7 +172,7 @@ class BarChart extends Component {
                   ]}
                   style={{ data: { fill: "#e8a838"} }}
                   data={aggregateData}
-                  labels={(data) => (`${Math.abs(data.y)}%`)} // number
+                  labels={(data) => (`${Math.abs(data.y)}%`)}
                 />
               </VictoryStack>
               <VictoryAxis dependentAxis
@@ -204,12 +184,6 @@ class BarChart extends Component {
                   ticks: { stroke: "transparent" },
                   tickLabels: { fontSize: 11, fill: "black" }
                 }}
-                /*
-                  Use a custom tickLabelComponent with
-                  an absolutely positioned x value to position
-                  your tick labels in the center of the chart. The correct
-                  y values are still provided by VictoryAxis for each tick
-                */
                 tickLabelComponent={<VictoryLabel x={250} textAnchor="middle" />}
                 tickValues={singleArticleData.map((point) => point.x).reverse()}
               />
@@ -218,9 +192,8 @@ class BarChart extends Component {
           </div>
             <div ref={(node) => { this.segmentWrapper = node; }}>
             <Segment flo textAlign={'center'} compact={false} attached='bottom'>
-            <Header size='tiny'>{this.state.activeDescription}</Header> 
+            <Header size='tiny'>{this.state.activeDescription}</Header>
             {descriptions[this.state.activeDescription.toLowerCase()]}
-
             </Segment>
           </div>
         </Table.Cell>
