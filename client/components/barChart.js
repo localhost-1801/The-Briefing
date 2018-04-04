@@ -13,9 +13,9 @@ class BarChart extends Component {
     this.state = {
       activeDescription: 'Emotional Range'
     }
-
     this.parseData = this.parseData.bind(this);
     this.parseDataMultiple = this.parseDataMultiple.bind(this);
+    this.resizeSegment =  this.resizeSegment.bind(this);
   }
 
 
@@ -62,6 +62,25 @@ class BarChart extends Component {
     return resultArr;
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.resizeSegment);
+  }
+
+  componentDidUpdate() {
+    this.resizeSegment();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeSegment);
+  }
+
+  resizeSegment(){
+    if(this.segmentWrapper){
+      let computedWidth = 0.26 * +window.innerWidth
+      this.segmentWrapper.style.width = computedWidth + 'px'
+    }
+  }
+
   render() {
     if (this.props.relatedArticles.length === 0 || this.props.singleArticle.tone === undefined) {
       return (<div></div>) //No Related Articles
@@ -74,17 +93,16 @@ class BarChart extends Component {
     let aggregateData = this.parseDataMultiple(relatedArticles)
 
     return (
-
         <Table.Cell>
-          <div className="chartBackground barChartPadding">
-            <svg viewBox="0 0 500 500" width="100%" height="100%">
+          <div className="barChartWrapper" ref={(node) => { this.barChartWrapper = node; }}>
+            <svg viewBox={"0 0 350 350"} width="100%" height="auto">
         <VictoryStack horizontal
                 standalone={false}
                 domain={{ x: [-70, 70] }}
-                padding={{ top: 10, bottom: 10, left: 210 }}
-                height={600}
-                width={500}
-                style={{ data: { width: 30, padding: 0, margin: 0 }, labels: { fontSize: 18 } }}
+                padding={{ top: 10, bottom: 10, left: 170}}
+                height={350}
+                width={300}
+                style={{ data: { width: 20 }, labels: { fontSize: 10 } }}
               >
                 <VictoryBar
                   events={[
@@ -160,15 +178,13 @@ class BarChart extends Component {
               />
 
             </svg>
-
-          </div>
-                <div className='segmentPadding' style={{width: '40em'}}>
-          <Segment flo textAlign={'center'} compact={true} attached='bottom'>
-          <Header size='tiny'>{this.state.activeDescription}</Header>
-          {descriptions[this.state.activeDescription.toLowerCase()]}
-
-        </Segment>
-        </div>
+            <div ref={(node) => { this.segmentWrapper = node; }}>
+              <Segment flo textAlign={'center'} compact={false} attached='bottom'>
+              <Header size='tiny'>{this.state.activeDescription}</Header>
+              {descriptions[this.state.activeDescription.toLowerCase()]}
+              </Segment>
+            </div>
+            </div>
         </Table.Cell>
 
 
