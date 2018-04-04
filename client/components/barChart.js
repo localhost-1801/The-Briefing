@@ -79,29 +79,18 @@ class BarChart extends Component {
     return resultArr;
   }
   
-  // componentDidMount() {
-  //   window.addEventListener('resize', this.resizeChart);
-  //   window.addEventListener('resize', this.resizeSegment);
-  // }
-  // 
-  // componentDidUpdate() {
-  //   this.resizeChart();
-  //   this.resizeSegment();
-  // }
-  // 
-  // componentWillUnmount() {
-  //   window.removeEventListener('resize', this.resizeChart);
-  //   window.removeEventListener('resize', this.resizeSegment);
-  // }
+  componentDidMount() {
+    window.addEventListener('resize', this.resizeSegment);
+  }
   
-  // resizeChartHeight(){
-  //   if(this.barChartWrapper){
-  //     let computedHeight = 0.45 * +window.innerHeight
-  //     let computedWidth = 0.29 * +window.innerWidth
-  //     this.barChartWrapper.style.height = computedHeight + 'px'
-  //     this.barChartWrapper.style.width = computedWidth + 'px'
-  //   }
-  // }
+  componentDidUpdate() {
+    this.resizeSegment();
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeSegment);
+  }
+  
   resizeChartHeight(){
     let computedHeight = 0.35 * +window.innerHeight
     return computedHeight
@@ -114,7 +103,7 @@ class BarChart extends Component {
   resizeSegment(){
     if(this.segmentWrapper){
       let computedHeight = 0.25 * +window.innerHeight
-      let computedWidth = 0.28 * +window.innerWidth
+      let computedWidth = 0.25 * +window.innerWidth
       this.segmentWrapper.style.height = computedHeight + 'px'
       this.segmentWrapper.style.width = computedWidth + 'px'
     }
@@ -228,7 +217,7 @@ class BarChart extends Component {
             </svg>
           </div>
             <div ref={(node) => { this.segmentWrapper = node; }}>
-            <Segment flo textAlign={'center'} compact={true} attached='bottom'>
+            <Segment flo textAlign={'center'} compact={false} attached='bottom'>
             <Header size='tiny'>{this.state.activeDescription}</Header> 
             {descriptions[this.state.activeDescription.toLowerCase()]}
 
